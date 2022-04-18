@@ -1,0 +1,61 @@
+{
+  "applications": "*",
+  "changelogDate": "20220418133710",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "immeuble",
+  "fields": [
+    {
+      "fieldName": "libelle",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "adresse",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ville",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "numero",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "nbEtages",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Immeuble",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "appartement",
+      "otherEntityRelationshipName": "immeuble",
+      "relationshipName": "appartement",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "syndic",
+      "otherEntityRelationshipName": "immeuble",
+      "relationshipName": "syndic",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "depense",
+      "otherEntityRelationshipName": "immeuble",
+      "relationshipName": "depense",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "revenu",
+      "otherEntityRelationshipName": "immeuble",
+      "relationshipName": "revenu",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

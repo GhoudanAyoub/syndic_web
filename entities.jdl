@@ -1,0 +1,75 @@
+
+entity Personne {
+	nom String,
+    prenom String,
+    email String,
+    motPasse String,
+    adresse String
+}
+
+entity Resident {
+	
+}
+
+entity Syndic {
+
+}
+
+entity Immeuble {
+    libelle String,
+    adresse String,
+    ville String,
+    numero Integer,
+    nbEtages Integer
+}
+
+entity Appartement {
+    numero Integer,
+    etage Integer
+    surface Double
+}
+
+entity Revenu {
+    montant Double,
+    date LocalDate,
+    description String
+}
+
+entity Depense {
+    montant Double,
+    date LocalDate,
+    description String
+}
+
+entity Categorie {
+    libelle String
+}
+
+entity Payement {
+    montant Double,
+    date LocalDate,
+    description String
+}
+
+
+relationship ManyToOne {
+	Immeuble to Syndic
+    Depense to Immeuble
+    Revenu to Immeuble
+    Appartement to Resident
+}
+
+relationship OneToMany {
+	Immeuble to Appartement
+    Appartement to Payement
+    Depense to Categorie
+    Revenu to Categorie
+}
+
+relationship OneToOne {
+	Resident to Personne
+    Syndic to Personne
+}
+
+service * with serviceImpl
+

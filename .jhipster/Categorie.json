@@ -1,0 +1,33 @@
+{
+  "applications": "*",
+  "changelogDate": "20220418133714",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "categorie",
+  "fields": [
+    {
+      "fieldName": "libelle",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Categorie",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "depense",
+      "otherEntityRelationshipName": "categorie",
+      "relationshipName": "depense",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "revenu",
+      "otherEntityRelationshipName": "categorie",
+      "relationshipName": "revenu",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

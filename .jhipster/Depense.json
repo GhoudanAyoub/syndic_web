@@ -1,0 +1,41 @@
+{
+  "applications": "*",
+  "changelogDate": "20220418133713",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "depense",
+  "fields": [
+    {
+      "fieldName": "montant",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Depense",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "categorie",
+      "otherEntityRelationshipName": "depense",
+      "relationshipName": "categorie",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "immeuble",
+      "otherEntityRelationshipName": "depense",
+      "relationshipName": "immeuble",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

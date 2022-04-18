@@ -1,0 +1,41 @@
+{
+  "applications": "*",
+  "changelogDate": "20220418133712",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "revenu",
+  "fields": [
+    {
+      "fieldName": "montant",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Revenu",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "categorie",
+      "otherEntityRelationshipName": "revenu",
+      "relationshipName": "categorie",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "immeuble",
+      "otherEntityRelationshipName": "revenu",
+      "relationshipName": "immeuble",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

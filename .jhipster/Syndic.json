@@ -1,0 +1,29 @@
+{
+  "applications": "*",
+  "changelogDate": "20220418133709",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "syndic",
+  "fields": [],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Syndic",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "personne",
+      "otherEntityRelationshipName": "syndic",
+      "ownerSide": true,
+      "relationshipName": "personne",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "immeuble",
+      "otherEntityRelationshipName": "syndic",
+      "relationshipName": "immeuble",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

@@ -1,0 +1,51 @@
+{
+  "applications": "*",
+  "changelogDate": "20220418133707",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "personne",
+  "fields": [
+    {
+      "fieldName": "nom",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "prenom",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "motPasse",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "adresse",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Personne",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "resident",
+      "otherEntityRelationshipName": "personne",
+      "ownerSide": false,
+      "relationshipName": "resident",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "syndic",
+      "otherEntityRelationshipName": "personne",
+      "ownerSide": false,
+      "relationshipName": "syndic",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

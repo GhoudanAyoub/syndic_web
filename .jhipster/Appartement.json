@@ -1,0 +1,47 @@
+{
+  "applications": "*",
+  "changelogDate": "20220418133711",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "appartement",
+  "fields": [
+    {
+      "fieldName": "numero",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "etage",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "surface",
+      "fieldType": "Double"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Appartement",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "payement",
+      "otherEntityRelationshipName": "appartement",
+      "relationshipName": "payement",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "resident",
+      "otherEntityRelationshipName": "appartement",
+      "relationshipName": "resident",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "immeuble",
+      "otherEntityRelationshipName": "appartement",
+      "relationshipName": "immeuble",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

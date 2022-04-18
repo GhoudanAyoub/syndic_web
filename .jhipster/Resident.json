@@ -1,0 +1,29 @@
+{
+  "applications": "*",
+  "changelogDate": "20220418133708",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "resident",
+  "fields": [],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Resident",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "personne",
+      "otherEntityRelationshipName": "resident",
+      "ownerSide": true,
+      "relationshipName": "personne",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "appartement",
+      "otherEntityRelationshipName": "resident",
+      "relationshipName": "appartement",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}
