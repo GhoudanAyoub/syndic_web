@@ -42,20 +42,6 @@ spring:
     password:
   thymeleaf:
     cache: true
-  sleuth:
-    # https://github.com/spring-projects/spring-framework/issues/27844#issuescomment-1002866885
-    # https://github.com/spring-cloud/spring-cloud-sleuth/issues/2094
-    async:
-      enabled: false
-    enabled: false
-    sampler:
-      probability: 1 # report 100% of traces
-  zipkin: # Use the "zipkin" Maven profile to have the Spring Cloud Zipkin dependencies
-    base-url: http://localhost:9411
-    enabled: false
-    locator:
-      discovery:
-        enabled: true
 
 # ===================================================================
 # To enable TLS in production, generate a certificate using:
@@ -106,7 +92,7 @@ jhipster:
         # - In the JHipster Registry (which includes a Spring Cloud Config server)
         # - In a separate `application-prod.yml` file, in the same folder as your executable JAR file
         # - In the `JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET` environment variable
-        base64-secret: N2VjZjIwZTE5NTI4Y2ZlZTYxNjIzZWQ0NTA4NmM4OWNlMDM3MDM0YmY5NTEwZTUwYzhiN2RjYTQ3Y2NmMWRiZDY2ZTVhMWZlMGJjOGNkNGRjNDIzZmQzMjgzZmY1M2QwY2NkYWMyOTZjMDY5ZWJhYzFkNzFhYmNlODE5YzBiNzQ=
+        base64-secret: ZmU4NmEwODdkZTU1MDI1MzJkMjcxNjI5NWY3Y2YxMmU1OTNkMzMwMjhiOGEzOGIwN2Y4YTY5ZTFlZTFjM2JmZjM5NjkzMTdkMWNhMzIyNjAzODY0NTJjZTMwN2Q3YjA2ZDExNTMxZDM2MmMzYWRmOWVkNjk5ZGZmM2FmNzU5ODE=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000

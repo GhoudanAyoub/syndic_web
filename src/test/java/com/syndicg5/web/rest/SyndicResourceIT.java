@@ -26,6 +26,9 @@ import org.springframework.test.web.servlet.MockMvc;
 @WithMockUser
 class SyndicResourceIT {
 
+    private static final Double DEFAULT_SALAIRE = 1D;
+    private static final Double UPDATED_SALAIRE = 2D;
+
     private static final String ENTITY_API_URL = "/api/syndics";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -44,7 +47,7 @@ class SyndicResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Syndic createEntity() {
-        Syndic syndic = new Syndic();
+        Syndic syndic = new Syndic().salaire(DEFAULT_SALAIRE);
         return syndic;
     }
 
@@ -55,7 +58,7 @@ class SyndicResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Syndic createUpdatedEntity() {
-        Syndic syndic = new Syndic();
+        Syndic syndic = new Syndic().salaire(UPDATED_SALAIRE);
         return syndic;
     }
 
@@ -77,6 +80,7 @@ class SyndicResourceIT {
         List<Syndic> syndicList = syndicRepository.findAll();
         assertThat(syndicList).hasSize(databaseSizeBeforeCreate + 1);
         Syndic testSyndic = syndicList.get(syndicList.size() - 1);
+        assertThat(testSyndic.getSalaire()).isEqualTo(DEFAULT_SALAIRE);
     }
 
     @Test
@@ -106,7 +110,8 @@ class SyndicResourceIT {
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(syndic.getId())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(syndic.getId())))
+            .andExpect(jsonPath("$.[*].salaire").value(hasItem(DEFAULT_SALAIRE.doubleValue())));
     }
 
     @Test
@@ -119,7 +124,8 @@ class SyndicResourceIT {
             .perform(get(ENTITY_API_URL_ID, syndic.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(syndic.getId()));
+            .andExpect(jsonPath("$.id").value(syndic.getId()))
+            .andExpect(jsonPath("$.salaire").value(DEFAULT_SALAIRE.doubleValue()));
     }
 
     @Test
@@ -137,6 +143,7 @@ class SyndicResourceIT {
 
         // Update the syndic
         Syndic updatedSyndic = syndicRepository.findById(syndic.getId()).get();
+        updatedSyndic.salaire(UPDATED_SALAIRE);
 
         restSyndicMockMvc
             .perform(
@@ -150,6 +157,7 @@ class SyndicResourceIT {
         List<Syndic> syndicList = syndicRepository.findAll();
         assertThat(syndicList).hasSize(databaseSizeBeforeUpdate);
         Syndic testSyndic = syndicList.get(syndicList.size() - 1);
+        assertThat(testSyndic.getSalaire()).isEqualTo(UPDATED_SALAIRE);
     }
 
     @Test
@@ -228,6 +236,7 @@ class SyndicResourceIT {
         List<Syndic> syndicList = syndicRepository.findAll();
         assertThat(syndicList).hasSize(databaseSizeBeforeUpdate);
         Syndic testSyndic = syndicList.get(syndicList.size() - 1);
+        assertThat(testSyndic.getSalaire()).isEqualTo(DEFAULT_SALAIRE);
     }
 
     @Test
@@ -241,6 +250,8 @@ class SyndicResourceIT {
         Syndic partialUpdatedSyndic = new Syndic();
         partialUpdatedSyndic.setId(syndic.getId());
 
+        partialUpdatedSyndic.salaire(UPDATED_SALAIRE);
+
         restSyndicMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedSyndic.getId())
@@ -253,6 +264,7 @@ class SyndicResourceIT {
         List<Syndic> syndicList = syndicRepository.findAll();
         assertThat(syndicList).hasSize(databaseSizeBeforeUpdate);
         Syndic testSyndic = syndicList.get(syndicList.size() - 1);
+        assertThat(testSyndic.getSalaire()).isEqualTo(UPDATED_SALAIRE);
     }
 
     @Test

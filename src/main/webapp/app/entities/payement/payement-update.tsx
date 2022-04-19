@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
-import { isNumber, ValidatedField, ValidatedForm } from 'react-jhipster';
+import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -70,7 +70,7 @@ export const PayementUpdate = (props: RouteComponentProps<{ id: string }>) => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="syndicWebApp.payement.home.createOrEditLabel" data-cy="PayementCreateUpdateHeading">
-            Create or edit a Payement
+            <Translate contentKey="syndicWebApp.payement.home.createOrEditLabel">Create or edit a Payement</Translate>
           </h2>
         </Col>
       </Row>
@@ -80,11 +80,38 @@ export const PayementUpdate = (props: RouteComponentProps<{ id: string }>) => {
             <p>Loading...</p>
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
-              {!isNew ? <ValidatedField name="id" required readOnly id="payement-id" label="ID" validate={{ required: true }} /> : null}
-              <ValidatedField label="Montant" id="payement-montant" name="montant" data-cy="montant" type="text" />
-              <ValidatedField label="Date" id="payement-date" name="date" data-cy="date" type="date" />
-              <ValidatedField label="Description" id="payement-description" name="description" data-cy="description" type="text" />
-              <ValidatedField id="payement-appartement" name="appartement" data-cy="appartement" label="Appartement" type="select">
+              {!isNew ? (
+                <ValidatedField
+                  name="id"
+                  required
+                  readOnly
+                  id="payement-id"
+                  label={translate('global.field.id')}
+                  validate={{ required: true }}
+                />
+              ) : null}
+              <ValidatedField
+                label={translate('syndicWebApp.payement.montant')}
+                id="payement-montant"
+                name="montant"
+                data-cy="montant"
+                type="text"
+              />
+              <ValidatedField label={translate('syndicWebApp.payement.date')} id="payement-date" name="date" data-cy="date" type="date" />
+              <ValidatedField
+                label={translate('syndicWebApp.payement.description')}
+                id="payement-description"
+                name="description"
+                data-cy="description"
+                type="text"
+              />
+              <ValidatedField
+                id="payement-appartement"
+                name="appartement"
+                data-cy="appartement"
+                label={translate('syndicWebApp.payement.appartement')}
+                type="select"
+              >
                 <option value="" key="0" />
                 {appartements
                   ? appartements.map(otherEntity => (
@@ -97,12 +124,15 @@ export const PayementUpdate = (props: RouteComponentProps<{ id: string }>) => {
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/payement" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <span className="d-none d-md-inline">Back</span>
+                <span className="d-none d-md-inline">
+                  <Translate contentKey="entity.action.back">Back</Translate>
+                </span>
               </Button>
               &nbsp;
               <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
                 <FontAwesomeIcon icon="save" />
-                &nbsp; Save
+                &nbsp;
+                <Translate contentKey="entity.action.save">Save</Translate>
               </Button>
             </ValidatedForm>
           )}

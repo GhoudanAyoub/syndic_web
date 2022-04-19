@@ -26,6 +26,9 @@ import org.springframework.test.web.servlet.MockMvc;
 @WithMockUser
 class ResidentResourceIT {
 
+    private static final String DEFAULT_ETAT_FAMILIALE = "AAAAAAAAAA";
+    private static final String UPDATED_ETAT_FAMILIALE = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/residents";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -44,7 +47,7 @@ class ResidentResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Resident createEntity() {
-        Resident resident = new Resident();
+        Resident resident = new Resident().etatFamiliale(DEFAULT_ETAT_FAMILIALE);
         return resident;
     }
 
@@ -55,7 +58,7 @@ class ResidentResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Resident createUpdatedEntity() {
-        Resident resident = new Resident();
+        Resident resident = new Resident().etatFamiliale(UPDATED_ETAT_FAMILIALE);
         return resident;
     }
 
@@ -77,6 +80,7 @@ class ResidentResourceIT {
         List<Resident> residentList = residentRepository.findAll();
         assertThat(residentList).hasSize(databaseSizeBeforeCreate + 1);
         Resident testResident = residentList.get(residentList.size() - 1);
+        assertThat(testResident.getEtatFamiliale()).isEqualTo(DEFAULT_ETAT_FAMILIALE);
     }
 
     @Test
@@ -106,7 +110,8 @@ class ResidentResourceIT {
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(resident.getId())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(resident.getId())))
+            .andExpect(jsonPath("$.[*].etatFamiliale").value(hasItem(DEFAULT_ETAT_FAMILIALE)));
     }
 
     @Test
@@ -119,7 +124,8 @@ class ResidentResourceIT {
             .perform(get(ENTITY_API_URL_ID, resident.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(resident.getId()));
+            .andExpect(jsonPath("$.id").value(resident.getId()))
+            .andExpect(jsonPath("$.etatFamiliale").value(DEFAULT_ETAT_FAMILIALE));
     }
 
     @Test
@@ -137,6 +143,7 @@ class ResidentResourceIT {
 
         // Update the resident
         Resident updatedResident = residentRepository.findById(resident.getId()).get();
+        updatedResident.etatFamiliale(UPDATED_ETAT_FAMILIALE);
 
         restResidentMockMvc
             .perform(
@@ -150,6 +157,7 @@ class ResidentResourceIT {
         List<Resident> residentList = residentRepository.findAll();
         assertThat(residentList).hasSize(databaseSizeBeforeUpdate);
         Resident testResident = residentList.get(residentList.size() - 1);
+        assertThat(testResident.getEtatFamiliale()).isEqualTo(UPDATED_ETAT_FAMILIALE);
     }
 
     @Test
@@ -228,6 +236,7 @@ class ResidentResourceIT {
         List<Resident> residentList = residentRepository.findAll();
         assertThat(residentList).hasSize(databaseSizeBeforeUpdate);
         Resident testResident = residentList.get(residentList.size() - 1);
+        assertThat(testResident.getEtatFamiliale()).isEqualTo(DEFAULT_ETAT_FAMILIALE);
     }
 
     @Test
@@ -241,6 +250,8 @@ class ResidentResourceIT {
         Resident partialUpdatedResident = new Resident();
         partialUpdatedResident.setId(resident.getId());
 
+        partialUpdatedResident.etatFamiliale(UPDATED_ETAT_FAMILIALE);
+
         restResidentMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedResident.getId())
@@ -253,6 +264,7 @@ class ResidentResourceIT {
         List<Resident> residentList = residentRepository.findAll();
         assertThat(residentList).hasSize(databaseSizeBeforeUpdate);
         Resident testResident = residentList.get(residentList.size() - 1);
+        assertThat(testResident.getEtatFamiliale()).isEqualTo(UPDATED_ETAT_FAMILIALE);
     }
 
     @Test

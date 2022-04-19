@@ -5,8 +5,6 @@ import com.syndicg5.repository.PersonneRepository;
 import com.syndicg5.service.PersonneService;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -59,6 +57,15 @@ public class PersonneServiceImpl implements PersonneService {
                 if (personne.getAdresse() != null) {
                     existingPersonne.setAdresse(personne.getAdresse());
                 }
+                if (personne.getVille() != null) {
+                    existingPersonne.setVille(personne.getVille());
+                }
+                if (personne.getPhoto() != null) {
+                    existingPersonne.setPhoto(personne.getPhoto());
+                }
+                if (personne.getTel() != null) {
+                    existingPersonne.setTel(personne.getTel());
+                }
 
                 return existingPersonne;
             })
@@ -69,32 +76,6 @@ public class PersonneServiceImpl implements PersonneService {
     public List<Personne> findAll() {
         log.debug("Request to get all Personnes");
         return personneRepository.findAll();
-    }
-
-    /**
-     *  Get all the personnes where Resident is {@code null}.
-     *  @return the list of entities.
-     */
-
-    public List<Personne> findAllWhereResidentIsNull() {
-        log.debug("Request to get all personnes where Resident is null");
-        return StreamSupport
-            .stream(personneRepository.findAll().spliterator(), false)
-            .filter(personne -> personne.getResident() == null)
-            .collect(Collectors.toList());
-    }
-
-    /**
-     *  Get all the personnes where Syndic is {@code null}.
-     *  @return the list of entities.
-     */
-
-    public List<Personne> findAllWhereSyndicIsNull() {
-        log.debug("Request to get all personnes where Syndic is null");
-        return StreamSupport
-            .stream(personneRepository.findAll().spliterator(), false)
-            .filter(personne -> personne.getSyndic() == null)
-            .collect(Collectors.toList());
     }
 
     @Override

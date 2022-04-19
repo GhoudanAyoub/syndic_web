@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
-import { isNumber, ValidatedField, ValidatedForm } from 'react-jhipster';
+import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -70,7 +70,7 @@ export const ImmeubleUpdate = (props: RouteComponentProps<{ id: string }>) => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="syndicWebApp.immeuble.home.createOrEditLabel" data-cy="ImmeubleCreateUpdateHeading">
-            Create or edit a Immeuble
+            <Translate contentKey="syndicWebApp.immeuble.home.createOrEditLabel">Create or edit a Immeuble</Translate>
           </h2>
         </Col>
       </Row>
@@ -80,13 +80,58 @@ export const ImmeubleUpdate = (props: RouteComponentProps<{ id: string }>) => {
             <p>Loading...</p>
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
-              {!isNew ? <ValidatedField name="id" required readOnly id="immeuble-id" label="ID" validate={{ required: true }} /> : null}
-              <ValidatedField label="Libelle" id="immeuble-libelle" name="libelle" data-cy="libelle" type="text" />
-              <ValidatedField label="Adresse" id="immeuble-adresse" name="adresse" data-cy="adresse" type="text" />
-              <ValidatedField label="Ville" id="immeuble-ville" name="ville" data-cy="ville" type="text" />
-              <ValidatedField label="Numero" id="immeuble-numero" name="numero" data-cy="numero" type="text" />
-              <ValidatedField label="Nb Etages" id="immeuble-nbEtages" name="nbEtages" data-cy="nbEtages" type="text" />
-              <ValidatedField id="immeuble-syndic" name="syndic" data-cy="syndic" label="Syndic" type="select">
+              {!isNew ? (
+                <ValidatedField
+                  name="id"
+                  required
+                  readOnly
+                  id="immeuble-id"
+                  label={translate('global.field.id')}
+                  validate={{ required: true }}
+                />
+              ) : null}
+              <ValidatedField
+                label={translate('syndicWebApp.immeuble.libelle')}
+                id="immeuble-libelle"
+                name="libelle"
+                data-cy="libelle"
+                type="text"
+              />
+              <ValidatedField
+                label={translate('syndicWebApp.immeuble.adresse')}
+                id="immeuble-adresse"
+                name="adresse"
+                data-cy="adresse"
+                type="text"
+              />
+              <ValidatedField
+                label={translate('syndicWebApp.immeuble.ville')}
+                id="immeuble-ville"
+                name="ville"
+                data-cy="ville"
+                type="text"
+              />
+              <ValidatedField
+                label={translate('syndicWebApp.immeuble.numero')}
+                id="immeuble-numero"
+                name="numero"
+                data-cy="numero"
+                type="text"
+              />
+              <ValidatedField
+                label={translate('syndicWebApp.immeuble.nbEtages')}
+                id="immeuble-nbEtages"
+                name="nbEtages"
+                data-cy="nbEtages"
+                type="text"
+              />
+              <ValidatedField
+                id="immeuble-syndic"
+                name="syndic"
+                data-cy="syndic"
+                label={translate('syndicWebApp.immeuble.syndic')}
+                type="select"
+              >
                 <option value="" key="0" />
                 {syndics
                   ? syndics.map(otherEntity => (
@@ -99,12 +144,15 @@ export const ImmeubleUpdate = (props: RouteComponentProps<{ id: string }>) => {
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/immeuble" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <span className="d-none d-md-inline">Back</span>
+                <span className="d-none d-md-inline">
+                  <Translate contentKey="entity.action.back">Back</Translate>
+                </span>
               </Button>
               &nbsp;
               <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
                 <FontAwesomeIcon icon="save" />
-                &nbsp; Save
+                &nbsp;
+                <Translate contentKey="entity.action.save">Save</Translate>
               </Button>
             </ValidatedForm>
           )}

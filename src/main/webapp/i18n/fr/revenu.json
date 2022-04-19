@@ -1,0 +1,28 @@
+{
+  "syndicWebApp": {
+    "revenu": {
+      "home": {
+        "title": "Revenus",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Revenu",
+        "createOrEditLabel": "Créer ou éditer un Revenu",
+        "notFound": "Aucun Revenu trouvé"
+      },
+      "created": "Un nouveau Revenu a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Revenu avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Revenu avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Revenu {{ id }} ?"
+      },
+      "detail": {
+        "title": "Revenu"
+      },
+      "id": "ID",
+      "montant": "Montant",
+      "date": "Date",
+      "description": "Description",
+      "categorie": "Categorie",
+      "immeuble": "Immeuble"
+    }
+  }
+}

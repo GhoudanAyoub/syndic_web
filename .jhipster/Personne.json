@@ -1,6 +1,6 @@
 {
-  "applications": "*",
-  "changelogDate": "20220418133707",
+  "applications": ["syndic_web"],
+  "changelogDate": "20220419192826",
   "dto": "no",
   "embedded": false,
   "entityTableName": "personne",
@@ -24,6 +24,18 @@
     {
       "fieldName": "adresse",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "ville",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "photo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tel",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,
@@ -33,17 +45,10 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "resident",
+      "otherEntityName": "user",
       "otherEntityRelationshipName": "personne",
-      "ownerSide": false,
-      "relationshipName": "resident",
-      "relationshipType": "one-to-one"
-    },
-    {
-      "otherEntityName": "syndic",
-      "otherEntityRelationshipName": "personne",
-      "ownerSide": false,
-      "relationshipName": "syndic",
+      "ownerSide": true,
+      "relationshipName": "internalUser",
       "relationshipType": "one-to-one"
     }
   ],

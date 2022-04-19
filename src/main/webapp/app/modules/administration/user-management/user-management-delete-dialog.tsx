@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-
+import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { getUser, deleteUser } from './user-management.reducer';
@@ -28,16 +28,24 @@ export const UserManagementDeleteDialog = (props: RouteComponentProps<{ login: s
 
   return (
     <Modal isOpen toggle={handleClose}>
-      <ModalHeader toggle={handleClose}>Confirm delete operation</ModalHeader>
-      <ModalBody>Are you sure you want to delete this User?</ModalBody>
+      <ModalHeader toggle={handleClose}>
+        <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
+      </ModalHeader>
+      <ModalBody>
+        <Translate contentKey="userManagement.delete.question" interpolate={{ login: user.login }}>
+          Are you sure you want to delete this User?
+        </Translate>
+      </ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={handleClose}>
           <FontAwesomeIcon icon="ban" />
-          &nbsp; Cancel
+          &nbsp;
+          <Translate contentKey="entity.action.cancel">Cancel</Translate>
         </Button>
         <Button color="danger" onClick={confirmDelete}>
           <FontAwesomeIcon icon="trash" />
-          &nbsp; Delete
+          &nbsp;
+          <Translate contentKey="entity.action.delete">Delete</Translate>
         </Button>
       </ModalFooter>
     </Modal>

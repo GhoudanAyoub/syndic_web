@@ -56,7 +56,7 @@ public class SyndicResource {
         Syndic result = syndicService.save(syndic);
         return ResponseEntity
             .created(new URI("/api/syndics/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
             .body(result);
     }
 
@@ -88,7 +88,7 @@ public class SyndicResource {
         Syndic result = syndicService.update(syndic);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, syndic.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, syndic.getId()))
             .body(result);
     }
 
@@ -122,7 +122,7 @@ public class SyndicResource {
 
         Optional<Syndic> result = syndicService.partialUpdate(syndic);
 
-        return ResponseUtil.wrapOrNotFound(result, HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, syndic.getId()));
+        return ResponseUtil.wrapOrNotFound(result, HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, syndic.getId()));
     }
 
     /**
@@ -159,6 +159,6 @@ public class SyndicResource {
     public ResponseEntity<Void> deleteSyndic(@PathVariable String id) {
         log.debug("REST request to delete Syndic : {}", id);
         syndicService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
     }
 }

@@ -56,7 +56,7 @@ public class ImmeubleResource {
         Immeuble result = immeubleService.save(immeuble);
         return ResponseEntity
             .created(new URI("/api/immeubles/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
             .body(result);
     }
 
@@ -90,7 +90,7 @@ public class ImmeubleResource {
         Immeuble result = immeubleService.update(immeuble);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, immeuble.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, immeuble.getId()))
             .body(result);
     }
 
@@ -126,7 +126,7 @@ public class ImmeubleResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, immeuble.getId())
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, immeuble.getId())
         );
     }
 
@@ -164,6 +164,6 @@ public class ImmeubleResource {
     public ResponseEntity<Void> deleteImmeuble(@PathVariable String id) {
         log.debug("REST request to delete Immeuble : {}", id);
         immeubleService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
     }
 }

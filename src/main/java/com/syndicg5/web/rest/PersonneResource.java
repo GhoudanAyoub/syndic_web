@@ -9,7 +9,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,7 +56,7 @@ public class PersonneResource {
         Personne result = personneService.save(personne);
         return ResponseEntity
             .created(new URI("/api/personnes/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
             .body(result);
     }
 
@@ -91,7 +90,7 @@ public class PersonneResource {
         Personne result = personneService.update(personne);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, personne.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, personne.getId()))
             .body(result);
     }
 
@@ -127,27 +126,17 @@ public class PersonneResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, personne.getId())
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, personne.getId())
         );
     }
 
     /**
      * {@code GET  /personnes} : get all the personnes.
      *
-     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of personnes in body.
      */
     @GetMapping("/personnes")
-    public List<Personne> getAllPersonnes(@RequestParam(required = false) String filter) {
-        if ("resident-is-null".equals(filter)) {
-            log.debug("REST request to get all Personnes where resident is null");
-            return personneService.findAllWhereResidentIsNull();
-        }
-
-        if ("syndic-is-null".equals(filter)) {
-            log.debug("REST request to get all Personnes where syndic is null");
-            return personneService.findAllWhereSyndicIsNull();
-        }
+    public List<Personne> getAllPersonnes() {
         log.debug("REST request to get all Personnes");
         return personneService.findAll();
     }
@@ -175,6 +164,6 @@ public class PersonneResource {
     public ResponseEntity<Void> deletePersonne(@PathVariable String id) {
         log.debug("REST request to delete Personne : {}", id);
         personneService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
     }
 }

@@ -1,5 +1,4 @@
-import { IResident } from 'app/shared/model/resident.model';
-import { ISyndic } from 'app/shared/model/syndic.model';
+import { IUser } from 'app/shared/model/user.model';
 
 export interface IPersonne {
   id?: string;
@@ -8,8 +7,10 @@ export interface IPersonne {
   email?: string | null;
   motPasse?: string | null;
   adresse?: string | null;
-  resident?: IResident | null;
-  syndic?: ISyndic | null;
+  ville?: string | null;
+  photo?: string | null;
+  tel?: string | null;
+  internalUser?: IUser | null;
 }
 
 export const defaultValue: Readonly<IPersonne> = {};

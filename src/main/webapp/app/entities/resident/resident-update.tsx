@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
-import { isNumber, ValidatedField, ValidatedForm } from 'react-jhipster';
+import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -70,7 +70,7 @@ export const ResidentUpdate = (props: RouteComponentProps<{ id: string }>) => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="syndicWebApp.resident.home.createOrEditLabel" data-cy="ResidentCreateUpdateHeading">
-            Create or edit a Resident
+            <Translate contentKey="syndicWebApp.resident.home.createOrEditLabel">Create or edit a Resident</Translate>
           </h2>
         </Col>
       </Row>
@@ -80,8 +80,30 @@ export const ResidentUpdate = (props: RouteComponentProps<{ id: string }>) => {
             <p>Loading...</p>
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
-              {!isNew ? <ValidatedField name="id" required readOnly id="resident-id" label="ID" validate={{ required: true }} /> : null}
-              <ValidatedField id="resident-personne" name="personne" data-cy="personne" label="Personne" type="select">
+              {!isNew ? (
+                <ValidatedField
+                  name="id"
+                  required
+                  readOnly
+                  id="resident-id"
+                  label={translate('global.field.id')}
+                  validate={{ required: true }}
+                />
+              ) : null}
+              <ValidatedField
+                label={translate('syndicWebApp.resident.etatFamiliale')}
+                id="resident-etatFamiliale"
+                name="etatFamiliale"
+                data-cy="etatFamiliale"
+                type="text"
+              />
+              <ValidatedField
+                id="resident-personne"
+                name="personne"
+                data-cy="personne"
+                label={translate('syndicWebApp.resident.personne')}
+                type="select"
+              >
                 <option value="" key="0" />
                 {personnes
                   ? personnes.map(otherEntity => (
@@ -94,12 +116,15 @@ export const ResidentUpdate = (props: RouteComponentProps<{ id: string }>) => {
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/resident" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <span className="d-none d-md-inline">Back</span>
+                <span className="d-none d-md-inline">
+                  <Translate contentKey="entity.action.back">Back</Translate>
+                </span>
               </Button>
               &nbsp;
               <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
                 <FontAwesomeIcon icon="save" />
-                &nbsp; Save
+                &nbsp;
+                <Translate contentKey="entity.action.save">Save</Translate>
               </Button>
             </ValidatedForm>
           )}

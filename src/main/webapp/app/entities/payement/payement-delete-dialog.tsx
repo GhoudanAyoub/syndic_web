@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-
+import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
@@ -37,17 +37,23 @@ export const PayementDeleteDialog = (props: RouteComponentProps<{ id: string }>)
   return (
     <Modal isOpen toggle={handleClose}>
       <ModalHeader toggle={handleClose} data-cy="payementDeleteDialogHeading">
-        Confirm delete operation
+        <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
       </ModalHeader>
-      <ModalBody id="syndicWebApp.payement.delete.question">Are you sure you want to delete this Payement?</ModalBody>
+      <ModalBody id="syndicWebApp.payement.delete.question">
+        <Translate contentKey="syndicWebApp.payement.delete.question" interpolate={{ id: payementEntity.id }}>
+          Are you sure you want to delete this Payement?
+        </Translate>
+      </ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={handleClose}>
           <FontAwesomeIcon icon="ban" />
-          &nbsp; Cancel
+          &nbsp;
+          <Translate contentKey="entity.action.cancel">Cancel</Translate>
         </Button>
         <Button id="jhi-confirm-delete-payement" data-cy="entityConfirmDeleteButton" color="danger" onClick={confirmDelete}>
           <FontAwesomeIcon icon="trash" />
-          &nbsp; Delete
+          &nbsp;
+          <Translate contentKey="entity.action.delete">Delete</Translate>
         </Button>
       </ModalFooter>
     </Modal>

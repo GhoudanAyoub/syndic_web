@@ -1,6 +1,6 @@
 {
-  "applications": "*",
-  "changelogDate": "20220418133711",
+  "applications": ["syndic_web"],
+  "changelogDate": "20220419192830",
   "dto": "no",
   "embedded": false,
   "entityTableName": "appartement",

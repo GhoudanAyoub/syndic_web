@@ -1,0 +1,26 @@
+{
+  "syndicWebApp": {
+    "syndic": {
+      "home": {
+        "title": "Syndics",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Syndic",
+        "createOrEditLabel": "Créer ou éditer un Syndic",
+        "notFound": "Aucun Syndic trouvé"
+      },
+      "created": "Un nouveau Syndic a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Syndic avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Syndic avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Syndic {{ id }} ?"
+      },
+      "detail": {
+        "title": "Syndic"
+      },
+      "id": "ID",
+      "salaire": "Salaire",
+      "personne": "Personne",
+      "immeuble": "Immeuble"
+    }
+  }
+}

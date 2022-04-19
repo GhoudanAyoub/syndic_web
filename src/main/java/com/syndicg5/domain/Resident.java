@@ -20,6 +20,9 @@ public class Resident implements Serializable {
     @Id
     private String id;
 
+    @Field("etat_familiale")
+    private String etatFamiliale;
+
     @DBRef
     @Field("personne")
     private Personne personne;
@@ -42,6 +45,19 @@ public class Resident implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getEtatFamiliale() {
+        return this.etatFamiliale;
+    }
+
+    public Resident etatFamiliale(String etatFamiliale) {
+        this.setEtatFamiliale(etatFamiliale);
+        return this;
+    }
+
+    public void setEtatFamiliale(String etatFamiliale) {
+        this.etatFamiliale = etatFamiliale;
     }
 
     public Personne getPersonne() {
@@ -112,6 +128,7 @@ public class Resident implements Serializable {
     public String toString() {
         return "Resident{" +
             "id=" + getId() +
+            ", etatFamiliale='" + getEtatFamiliale() + "'" +
             "}";
     }
 }

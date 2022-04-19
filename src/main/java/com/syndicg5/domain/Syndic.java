@@ -20,6 +20,9 @@ public class Syndic implements Serializable {
     @Id
     private String id;
 
+    @Field("salaire")
+    private Double salaire;
+
     @DBRef
     @Field("personne")
     private Personne personne;
@@ -42,6 +45,19 @@ public class Syndic implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Double getSalaire() {
+        return this.salaire;
+    }
+
+    public Syndic salaire(Double salaire) {
+        this.setSalaire(salaire);
+        return this;
+    }
+
+    public void setSalaire(Double salaire) {
+        this.salaire = salaire;
     }
 
     public Personne getPersonne() {
@@ -112,6 +128,7 @@ public class Syndic implements Serializable {
     public String toString() {
         return "Syndic{" +
             "id=" + getId() +
+            ", salaire=" + getSalaire() +
             "}";
     }
 }

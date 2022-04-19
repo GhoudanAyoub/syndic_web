@@ -29,14 +29,16 @@ export const Immeuble = (props: RouteComponentProps<{ url: string }>) => {
   return (
     <div>
       <h2 id="immeuble-heading" data-cy="ImmeubleHeading">
-        Immeubles
+        <Translate contentKey="syndicWebApp.immeuble.home.title">Immeubles</Translate>
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} /> Refresh List
+            <FontAwesomeIcon icon="sync" spin={loading} />{' '}
+            <Translate contentKey="syndicWebApp.immeuble.home.refreshListLabel">Refresh List</Translate>
           </Button>
           <Link to="/immeuble/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create new Immeuble
+            &nbsp;
+            <Translate contentKey="syndicWebApp.immeuble.home.createLabel">Create new Immeuble</Translate>
           </Link>
         </div>
       </h2>
@@ -45,13 +47,27 @@ export const Immeuble = (props: RouteComponentProps<{ url: string }>) => {
           <Table responsive>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Libelle</th>
-                <th>Adresse</th>
-                <th>Ville</th>
-                <th>Numero</th>
-                <th>Nb Etages</th>
-                <th>Syndic</th>
+                <th>
+                  <Translate contentKey="syndicWebApp.immeuble.id">ID</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.immeuble.libelle">Libelle</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.immeuble.adresse">Adresse</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.immeuble.ville">Ville</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.immeuble.numero">Numero</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.immeuble.nbEtages">Nb Etages</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.immeuble.syndic">Syndic</Translate>
+                </th>
                 <th />
               </tr>
             </thead>
@@ -72,13 +88,22 @@ export const Immeuble = (props: RouteComponentProps<{ url: string }>) => {
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/immeuble/${immeuble.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
+                        <FontAwesomeIcon icon="eye" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.view">View</Translate>
+                        </span>
                       </Button>
                       <Button tag={Link} to={`/immeuble/${immeuble.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
-                        <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+                        <FontAwesomeIcon icon="pencil-alt" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.edit">Edit</Translate>
+                        </span>
                       </Button>
                       <Button tag={Link} to={`/immeuble/${immeuble.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
-                        <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
+                        <FontAwesomeIcon icon="trash" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.delete">Delete</Translate>
+                        </span>
                       </Button>
                     </div>
                   </td>
@@ -87,7 +112,11 @@ export const Immeuble = (props: RouteComponentProps<{ url: string }>) => {
             </tbody>
           </Table>
         ) : (
-          !loading && <div className="alert alert-warning">No Immeubles found</div>
+          !loading && (
+            <div className="alert alert-warning">
+              <Translate contentKey="syndicWebApp.immeuble.home.notFound">No Immeubles found</Translate>
+            </div>
+          )
         )}
       </div>
     </div>

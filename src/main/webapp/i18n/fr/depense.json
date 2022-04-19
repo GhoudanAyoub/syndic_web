@@ -1,0 +1,28 @@
+{
+  "syndicWebApp": {
+    "depense": {
+      "home": {
+        "title": "Depenses",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Depense",
+        "createOrEditLabel": "Créer ou éditer un Depense",
+        "notFound": "Aucun Depense trouvé"
+      },
+      "created": "Un nouveau Depense a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Depense avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Depense avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Depense {{ id }} ?"
+      },
+      "detail": {
+        "title": "Depense"
+      },
+      "id": "ID",
+      "montant": "Montant",
+      "date": "Date",
+      "description": "Description",
+      "categorie": "Categorie",
+      "immeuble": "Immeuble"
+    }
+  }
+}

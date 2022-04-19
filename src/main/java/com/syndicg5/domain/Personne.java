@@ -1,6 +1,5 @@
 package com.syndicg5.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -33,11 +32,18 @@ public class Personne implements Serializable {
     @Field("adresse")
     private String adresse;
 
-    @DBRef
-    private Resident resident;
+    @Field("ville")
+    private String ville;
+
+    @Field("photo")
+    private String photo;
+
+    @Field("tel")
+    private String tel;
 
     @DBRef
-    private Syndic syndic;
+    @Field("internalUser")
+    private User internalUser;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -119,41 +125,55 @@ public class Personne implements Serializable {
         this.adresse = adresse;
     }
 
-    public Resident getResident() {
-        return this.resident;
+    public String getVille() {
+        return this.ville;
     }
 
-    public void setResident(Resident resident) {
-        if (this.resident != null) {
-            this.resident.setPersonne(null);
-        }
-        if (resident != null) {
-            resident.setPersonne(this);
-        }
-        this.resident = resident;
-    }
-
-    public Personne resident(Resident resident) {
-        this.setResident(resident);
+    public Personne ville(String ville) {
+        this.setVille(ville);
         return this;
     }
 
-    public Syndic getSyndic() {
-        return this.syndic;
+    public void setVille(String ville) {
+        this.ville = ville;
     }
 
-    public void setSyndic(Syndic syndic) {
-        if (this.syndic != null) {
-            this.syndic.setPersonne(null);
-        }
-        if (syndic != null) {
-            syndic.setPersonne(this);
-        }
-        this.syndic = syndic;
+    public String getPhoto() {
+        return this.photo;
     }
 
-    public Personne syndic(Syndic syndic) {
-        this.setSyndic(syndic);
+    public Personne photo(String photo) {
+        this.setPhoto(photo);
+        return this;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getTel() {
+        return this.tel;
+    }
+
+    public Personne tel(String tel) {
+        this.setTel(tel);
+        return this;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public User getInternalUser() {
+        return this.internalUser;
+    }
+
+    public void setInternalUser(User user) {
+        this.internalUser = user;
+    }
+
+    public Personne internalUser(User user) {
+        this.setInternalUser(user);
         return this;
     }
 
@@ -186,6 +206,9 @@ public class Personne implements Serializable {
             ", email='" + getEmail() + "'" +
             ", motPasse='" + getMotPasse() + "'" +
             ", adresse='" + getAdresse() + "'" +
+            ", ville='" + getVille() + "'" +
+            ", photo='" + getPhoto() + "'" +
+            ", tel='" + getTel() + "'" +
             "}";
     }
 }

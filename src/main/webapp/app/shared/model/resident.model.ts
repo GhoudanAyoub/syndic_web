@@ -3,6 +3,7 @@ import { IAppartement } from 'app/shared/model/appartement.model';
 
 export interface IResident {
   id?: string;
+  etatFamiliale?: string | null;
   personne?: IPersonne | null;
   appartements?: IAppartement[] | null;
 }

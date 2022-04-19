@@ -1,0 +1,32 @@
+{
+  "syndicWebApp": {
+    "immeuble": {
+      "home": {
+        "title": "Immeubles",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Immeuble",
+        "createOrEditLabel": "Créer ou éditer un Immeuble",
+        "notFound": "Aucun Immeuble trouvé"
+      },
+      "created": "Un nouveau Immeuble a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Immeuble avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Immeuble avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Immeuble {{ id }} ?"
+      },
+      "detail": {
+        "title": "Immeuble"
+      },
+      "id": "ID",
+      "libelle": "Libelle",
+      "adresse": "Adresse",
+      "ville": "Ville",
+      "numero": "Numero",
+      "nbEtages": "Nb Etages",
+      "appartement": "Appartement",
+      "syndic": "Syndic",
+      "depense": "Depense",
+      "revenu": "Revenu"
+    }
+  }
+}

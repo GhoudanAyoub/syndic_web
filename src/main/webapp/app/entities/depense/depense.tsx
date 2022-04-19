@@ -29,14 +29,16 @@ export const Depense = (props: RouteComponentProps<{ url: string }>) => {
   return (
     <div>
       <h2 id="depense-heading" data-cy="DepenseHeading">
-        Depenses
+        <Translate contentKey="syndicWebApp.depense.home.title">Depenses</Translate>
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} /> Refresh List
+            <FontAwesomeIcon icon="sync" spin={loading} />{' '}
+            <Translate contentKey="syndicWebApp.depense.home.refreshListLabel">Refresh List</Translate>
           </Button>
           <Link to="/depense/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create new Depense
+            &nbsp;
+            <Translate contentKey="syndicWebApp.depense.home.createLabel">Create new Depense</Translate>
           </Link>
         </div>
       </h2>
@@ -45,11 +47,21 @@ export const Depense = (props: RouteComponentProps<{ url: string }>) => {
           <Table responsive>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Montant</th>
-                <th>Date</th>
-                <th>Description</th>
-                <th>Immeuble</th>
+                <th>
+                  <Translate contentKey="syndicWebApp.depense.id">ID</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.depense.montant">Montant</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.depense.date">Date</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.depense.description">Description</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.depense.immeuble">Immeuble</Translate>
+                </th>
                 <th />
               </tr>
             </thead>
@@ -68,13 +80,22 @@ export const Depense = (props: RouteComponentProps<{ url: string }>) => {
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/depense/${depense.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
+                        <FontAwesomeIcon icon="eye" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.view">View</Translate>
+                        </span>
                       </Button>
                       <Button tag={Link} to={`/depense/${depense.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
-                        <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+                        <FontAwesomeIcon icon="pencil-alt" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.edit">Edit</Translate>
+                        </span>
                       </Button>
                       <Button tag={Link} to={`/depense/${depense.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
-                        <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
+                        <FontAwesomeIcon icon="trash" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.delete">Delete</Translate>
+                        </span>
                       </Button>
                     </div>
                   </td>
@@ -83,7 +104,11 @@ export const Depense = (props: RouteComponentProps<{ url: string }>) => {
             </tbody>
           </Table>
         ) : (
-          !loading && <div className="alert alert-warning">No Depenses found</div>
+          !loading && (
+            <div className="alert alert-warning">
+              <Translate contentKey="syndicWebApp.depense.home.notFound">No Depenses found</Translate>
+            </div>
+          )
         )}
       </div>
     </div>

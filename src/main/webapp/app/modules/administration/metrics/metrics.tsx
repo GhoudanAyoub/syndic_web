@@ -9,6 +9,7 @@ import {
   JvmThreads,
   EndpointsRequestsMetrics,
   SystemMetrics,
+  Translate,
 } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -42,7 +43,10 @@ export const MetricsPage = () => {
       <p>
         <Button onClick={getMetrics} color={isFetching ? 'btn btn-danger' : 'btn btn-primary'} disabled={isFetching}>
           <FontAwesomeIcon icon="sync" />
-          &nbsp; Refresh
+          &nbsp;
+          <Translate component="span" contentKey="health.refresh.button">
+            Refresh
+          </Translate>
         </Button>
       </p>
       <hr />

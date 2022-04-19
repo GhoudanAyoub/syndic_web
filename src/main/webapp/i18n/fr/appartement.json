@@ -1,0 +1,29 @@
+{
+  "syndicWebApp": {
+    "appartement": {
+      "home": {
+        "title": "Appartements",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Appartement",
+        "createOrEditLabel": "Créer ou éditer un Appartement",
+        "notFound": "Aucun Appartement trouvé"
+      },
+      "created": "Un nouveau Appartement a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Appartement avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Appartement avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Appartement {{ id }} ?"
+      },
+      "detail": {
+        "title": "Appartement"
+      },
+      "id": "ID",
+      "numero": "Numero",
+      "etage": "Etage",
+      "surface": "Surface",
+      "payement": "Payement",
+      "resident": "Resident",
+      "immeuble": "Immeuble"
+    }
+  }
+}

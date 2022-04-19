@@ -2,6 +2,7 @@ import React from 'react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { render } from '@testing-library/react';
+import { TranslatorContext } from 'react-jhipster';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
@@ -12,6 +13,12 @@ import { PrivateRouteComponent, hasAnyAuthority } from './private-route';
 const TestComp = () => <div>Test</div>;
 
 describe('private-route component', () => {
+  beforeAll(() => {
+    TranslatorContext.registerTranslations('fr', {
+      'error.http.403': 'You are not authorized to access this page.',
+    });
+  });
+
   const mockStore = configureStore([thunk]);
   const wrapper = (Elem: JSX.Element, authentication) => {
     const store = mockStore({ authentication });
@@ -49,7 +56,7 @@ describe('private-route component', () => {
       }
     );
     expect(container.innerHTML).toEqual(
-      '<div class="insufficient-authority"><div class="alert alert-danger">You are not authorized to access this page.</div></div>'
+      '<div class="insufficient-authority"><div class="alert alert-danger"><span>You are not authorized to access this page.</span></div></div>'
     );
   });
 

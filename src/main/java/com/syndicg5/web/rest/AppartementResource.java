@@ -56,7 +56,7 @@ public class AppartementResource {
         Appartement result = appartementService.save(appartement);
         return ResponseEntity
             .created(new URI("/api/appartements/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
             .body(result);
     }
 
@@ -90,7 +90,7 @@ public class AppartementResource {
         Appartement result = appartementService.update(appartement);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, appartement.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, appartement.getId()))
             .body(result);
     }
 
@@ -126,7 +126,7 @@ public class AppartementResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, appartement.getId())
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, appartement.getId())
         );
     }
 
@@ -164,6 +164,6 @@ public class AppartementResource {
     public ResponseEntity<Void> deleteAppartement(@PathVariable String id) {
         log.debug("REST request to delete Appartement : {}", id);
         appartementService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
     }
 }

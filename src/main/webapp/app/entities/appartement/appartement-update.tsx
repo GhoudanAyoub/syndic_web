@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
-import { isNumber, ValidatedField, ValidatedForm } from 'react-jhipster';
+import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -76,7 +76,7 @@ export const AppartementUpdate = (props: RouteComponentProps<{ id: string }>) =>
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="syndicWebApp.appartement.home.createOrEditLabel" data-cy="AppartementCreateUpdateHeading">
-            Create or edit a Appartement
+            <Translate contentKey="syndicWebApp.appartement.home.createOrEditLabel">Create or edit a Appartement</Translate>
           </h2>
         </Col>
       </Row>
@@ -86,11 +86,44 @@ export const AppartementUpdate = (props: RouteComponentProps<{ id: string }>) =>
             <p>Loading...</p>
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
-              {!isNew ? <ValidatedField name="id" required readOnly id="appartement-id" label="ID" validate={{ required: true }} /> : null}
-              <ValidatedField label="Numero" id="appartement-numero" name="numero" data-cy="numero" type="text" />
-              <ValidatedField label="Etage" id="appartement-etage" name="etage" data-cy="etage" type="text" />
-              <ValidatedField label="Surface" id="appartement-surface" name="surface" data-cy="surface" type="text" />
-              <ValidatedField id="appartement-resident" name="resident" data-cy="resident" label="Resident" type="select">
+              {!isNew ? (
+                <ValidatedField
+                  name="id"
+                  required
+                  readOnly
+                  id="appartement-id"
+                  label={translate('global.field.id')}
+                  validate={{ required: true }}
+                />
+              ) : null}
+              <ValidatedField
+                label={translate('syndicWebApp.appartement.numero')}
+                id="appartement-numero"
+                name="numero"
+                data-cy="numero"
+                type="text"
+              />
+              <ValidatedField
+                label={translate('syndicWebApp.appartement.etage')}
+                id="appartement-etage"
+                name="etage"
+                data-cy="etage"
+                type="text"
+              />
+              <ValidatedField
+                label={translate('syndicWebApp.appartement.surface')}
+                id="appartement-surface"
+                name="surface"
+                data-cy="surface"
+                type="text"
+              />
+              <ValidatedField
+                id="appartement-resident"
+                name="resident"
+                data-cy="resident"
+                label={translate('syndicWebApp.appartement.resident')}
+                type="select"
+              >
                 <option value="" key="0" />
                 {residents
                   ? residents.map(otherEntity => (
@@ -100,7 +133,13 @@ export const AppartementUpdate = (props: RouteComponentProps<{ id: string }>) =>
                     ))
                   : null}
               </ValidatedField>
-              <ValidatedField id="appartement-immeuble" name="immeuble" data-cy="immeuble" label="Immeuble" type="select">
+              <ValidatedField
+                id="appartement-immeuble"
+                name="immeuble"
+                data-cy="immeuble"
+                label={translate('syndicWebApp.appartement.immeuble')}
+                type="select"
+              >
                 <option value="" key="0" />
                 {immeubles
                   ? immeubles.map(otherEntity => (
@@ -113,12 +152,15 @@ export const AppartementUpdate = (props: RouteComponentProps<{ id: string }>) =>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/appartement" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <span className="d-none d-md-inline">Back</span>
+                <span className="d-none d-md-inline">
+                  <Translate contentKey="entity.action.back">Back</Translate>
+                </span>
               </Button>
               &nbsp;
               <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
                 <FontAwesomeIcon icon="save" />
-                &nbsp; Save
+                &nbsp;
+                <Translate contentKey="entity.action.save">Save</Translate>
               </Button>
             </ValidatedForm>
           )}

@@ -41,6 +41,15 @@ class PersonneResourceIT {
     private static final String DEFAULT_ADRESSE = "AAAAAAAAAA";
     private static final String UPDATED_ADRESSE = "BBBBBBBBBB";
 
+    private static final String DEFAULT_VILLE = "AAAAAAAAAA";
+    private static final String UPDATED_VILLE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PHOTO = "AAAAAAAAAA";
+    private static final String UPDATED_PHOTO = "BBBBBBBBBB";
+
+    private static final String DEFAULT_TEL = "AAAAAAAAAA";
+    private static final String UPDATED_TEL = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/personnes";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -64,7 +73,10 @@ class PersonneResourceIT {
             .prenom(DEFAULT_PRENOM)
             .email(DEFAULT_EMAIL)
             .motPasse(DEFAULT_MOT_PASSE)
-            .adresse(DEFAULT_ADRESSE);
+            .adresse(DEFAULT_ADRESSE)
+            .ville(DEFAULT_VILLE)
+            .photo(DEFAULT_PHOTO)
+            .tel(DEFAULT_TEL);
         return personne;
     }
 
@@ -80,7 +92,10 @@ class PersonneResourceIT {
             .prenom(UPDATED_PRENOM)
             .email(UPDATED_EMAIL)
             .motPasse(UPDATED_MOT_PASSE)
-            .adresse(UPDATED_ADRESSE);
+            .adresse(UPDATED_ADRESSE)
+            .ville(UPDATED_VILLE)
+            .photo(UPDATED_PHOTO)
+            .tel(UPDATED_TEL);
         return personne;
     }
 
@@ -107,6 +122,9 @@ class PersonneResourceIT {
         assertThat(testPersonne.getEmail()).isEqualTo(DEFAULT_EMAIL);
         assertThat(testPersonne.getMotPasse()).isEqualTo(DEFAULT_MOT_PASSE);
         assertThat(testPersonne.getAdresse()).isEqualTo(DEFAULT_ADRESSE);
+        assertThat(testPersonne.getVille()).isEqualTo(DEFAULT_VILLE);
+        assertThat(testPersonne.getPhoto()).isEqualTo(DEFAULT_PHOTO);
+        assertThat(testPersonne.getTel()).isEqualTo(DEFAULT_TEL);
     }
 
     @Test
@@ -141,7 +159,10 @@ class PersonneResourceIT {
             .andExpect(jsonPath("$.[*].prenom").value(hasItem(DEFAULT_PRENOM)))
             .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
             .andExpect(jsonPath("$.[*].motPasse").value(hasItem(DEFAULT_MOT_PASSE)))
-            .andExpect(jsonPath("$.[*].adresse").value(hasItem(DEFAULT_ADRESSE)));
+            .andExpect(jsonPath("$.[*].adresse").value(hasItem(DEFAULT_ADRESSE)))
+            .andExpect(jsonPath("$.[*].ville").value(hasItem(DEFAULT_VILLE)))
+            .andExpect(jsonPath("$.[*].photo").value(hasItem(DEFAULT_PHOTO)))
+            .andExpect(jsonPath("$.[*].tel").value(hasItem(DEFAULT_TEL)));
     }
 
     @Test
@@ -159,7 +180,10 @@ class PersonneResourceIT {
             .andExpect(jsonPath("$.prenom").value(DEFAULT_PRENOM))
             .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
             .andExpect(jsonPath("$.motPasse").value(DEFAULT_MOT_PASSE))
-            .andExpect(jsonPath("$.adresse").value(DEFAULT_ADRESSE));
+            .andExpect(jsonPath("$.adresse").value(DEFAULT_ADRESSE))
+            .andExpect(jsonPath("$.ville").value(DEFAULT_VILLE))
+            .andExpect(jsonPath("$.photo").value(DEFAULT_PHOTO))
+            .andExpect(jsonPath("$.tel").value(DEFAULT_TEL));
     }
 
     @Test
@@ -177,7 +201,15 @@ class PersonneResourceIT {
 
         // Update the personne
         Personne updatedPersonne = personneRepository.findById(personne.getId()).get();
-        updatedPersonne.nom(UPDATED_NOM).prenom(UPDATED_PRENOM).email(UPDATED_EMAIL).motPasse(UPDATED_MOT_PASSE).adresse(UPDATED_ADRESSE);
+        updatedPersonne
+            .nom(UPDATED_NOM)
+            .prenom(UPDATED_PRENOM)
+            .email(UPDATED_EMAIL)
+            .motPasse(UPDATED_MOT_PASSE)
+            .adresse(UPDATED_ADRESSE)
+            .ville(UPDATED_VILLE)
+            .photo(UPDATED_PHOTO)
+            .tel(UPDATED_TEL);
 
         restPersonneMockMvc
             .perform(
@@ -196,6 +228,9 @@ class PersonneResourceIT {
         assertThat(testPersonne.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testPersonne.getMotPasse()).isEqualTo(UPDATED_MOT_PASSE);
         assertThat(testPersonne.getAdresse()).isEqualTo(UPDATED_ADRESSE);
+        assertThat(testPersonne.getVille()).isEqualTo(UPDATED_VILLE);
+        assertThat(testPersonne.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testPersonne.getTel()).isEqualTo(UPDATED_TEL);
     }
 
     @Test
@@ -262,7 +297,7 @@ class PersonneResourceIT {
         Personne partialUpdatedPersonne = new Personne();
         partialUpdatedPersonne.setId(personne.getId());
 
-        partialUpdatedPersonne.nom(UPDATED_NOM).adresse(UPDATED_ADRESSE);
+        partialUpdatedPersonne.nom(UPDATED_NOM).adresse(UPDATED_ADRESSE).tel(UPDATED_TEL);
 
         restPersonneMockMvc
             .perform(
@@ -281,6 +316,9 @@ class PersonneResourceIT {
         assertThat(testPersonne.getEmail()).isEqualTo(DEFAULT_EMAIL);
         assertThat(testPersonne.getMotPasse()).isEqualTo(DEFAULT_MOT_PASSE);
         assertThat(testPersonne.getAdresse()).isEqualTo(UPDATED_ADRESSE);
+        assertThat(testPersonne.getVille()).isEqualTo(DEFAULT_VILLE);
+        assertThat(testPersonne.getPhoto()).isEqualTo(DEFAULT_PHOTO);
+        assertThat(testPersonne.getTel()).isEqualTo(UPDATED_TEL);
     }
 
     @Test
@@ -299,7 +337,10 @@ class PersonneResourceIT {
             .prenom(UPDATED_PRENOM)
             .email(UPDATED_EMAIL)
             .motPasse(UPDATED_MOT_PASSE)
-            .adresse(UPDATED_ADRESSE);
+            .adresse(UPDATED_ADRESSE)
+            .ville(UPDATED_VILLE)
+            .photo(UPDATED_PHOTO)
+            .tel(UPDATED_TEL);
 
         restPersonneMockMvc
             .perform(
@@ -318,6 +359,9 @@ class PersonneResourceIT {
         assertThat(testPersonne.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testPersonne.getMotPasse()).isEqualTo(UPDATED_MOT_PASSE);
         assertThat(testPersonne.getAdresse()).isEqualTo(UPDATED_ADRESSE);
+        assertThat(testPersonne.getVille()).isEqualTo(UPDATED_VILLE);
+        assertThat(testPersonne.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testPersonne.getTel()).isEqualTo(UPDATED_TEL);
     }
 
     @Test

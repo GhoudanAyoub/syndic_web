@@ -42,6 +42,10 @@ public class ResidentServiceImpl implements ResidentService {
         return residentRepository
             .findById(resident.getId())
             .map(existingResident -> {
+                if (resident.getEtatFamiliale() != null) {
+                    existingResident.setEtatFamiliale(resident.getEtatFamiliale());
+                }
+
                 return existingResident;
             })
             .map(residentRepository::save);

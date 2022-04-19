@@ -1,4 +1,5 @@
 import React from 'react';
+import { Translate } from 'react-jhipster';
 
 import MenuItem from 'app/shared/layout/menus/menu-item';
 
@@ -7,31 +8,31 @@ const EntitiesMenu = () => {
     <>
       {/* prettier-ignore */}
       <MenuItem icon="asterisk" to="/personne">
-        Personne
+        <Translate contentKey="global.menu.entities.personne" />
       </MenuItem>
       <MenuItem icon="asterisk" to="/resident">
-        Resident
+        <Translate contentKey="global.menu.entities.resident" />
       </MenuItem>
       <MenuItem icon="asterisk" to="/syndic">
-        Syndic
+        <Translate contentKey="global.menu.entities.syndic" />
       </MenuItem>
       <MenuItem icon="asterisk" to="/immeuble">
-        Immeuble
+        <Translate contentKey="global.menu.entities.immeuble" />
       </MenuItem>
       <MenuItem icon="asterisk" to="/appartement">
-        Appartement
+        <Translate contentKey="global.menu.entities.appartement" />
       </MenuItem>
       <MenuItem icon="asterisk" to="/revenu">
-        Revenu
+        <Translate contentKey="global.menu.entities.revenu" />
       </MenuItem>
       <MenuItem icon="asterisk" to="/depense">
-        Depense
+        <Translate contentKey="global.menu.entities.depense" />
       </MenuItem>
       <MenuItem icon="asterisk" to="/categorie">
-        Categorie
+        <Translate contentKey="global.menu.entities.categorie" />
       </MenuItem>
       <MenuItem icon="asterisk" to="/payement">
-        Payement
+        <Translate contentKey="global.menu.entities.payement" />
       </MenuItem>
       {/* jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here */}
     </>

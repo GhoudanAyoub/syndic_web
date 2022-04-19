@@ -56,7 +56,7 @@ public class ResidentResource {
         Resident result = residentService.save(resident);
         return ResponseEntity
             .created(new URI("/api/residents/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
             .body(result);
     }
 
@@ -90,7 +90,7 @@ public class ResidentResource {
         Resident result = residentService.update(resident);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, resident.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, resident.getId()))
             .body(result);
     }
 
@@ -126,7 +126,7 @@ public class ResidentResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, resident.getId())
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, resident.getId())
         );
     }
 
@@ -164,6 +164,6 @@ public class ResidentResource {
     public ResponseEntity<Void> deleteResident(@PathVariable String id) {
         log.debug("REST request to delete Resident : {}", id);
         residentService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
     }
 }

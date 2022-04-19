@@ -1,6 +1,6 @@
 {
-  "applications": "*",
-  "changelogDate": "20220418133712",
+  "applications": ["syndic_web"],
+  "changelogDate": "20220419192831",
   "dto": "no",
   "embedded": false,
   "entityTableName": "revenu",

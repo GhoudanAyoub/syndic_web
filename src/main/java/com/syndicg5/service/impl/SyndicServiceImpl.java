@@ -42,6 +42,10 @@ public class SyndicServiceImpl implements SyndicService {
         return syndicRepository
             .findById(syndic.getId())
             .map(existingSyndic -> {
+                if (syndic.getSalaire() != null) {
+                    existingSyndic.setSalaire(syndic.getSalaire());
+                }
+
                 return existingSyndic;
             })
             .map(syndicRepository::save);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { Translate } from 'react-jhipster';
 import { Table, Badge, Col, Row, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -46,7 +46,10 @@ export const HealthPage = () => {
       <p>
         <Button onClick={fetchSystemHealth} color={isFetching ? 'btn btn-danger' : 'btn btn-primary'} disabled={isFetching}>
           <FontAwesomeIcon icon="sync" />
-          &nbsp; Refresh
+          &nbsp;
+          <Translate component="span" contentKey="health.refresh.button">
+            Refresh
+          </Translate>
         </Button>
       </p>
       <Row>

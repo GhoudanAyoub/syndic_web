@@ -56,7 +56,7 @@ public class DepenseResource {
         Depense result = depenseService.save(depense);
         return ResponseEntity
             .created(new URI("/api/depenses/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
             .body(result);
     }
 
@@ -90,7 +90,7 @@ public class DepenseResource {
         Depense result = depenseService.update(depense);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, depense.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, depense.getId()))
             .body(result);
     }
 
@@ -124,10 +124,7 @@ public class DepenseResource {
 
         Optional<Depense> result = depenseService.partialUpdate(depense);
 
-        return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, depense.getId())
-        );
+        return ResponseUtil.wrapOrNotFound(result, HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, depense.getId()));
     }
 
     /**
@@ -164,6 +161,6 @@ public class DepenseResource {
     public ResponseEntity<Void> deleteDepense(@PathVariable String id) {
         log.debug("REST request to delete Depense : {}", id);
         depenseService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
     }
 }

@@ -1,18 +1,33 @@
 
+application {
+  config {
+    baseName syndic_web
+    applicationType monolith
+    packageName com.syndicg5
+    authenticationType jwt
+    databaseType mongodb
+    clientFramework react
+  }
+  entities *
+}
+
 entity Personne {
 	nom String,
     prenom String,
     email String,
     motPasse String,
-    adresse String
+    adresse String,
+    ville String,
+    photo String,
+    tel String
 }
 
 entity Resident {
-	
+	etatFamiliale String
 }
 
 entity Syndic {
-
+    salaire Double
 }
 
 entity Immeuble {
@@ -67,8 +82,9 @@ relationship OneToMany {
 }
 
 relationship OneToOne {
-	Resident to Personne
-    Syndic to Personne
+	Personne{internalUser} to User
+	Resident{personne} to Personne
+    Syndic{personne} to Personne
 }
 
 service * with serviceImpl

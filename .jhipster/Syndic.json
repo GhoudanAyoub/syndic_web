@@ -1,10 +1,15 @@
 {
-  "applications": "*",
-  "changelogDate": "20220418133709",
+  "applications": ["syndic_web"],
+  "changelogDate": "20220419192828",
   "dto": "no",
   "embedded": false,
   "entityTableName": "syndic",
-  "fields": [],
+  "fields": [
+    {
+      "fieldName": "salaire",
+      "fieldType": "Double"
+    }
+  ],
   "fluentMethods": true,
   "jpaMetamodelFiltering": false,
   "name": "Syndic",

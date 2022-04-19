@@ -29,14 +29,16 @@ export const Personne = (props: RouteComponentProps<{ url: string }>) => {
   return (
     <div>
       <h2 id="personne-heading" data-cy="PersonneHeading">
-        Personnes
+        <Translate contentKey="syndicWebApp.personne.home.title">Personnes</Translate>
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} /> Refresh List
+            <FontAwesomeIcon icon="sync" spin={loading} />{' '}
+            <Translate contentKey="syndicWebApp.personne.home.refreshListLabel">Refresh List</Translate>
           </Button>
           <Link to="/personne/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create new Personne
+            &nbsp;
+            <Translate contentKey="syndicWebApp.personne.home.createLabel">Create new Personne</Translate>
           </Link>
         </div>
       </h2>
@@ -45,12 +47,36 @@ export const Personne = (props: RouteComponentProps<{ url: string }>) => {
           <Table responsive>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Email</th>
-                <th>Mot Passe</th>
-                <th>Adresse</th>
+                <th>
+                  <Translate contentKey="syndicWebApp.personne.id">ID</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.personne.nom">Nom</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.personne.prenom">Prenom</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.personne.email">Email</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.personne.motPasse">Mot Passe</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.personne.adresse">Adresse</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.personne.ville">Ville</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.personne.photo">Photo</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.personne.tel">Tel</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.personne.internalUser">Internal User</Translate>
+                </th>
                 <th />
               </tr>
             </thead>
@@ -67,16 +93,29 @@ export const Personne = (props: RouteComponentProps<{ url: string }>) => {
                   <td>{personne.email}</td>
                   <td>{personne.motPasse}</td>
                   <td>{personne.adresse}</td>
+                  <td>{personne.ville}</td>
+                  <td>{personne.photo}</td>
+                  <td>{personne.tel}</td>
+                  <td>{personne.internalUser ? personne.internalUser.id : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/personne/${personne.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
+                        <FontAwesomeIcon icon="eye" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.view">View</Translate>
+                        </span>
                       </Button>
                       <Button tag={Link} to={`/personne/${personne.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
-                        <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+                        <FontAwesomeIcon icon="pencil-alt" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.edit">Edit</Translate>
+                        </span>
                       </Button>
                       <Button tag={Link} to={`/personne/${personne.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
-                        <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
+                        <FontAwesomeIcon icon="trash" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.delete">Delete</Translate>
+                        </span>
                       </Button>
                     </div>
                   </td>
@@ -85,7 +124,11 @@ export const Personne = (props: RouteComponentProps<{ url: string }>) => {
             </tbody>
           </Table>
         ) : (
-          !loading && <div className="alert alert-warning">No Personnes found</div>
+          !loading && (
+            <div className="alert alert-warning">
+              <Translate contentKey="syndicWebApp.personne.home.notFound">No Personnes found</Translate>
+            </div>
+          )
         )}
       </div>
     </div>

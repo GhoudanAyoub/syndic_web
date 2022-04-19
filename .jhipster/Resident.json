@@ -1,10 +1,15 @@
 {
-  "applications": "*",
-  "changelogDate": "20220418133708",
+  "applications": ["syndic_web"],
+  "changelogDate": "20220419192827",
   "dto": "no",
   "embedded": false,
   "entityTableName": "resident",
-  "fields": [],
+  "fields": [
+    {
+      "fieldName": "etatFamiliale",
+      "fieldType": "String"
+    }
+  ],
   "fluentMethods": true,
   "jpaMetamodelFiltering": false,
   "name": "Resident",

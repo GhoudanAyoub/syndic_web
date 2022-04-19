@@ -56,7 +56,7 @@ public class CategorieResource {
         Categorie result = categorieService.save(categorie);
         return ResponseEntity
             .created(new URI("/api/categories/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
             .body(result);
     }
 
@@ -90,7 +90,7 @@ public class CategorieResource {
         Categorie result = categorieService.update(categorie);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, categorie.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, categorie.getId()))
             .body(result);
     }
 
@@ -126,7 +126,7 @@ public class CategorieResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, categorie.getId())
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, categorie.getId())
         );
     }
 
@@ -164,6 +164,6 @@ public class CategorieResource {
     public ResponseEntity<Void> deleteCategorie(@PathVariable String id) {
         log.debug("REST request to delete Categorie : {}", id);
         categorieService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
     }
 }

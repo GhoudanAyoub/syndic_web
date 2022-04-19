@@ -29,14 +29,16 @@ export const Payement = (props: RouteComponentProps<{ url: string }>) => {
   return (
     <div>
       <h2 id="payement-heading" data-cy="PayementHeading">
-        Payements
+        <Translate contentKey="syndicWebApp.payement.home.title">Payements</Translate>
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} /> Refresh List
+            <FontAwesomeIcon icon="sync" spin={loading} />{' '}
+            <Translate contentKey="syndicWebApp.payement.home.refreshListLabel">Refresh List</Translate>
           </Button>
           <Link to="/payement/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create new Payement
+            &nbsp;
+            <Translate contentKey="syndicWebApp.payement.home.createLabel">Create new Payement</Translate>
           </Link>
         </div>
       </h2>
@@ -45,11 +47,21 @@ export const Payement = (props: RouteComponentProps<{ url: string }>) => {
           <Table responsive>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Montant</th>
-                <th>Date</th>
-                <th>Description</th>
-                <th>Appartement</th>
+                <th>
+                  <Translate contentKey="syndicWebApp.payement.id">ID</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.payement.montant">Montant</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.payement.date">Date</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.payement.description">Description</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.payement.appartement">Appartement</Translate>
+                </th>
                 <th />
               </tr>
             </thead>
@@ -70,13 +82,22 @@ export const Payement = (props: RouteComponentProps<{ url: string }>) => {
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/payement/${payement.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
+                        <FontAwesomeIcon icon="eye" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.view">View</Translate>
+                        </span>
                       </Button>
                       <Button tag={Link} to={`/payement/${payement.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
-                        <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+                        <FontAwesomeIcon icon="pencil-alt" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.edit">Edit</Translate>
+                        </span>
                       </Button>
                       <Button tag={Link} to={`/payement/${payement.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
-                        <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
+                        <FontAwesomeIcon icon="trash" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.delete">Delete</Translate>
+                        </span>
                       </Button>
                     </div>
                   </td>
@@ -85,7 +106,11 @@ export const Payement = (props: RouteComponentProps<{ url: string }>) => {
             </tbody>
           </Table>
         ) : (
-          !loading && <div className="alert alert-warning">No Payements found</div>
+          !loading && (
+            <div className="alert alert-warning">
+              <Translate contentKey="syndicWebApp.payement.home.notFound">No Payements found</Translate>
+            </div>
+          )
         )}
       </div>
     </div>

@@ -38,18 +38,6 @@ public interface PersonneService {
      * @return the list of entities.
      */
     List<Personne> findAll();
-    /**
-     * Get all the Personne where Resident is {@code null}.
-     *
-     * @return the {@link List} of entities.
-     */
-    List<Personne> findAllWhereResidentIsNull();
-    /**
-     * Get all the Personne where Syndic is {@code null}.
-     *
-     * @return the {@link List} of entities.
-     */
-    List<Personne> findAllWhereSyndicIsNull();
 
     /**
      * Get the "id" personne.

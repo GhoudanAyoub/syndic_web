@@ -29,14 +29,16 @@ export const Syndic = (props: RouteComponentProps<{ url: string }>) => {
   return (
     <div>
       <h2 id="syndic-heading" data-cy="SyndicHeading">
-        Syndics
+        <Translate contentKey="syndicWebApp.syndic.home.title">Syndics</Translate>
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} /> Refresh List
+            <FontAwesomeIcon icon="sync" spin={loading} />{' '}
+            <Translate contentKey="syndicWebApp.syndic.home.refreshListLabel">Refresh List</Translate>
           </Button>
           <Link to="/syndic/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create new Syndic
+            &nbsp;
+            <Translate contentKey="syndicWebApp.syndic.home.createLabel">Create new Syndic</Translate>
           </Link>
         </div>
       </h2>
@@ -45,8 +47,15 @@ export const Syndic = (props: RouteComponentProps<{ url: string }>) => {
           <Table responsive>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Personne</th>
+                <th>
+                  <Translate contentKey="syndicWebApp.syndic.id">ID</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.syndic.salaire">Salaire</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.syndic.personne">Personne</Translate>
+                </th>
                 <th />
               </tr>
             </thead>
@@ -58,17 +67,27 @@ export const Syndic = (props: RouteComponentProps<{ url: string }>) => {
                       {syndic.id}
                     </Button>
                   </td>
+                  <td>{syndic.salaire}</td>
                   <td>{syndic.personne ? <Link to={`/personne/${syndic.personne.id}`}>{syndic.personne.id}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/syndic/${syndic.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
+                        <FontAwesomeIcon icon="eye" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.view">View</Translate>
+                        </span>
                       </Button>
                       <Button tag={Link} to={`/syndic/${syndic.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
-                        <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+                        <FontAwesomeIcon icon="pencil-alt" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.edit">Edit</Translate>
+                        </span>
                       </Button>
                       <Button tag={Link} to={`/syndic/${syndic.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
-                        <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
+                        <FontAwesomeIcon icon="trash" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.delete">Delete</Translate>
+                        </span>
                       </Button>
                     </div>
                   </td>
@@ -77,7 +96,11 @@ export const Syndic = (props: RouteComponentProps<{ url: string }>) => {
             </tbody>
           </Table>
         ) : (
-          !loading && <div className="alert alert-warning">No Syndics found</div>
+          !loading && (
+            <div className="alert alert-warning">
+              <Translate contentKey="syndicWebApp.syndic.home.notFound">No Syndics found</Translate>
+            </div>
+          )
         )}
       </div>
     </div>

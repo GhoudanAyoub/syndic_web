@@ -29,14 +29,16 @@ export const Categorie = (props: RouteComponentProps<{ url: string }>) => {
   return (
     <div>
       <h2 id="categorie-heading" data-cy="CategorieHeading">
-        Categories
+        <Translate contentKey="syndicWebApp.categorie.home.title">Categories</Translate>
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} /> Refresh List
+            <FontAwesomeIcon icon="sync" spin={loading} />{' '}
+            <Translate contentKey="syndicWebApp.categorie.home.refreshListLabel">Refresh List</Translate>
           </Button>
           <Link to="/categorie/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create new Categorie
+            &nbsp;
+            <Translate contentKey="syndicWebApp.categorie.home.createLabel">Create new Categorie</Translate>
           </Link>
         </div>
       </h2>
@@ -45,10 +47,18 @@ export const Categorie = (props: RouteComponentProps<{ url: string }>) => {
           <Table responsive>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Libelle</th>
-                <th>Depense</th>
-                <th>Revenu</th>
+                <th>
+                  <Translate contentKey="syndicWebApp.categorie.id">ID</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.categorie.libelle">Libelle</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.categorie.depense">Depense</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="syndicWebApp.categorie.revenu">Revenu</Translate>
+                </th>
                 <th />
               </tr>
             </thead>
@@ -66,13 +76,22 @@ export const Categorie = (props: RouteComponentProps<{ url: string }>) => {
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/categorie/${categorie.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
+                        <FontAwesomeIcon icon="eye" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.view">View</Translate>
+                        </span>
                       </Button>
                       <Button tag={Link} to={`/categorie/${categorie.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
-                        <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+                        <FontAwesomeIcon icon="pencil-alt" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.edit">Edit</Translate>
+                        </span>
                       </Button>
                       <Button tag={Link} to={`/categorie/${categorie.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
-                        <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
+                        <FontAwesomeIcon icon="trash" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.delete">Delete</Translate>
+                        </span>
                       </Button>
                     </div>
                   </td>
@@ -81,7 +100,11 @@ export const Categorie = (props: RouteComponentProps<{ url: string }>) => {
             </tbody>
           </Table>
         ) : (
-          !loading && <div className="alert alert-warning">No Categories found</div>
+          !loading && (
+            <div className="alert alert-warning">
+              <Translate contentKey="syndicWebApp.categorie.home.notFound">No Categories found</Translate>
+            </div>
+          )
         )}
       </div>
     </div>
