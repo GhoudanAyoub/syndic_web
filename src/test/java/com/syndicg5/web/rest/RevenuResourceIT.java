@@ -11,7 +11,9 @@ import com.syndicg5.repository.RevenuRepository;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration tests for the {@link RevenuResource} REST controller.
@@ -40,8 +43,14 @@ class RevenuResourceIT {
     private static final String ENTITY_API_URL = "/api/revenus";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
+    private static Random random = new Random();
+    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+
     @Autowired
     private RevenuRepository revenuRepository;
+
+    @Autowired
+    private EntityManager em;
 
     @Autowired
     private MockMvc restRevenuMockMvc;
@@ -54,7 +63,7 @@ class RevenuResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Revenu createEntity() {
+    public static Revenu createEntity(EntityManager em) {
         Revenu revenu = new Revenu().montant(DEFAULT_MONTANT).date(DEFAULT_DATE).description(DEFAULT_DESCRIPTION);
         return revenu;
     }
@@ -65,18 +74,18 @@ class RevenuResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Revenu createUpdatedEntity() {
+    public static Revenu createUpdatedEntity(EntityManager em) {
         Revenu revenu = new Revenu().montant(UPDATED_MONTANT).date(UPDATED_DATE).description(UPDATED_DESCRIPTION);
         return revenu;
     }
 
     @BeforeEach
     public void initTest() {
-        revenuRepository.deleteAll();
-        revenu = createEntity();
+        revenu = createEntity(em);
     }
 
     @Test
+    @Transactional
     void createRevenu() throws Exception {
         int databaseSizeBeforeCreate = revenuRepository.findAll().size();
         // Create the Revenu
@@ -94,9 +103,10 @@ class RevenuResourceIT {
     }
 
     @Test
+    @Transactional
     void createRevenuWithExistingId() throws Exception {
         // Create the Revenu with an existing ID
-        revenu.setId("existing_id");
+        revenu.setId(1L);
 
         int databaseSizeBeforeCreate = revenuRepository.findAll().size();
 
@@ -111,52 +121,58 @@ class RevenuResourceIT {
     }
 
     @Test
+    @Transactional
     void getAllRevenus() throws Exception {
         // Initialize the database
-        revenuRepository.save(revenu);
+        revenuRepository.saveAndFlush(revenu);
 
         // Get all the revenuList
         restRevenuMockMvc
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(revenu.getId())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(revenu.getId().intValue())))
             .andExpect(jsonPath("$.[*].montant").value(hasItem(DEFAULT_MONTANT.doubleValue())))
             .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
     }
 
     @Test
+    @Transactional
     void getRevenu() throws Exception {
         // Initialize the database
-        revenuRepository.save(revenu);
+        revenuRepository.saveAndFlush(revenu);
 
         // Get the revenu
         restRevenuMockMvc
             .perform(get(ENTITY_API_URL_ID, revenu.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(revenu.getId()))
+            .andExpect(jsonPath("$.id").value(revenu.getId().intValue()))
             .andExpect(jsonPath("$.montant").value(DEFAULT_MONTANT.doubleValue()))
             .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
     }
 
     @Test
+    @Transactional
     void getNonExistingRevenu() throws Exception {
         // Get the revenu
         restRevenuMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
+    @Transactional
     void putNewRevenu() throws Exception {
         // Initialize the database
-        revenuRepository.save(revenu);
+        revenuRepository.saveAndFlush(revenu);
 
         int databaseSizeBeforeUpdate = revenuRepository.findAll().size();
 
         // Update the revenu
         Revenu updatedRevenu = revenuRepository.findById(revenu.getId()).get();
+        // Disconnect from session so that the updates on updatedRevenu are not directly saved in db
+        em.detach(updatedRevenu);
         updatedRevenu.montant(UPDATED_MONTANT).date(UPDATED_DATE).description(UPDATED_DESCRIPTION);
 
         restRevenuMockMvc
@@ -177,9 +193,10 @@ class RevenuResourceIT {
     }
 
     @Test
+    @Transactional
     void putNonExistingRevenu() throws Exception {
         int databaseSizeBeforeUpdate = revenuRepository.findAll().size();
-        revenu.setId(UUID.randomUUID().toString());
+        revenu.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restRevenuMockMvc
@@ -196,14 +213,15 @@ class RevenuResourceIT {
     }
 
     @Test
+    @Transactional
     void putWithIdMismatchRevenu() throws Exception {
         int databaseSizeBeforeUpdate = revenuRepository.findAll().size();
-        revenu.setId(UUID.randomUUID().toString());
+        revenu.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restRevenuMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, UUID.randomUUID().toString())
+                put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(revenu))
             )
@@ -215,9 +233,10 @@ class RevenuResourceIT {
     }
 
     @Test
+    @Transactional
     void putWithMissingIdPathParamRevenu() throws Exception {
         int databaseSizeBeforeUpdate = revenuRepository.findAll().size();
-        revenu.setId(UUID.randomUUID().toString());
+        revenu.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restRevenuMockMvc
@@ -230,9 +249,10 @@ class RevenuResourceIT {
     }
 
     @Test
+    @Transactional
     void partialUpdateRevenuWithPatch() throws Exception {
         // Initialize the database
-        revenuRepository.save(revenu);
+        revenuRepository.saveAndFlush(revenu);
 
         int databaseSizeBeforeUpdate = revenuRepository.findAll().size();
 
@@ -260,9 +280,10 @@ class RevenuResourceIT {
     }
 
     @Test
+    @Transactional
     void fullUpdateRevenuWithPatch() throws Exception {
         // Initialize the database
-        revenuRepository.save(revenu);
+        revenuRepository.saveAndFlush(revenu);
 
         int databaseSizeBeforeUpdate = revenuRepository.findAll().size();
 
@@ -290,9 +311,10 @@ class RevenuResourceIT {
     }
 
     @Test
+    @Transactional
     void patchNonExistingRevenu() throws Exception {
         int databaseSizeBeforeUpdate = revenuRepository.findAll().size();
-        revenu.setId(UUID.randomUUID().toString());
+        revenu.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restRevenuMockMvc
@@ -309,14 +331,15 @@ class RevenuResourceIT {
     }
 
     @Test
+    @Transactional
     void patchWithIdMismatchRevenu() throws Exception {
         int databaseSizeBeforeUpdate = revenuRepository.findAll().size();
-        revenu.setId(UUID.randomUUID().toString());
+        revenu.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restRevenuMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, UUID.randomUUID().toString())
+                patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(revenu))
             )
@@ -328,9 +351,10 @@ class RevenuResourceIT {
     }
 
     @Test
+    @Transactional
     void patchWithMissingIdPathParamRevenu() throws Exception {
         int databaseSizeBeforeUpdate = revenuRepository.findAll().size();
-        revenu.setId(UUID.randomUUID().toString());
+        revenu.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restRevenuMockMvc
@@ -343,9 +367,10 @@ class RevenuResourceIT {
     }
 
     @Test
+    @Transactional
     void deleteRevenu() throws Exception {
         // Initialize the database
-        revenuRepository.save(revenu);
+        revenuRepository.saveAndFlush(revenu);
 
         int databaseSizeBeforeDelete = revenuRepository.findAll().size();
 

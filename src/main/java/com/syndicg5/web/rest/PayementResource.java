@@ -56,7 +56,7 @@ public class PayementResource {
         Payement result = payementService.save(payement);
         return ResponseEntity
             .created(new URI("/api/payements/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
@@ -72,7 +72,7 @@ public class PayementResource {
      */
     @PutMapping("/payements/{id}")
     public ResponseEntity<Payement> updatePayement(
-        @PathVariable(value = "id", required = false) final String id,
+        @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Payement payement
     ) throws URISyntaxException {
         log.debug("REST request to update Payement : {}, {}", id, payement);
@@ -90,7 +90,7 @@ public class PayementResource {
         Payement result = payementService.update(payement);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, payement.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, payement.getId().toString()))
             .body(result);
     }
 
@@ -107,7 +107,7 @@ public class PayementResource {
      */
     @PatchMapping(value = "/payements/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Payement> partialUpdatePayement(
-        @PathVariable(value = "id", required = false) final String id,
+        @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Payement payement
     ) throws URISyntaxException {
         log.debug("REST request to partial update Payement partially : {}, {}", id, payement);
@@ -126,7 +126,7 @@ public class PayementResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, payement.getId())
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, payement.getId().toString())
         );
     }
 
@@ -148,7 +148,7 @@ public class PayementResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the payement, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/payements/{id}")
-    public ResponseEntity<Payement> getPayement(@PathVariable String id) {
+    public ResponseEntity<Payement> getPayement(@PathVariable Long id) {
         log.debug("REST request to get Payement : {}", id);
         Optional<Payement> payement = payementService.findOne(id);
         return ResponseUtil.wrapOrNotFound(payement);
@@ -161,9 +161,12 @@ public class PayementResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/payements/{id}")
-    public ResponseEntity<Void> deletePayement(@PathVariable String id) {
+    public ResponseEntity<Void> deletePayement(@PathVariable Long id) {
         log.debug("REST request to delete Payement : {}", id);
         payementService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!--
+        Added the constraints for entity Immeuble.
+    -->
+    <changeSet id="20220428124222-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="syndic_id"
+                                 baseTableName="immeuble"
+                                 constraintName="fk_immeuble__syndic_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="syndic"/>
+    </changeSet>
+</databaseChangeLog>

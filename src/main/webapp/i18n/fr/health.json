@@ -16,7 +16,7 @@
       "livenessState": "Liveness state",
       "readinessState": "Readiness state",
       "ping": "Application",
-      "mongo": "MongoDB"
+      "db": "Base de données"
     },
     "table": {
       "service": "Nom du service",

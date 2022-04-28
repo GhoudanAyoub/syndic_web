@@ -45,12 +45,12 @@ public interface SyndicService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<Syndic> findOne(String id);
+    Optional<Syndic> findOne(Long id);
 
     /**
      * Delete the "id" syndic.
      *
      * @param id the id of the entity.
      */
-    void delete(String id);
+    void delete(Long id);
 }

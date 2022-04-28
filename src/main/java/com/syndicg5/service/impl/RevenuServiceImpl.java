@@ -8,11 +8,13 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Implementation for managing {@link Revenu}.
  */
 @Service
+@Transactional
 public class RevenuServiceImpl implements RevenuService {
 
     private final Logger log = LoggerFactory.getLogger(RevenuServiceImpl.class);
@@ -58,19 +60,21 @@ public class RevenuServiceImpl implements RevenuService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Revenu> findAll() {
         log.debug("Request to get all Revenus");
         return revenuRepository.findAll();
     }
 
     @Override
-    public Optional<Revenu> findOne(String id) {
+    @Transactional(readOnly = true)
+    public Optional<Revenu> findOne(Long id) {
         log.debug("Request to get Revenu : {}", id);
         return revenuRepository.findById(id);
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Long id) {
         log.debug("Request to delete Revenu : {}", id);
         revenuRepository.deleteById(id);
     }

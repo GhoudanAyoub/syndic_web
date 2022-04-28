@@ -8,11 +8,13 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Implementation for managing {@link Categorie}.
  */
 @Service
+@Transactional
 public class CategorieServiceImpl implements CategorieService {
 
     private final Logger log = LoggerFactory.getLogger(CategorieServiceImpl.class);
@@ -52,19 +54,21 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Categorie> findAll() {
         log.debug("Request to get all Categories");
         return categorieRepository.findAll();
     }
 
     @Override
-    public Optional<Categorie> findOne(String id) {
+    @Transactional(readOnly = true)
+    public Optional<Categorie> findOne(Long id) {
         log.debug("Request to get Categorie : {}", id);
         return categorieRepository.findById(id);
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Long id) {
         log.debug("Request to delete Categorie : {}", id);
         categorieRepository.deleteById(id);
     }

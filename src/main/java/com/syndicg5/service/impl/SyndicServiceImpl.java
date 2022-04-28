@@ -8,11 +8,13 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Implementation for managing {@link Syndic}.
  */
 @Service
+@Transactional
 public class SyndicServiceImpl implements SyndicService {
 
     private final Logger log = LoggerFactory.getLogger(SyndicServiceImpl.class);
@@ -42,8 +44,20 @@ public class SyndicServiceImpl implements SyndicService {
         return syndicRepository
             .findById(syndic.getId())
             .map(existingSyndic -> {
-                if (syndic.getSalaire() != null) {
-                    existingSyndic.setSalaire(syndic.getSalaire());
+                if (syndic.getAdresse() != null) {
+                    existingSyndic.setAdresse(syndic.getAdresse());
+                }
+                if (syndic.getTel() != null) {
+                    existingSyndic.setTel(syndic.getTel());
+                }
+                if (syndic.getDateTravail() != null) {
+                    existingSyndic.setDateTravail(syndic.getDateTravail());
+                }
+                if (syndic.getPhoto() != null) {
+                    existingSyndic.setPhoto(syndic.getPhoto());
+                }
+                if (syndic.getPhotoContentType() != null) {
+                    existingSyndic.setPhotoContentType(syndic.getPhotoContentType());
                 }
 
                 return existingSyndic;
@@ -52,19 +66,21 @@ public class SyndicServiceImpl implements SyndicService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Syndic> findAll() {
         log.debug("Request to get all Syndics");
         return syndicRepository.findAll();
     }
 
     @Override
-    public Optional<Syndic> findOne(String id) {
+    @Transactional(readOnly = true)
+    public Optional<Syndic> findOne(Long id) {
         log.debug("Request to get Syndic : {}", id);
         return syndicRepository.findById(id);
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Long id) {
         log.debug("Request to delete Syndic : {}", id);
         syndicRepository.deleteById(id);
     }

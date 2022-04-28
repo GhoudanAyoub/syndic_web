@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!--
+        Added the constraints for entity Categorie.
+    -->
+    <changeSet id="20220428124226-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="depense_id"
+                                 baseTableName="categorie"
+                                 constraintName="fk_categorie__depense_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="depense"/>
+
+        <addForeignKeyConstraint baseColumnNames="revenu_id"
+                                 baseTableName="categorie"
+                                 constraintName="fk_categorie__revenu_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="revenu"/>
+    </changeSet>
+</databaseChangeLog>

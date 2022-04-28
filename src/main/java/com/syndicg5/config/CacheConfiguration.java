@@ -3,8 +3,10 @@ package com.syndicg5.config;
 import java.time.Duration;
 import org.ehcache.config.builders.*;
 import org.ehcache.jsr107.Eh107Configuration;
+import org.hibernate.cache.jcache.ConfigSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.info.GitProperties;
 import org.springframework.cache.annotation.EnableCaching;
@@ -34,10 +36,34 @@ public class CacheConfiguration {
     }
 
     @Bean
+    public HibernatePropertiesCustomizer hibernatePropertiesCustomizer(javax.cache.CacheManager cacheManager) {
+        return hibernateProperties -> hibernateProperties.put(ConfigSettings.CACHE_MANAGER, cacheManager);
+    }
+
+    @Bean
     public JCacheManagerCustomizer cacheManagerCustomizer() {
         return cm -> {
             createCache(cm, com.syndicg5.repository.UserRepository.USERS_BY_LOGIN_CACHE);
             createCache(cm, com.syndicg5.repository.UserRepository.USERS_BY_EMAIL_CACHE);
+            createCache(cm, com.syndicg5.domain.User.class.getName());
+            createCache(cm, com.syndicg5.domain.Authority.class.getName());
+            createCache(cm, com.syndicg5.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.syndicg5.domain.Resident.class.getName());
+            createCache(cm, com.syndicg5.domain.Resident.class.getName() + ".appartements");
+            createCache(cm, com.syndicg5.domain.Syndic.class.getName());
+            createCache(cm, com.syndicg5.domain.Syndic.class.getName() + ".immeubles");
+            createCache(cm, com.syndicg5.domain.Immeuble.class.getName());
+            createCache(cm, com.syndicg5.domain.Immeuble.class.getName() + ".appartements");
+            createCache(cm, com.syndicg5.domain.Immeuble.class.getName() + ".depenses");
+            createCache(cm, com.syndicg5.domain.Immeuble.class.getName() + ".revenus");
+            createCache(cm, com.syndicg5.domain.Appartement.class.getName());
+            createCache(cm, com.syndicg5.domain.Appartement.class.getName() + ".payements");
+            createCache(cm, com.syndicg5.domain.Revenu.class.getName());
+            createCache(cm, com.syndicg5.domain.Revenu.class.getName() + ".categories");
+            createCache(cm, com.syndicg5.domain.Depense.class.getName());
+            createCache(cm, com.syndicg5.domain.Depense.class.getName() + ".categories");
+            createCache(cm, com.syndicg5.domain.Categorie.class.getName());
+            createCache(cm, com.syndicg5.domain.Payement.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -2,74 +2,143 @@ package com.syndicg5.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Syndic.
  */
-@Document(collection = "syndic")
+@Entity
+@Table(name = "syndic")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Syndic implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
+    @Column(name = "id")
+    private Long id;
 
-    @Field("salaire")
-    private Double salaire;
+    @Column(name = "adresse")
+    private String adresse;
 
-    @DBRef
-    @Field("personne")
-    private Personne personne;
+    @Column(name = "tel")
+    private String tel;
 
-    @DBRef
-    @Field("immeuble")
+    @Column(name = "date_travail")
+    private LocalDate dateTravail;
+
+    @Lob
+    @Column(name = "photo")
+    private byte[] photo;
+
+    @Column(name = "photo_content_type")
+    private String photoContentType;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    @MapsId
+    private User user;
+
+    @OneToMany(mappedBy = "syndic")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "appartements", "syndic", "depenses", "revenus" }, allowSetters = true)
     private Set<Immeuble> immeubles = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public Syndic id(String id) {
+    public Syndic id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Double getSalaire() {
-        return this.salaire;
+    public String getAdresse() {
+        return this.adresse;
     }
 
-    public Syndic salaire(Double salaire) {
-        this.setSalaire(salaire);
+    public Syndic adresse(String adresse) {
+        this.setAdresse(adresse);
         return this;
     }
 
-    public void setSalaire(Double salaire) {
-        this.salaire = salaire;
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
     }
 
-    public Personne getPersonne() {
-        return this.personne;
+    public String getTel() {
+        return this.tel;
     }
 
-    public void setPersonne(Personne personne) {
-        this.personne = personne;
+    public Syndic tel(String tel) {
+        this.setTel(tel);
+        return this;
     }
 
-    public Syndic personne(Personne personne) {
-        this.setPersonne(personne);
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public LocalDate getDateTravail() {
+        return this.dateTravail;
+    }
+
+    public Syndic dateTravail(LocalDate dateTravail) {
+        this.setDateTravail(dateTravail);
+        return this;
+    }
+
+    public void setDateTravail(LocalDate dateTravail) {
+        this.dateTravail = dateTravail;
+    }
+
+    public byte[] getPhoto() {
+        return this.photo;
+    }
+
+    public Syndic photo(byte[] photo) {
+        this.setPhoto(photo);
+        return this;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public String getPhotoContentType() {
+        return this.photoContentType;
+    }
+
+    public Syndic photoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+        return this;
+    }
+
+    public void setPhotoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Syndic user(User user) {
+        this.setUser(user);
         return this;
     }
 
@@ -128,7 +197,11 @@ public class Syndic implements Serializable {
     public String toString() {
         return "Syndic{" +
             "id=" + getId() +
-            ", salaire=" + getSalaire() +
+            ", adresse='" + getAdresse() + "'" +
+            ", tel='" + getTel() + "'" +
+            ", dateTravail='" + getDateTravail() + "'" +
+            ", photo='" + getPhoto() + "'" +
+            ", photoContentType='" + getPhotoContentType() + "'" +
             "}";
     }
 }

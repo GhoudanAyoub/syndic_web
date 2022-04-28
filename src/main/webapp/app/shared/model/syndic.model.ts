@@ -1,11 +1,26 @@
-import { IPersonne } from 'app/shared/model/personne.model';
-import { IImmeuble } from 'app/shared/model/immeuble.model';
+import { IUser } from '@/shared/model/user.model';
+import { IImmeuble } from '@/shared/model/immeuble.model';
 
 export interface ISyndic {
-  id?: string;
-  salaire?: number | null;
-  personne?: IPersonne | null;
+  id?: number;
+  adresse?: string | null;
+  tel?: string | null;
+  dateTravail?: Date | null;
+  photoContentType?: string | null;
+  photo?: string | null;
+  user?: IUser | null;
   immeubles?: IImmeuble[] | null;
 }
 
-export const defaultValue: Readonly<ISyndic> = {};
+export class Syndic implements ISyndic {
+  constructor(
+    public id?: number,
+    public adresse?: string | null,
+    public tel?: string | null,
+    public dateTravail?: Date | null,
+    public photoContentType?: string | null,
+    public photo?: string | null,
+    public user?: IUser | null,
+    public immeubles?: IImmeuble[] | null
+  ) {}
+}

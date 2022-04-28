@@ -4,69 +4,78 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Immeuble.
  */
-@Document(collection = "immeuble")
+@Entity
+@Table(name = "immeuble")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Immeuble implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    @Field("libelle")
+    @Column(name = "libelle")
     private String libelle;
 
-    @Field("adresse")
+    @Column(name = "adresse")
     private String adresse;
 
-    @Field("ville")
+    @Column(name = "ville")
     private String ville;
 
-    @Field("numero")
+    @Column(name = "numero")
     private Integer numero;
 
-    @Field("nb_etages")
+    @Column(name = "nb_etages")
     private Integer nbEtages;
 
-    @DBRef
-    @Field("appartement")
+    @Lob
+    @Column(name = "photo")
+    private byte[] photo;
+
+    @Column(name = "photo_content_type")
+    private String photoContentType;
+
+    @OneToMany(mappedBy = "immeuble")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "payements", "resident", "immeuble" }, allowSetters = true)
     private Set<Appartement> appartements = new HashSet<>();
 
-    @DBRef
-    @Field("syndic")
-    @JsonIgnoreProperties(value = { "personne", "immeubles" }, allowSetters = true)
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "user", "immeubles" }, allowSetters = true)
     private Syndic syndic;
 
-    @DBRef
-    @Field("depense")
+    @OneToMany(mappedBy = "immeuble")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "categories", "immeuble" }, allowSetters = true)
     private Set<Depense> depenses = new HashSet<>();
 
-    @DBRef
-    @Field("revenu")
+    @OneToMany(mappedBy = "immeuble")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "categories", "immeuble" }, allowSetters = true)
     private Set<Revenu> revenus = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public Immeuble id(String id) {
+    public Immeuble id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -133,6 +142,32 @@ public class Immeuble implements Serializable {
 
     public void setNbEtages(Integer nbEtages) {
         this.nbEtages = nbEtages;
+    }
+
+    public byte[] getPhoto() {
+        return this.photo;
+    }
+
+    public Immeuble photo(byte[] photo) {
+        this.setPhoto(photo);
+        return this;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public String getPhotoContentType() {
+        return this.photoContentType;
+    }
+
+    public Immeuble photoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+        return this;
+    }
+
+    public void setPhotoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
     }
 
     public Set<Appartement> getAppartements() {
@@ -270,6 +305,8 @@ public class Immeuble implements Serializable {
             ", ville='" + getVille() + "'" +
             ", numero=" + getNumero() +
             ", nbEtages=" + getNbEtages() +
+            ", photo='" + getPhoto() + "'" +
+            ", photoContentType='" + getPhotoContentType() + "'" +
             "}";
     }
 }

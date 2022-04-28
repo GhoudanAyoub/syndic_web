@@ -8,11 +8,13 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Implementation for managing {@link Appartement}.
  */
 @Service
+@Transactional
 public class AppartementServiceImpl implements AppartementService {
 
     private final Logger log = LoggerFactory.getLogger(AppartementServiceImpl.class);
@@ -58,19 +60,21 @@ public class AppartementServiceImpl implements AppartementService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Appartement> findAll() {
         log.debug("Request to get all Appartements");
         return appartementRepository.findAll();
     }
 
     @Override
-    public Optional<Appartement> findOne(String id) {
+    @Transactional(readOnly = true)
+    public Optional<Appartement> findOne(Long id) {
         log.debug("Request to get Appartement : {}", id);
         return appartementRepository.findById(id);
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Long id) {
         log.debug("Request to delete Appartement : {}", id);
         appartementRepository.deleteById(id);
     }

@@ -8,8 +8,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.syndicg5.IntegrationTest;
 import com.syndicg5.domain.Syndic;
 import com.syndicg5.repository.SyndicRepository;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 /**
  * Integration tests for the {@link SyndicResource} REST controller.
@@ -26,14 +32,31 @@ import org.springframework.test.web.servlet.MockMvc;
 @WithMockUser
 class SyndicResourceIT {
 
-    private static final Double DEFAULT_SALAIRE = 1D;
-    private static final Double UPDATED_SALAIRE = 2D;
+    private static final String DEFAULT_ADRESSE = "AAAAAAAAAA";
+    private static final String UPDATED_ADRESSE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_TEL = "AAAAAAAAAA";
+    private static final String UPDATED_TEL = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_DATE_TRAVAIL = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_DATE_TRAVAIL = LocalDate.now(ZoneId.systemDefault());
+
+    private static final byte[] DEFAULT_PHOTO = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_PHOTO = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_PHOTO_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_PHOTO_CONTENT_TYPE = "image/png";
 
     private static final String ENTITY_API_URL = "/api/syndics";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
+    private static Random random = new Random();
+    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+
     @Autowired
     private SyndicRepository syndicRepository;
+
+    @Autowired
+    private EntityManager em;
 
     @Autowired
     private MockMvc restSyndicMockMvc;
@@ -46,8 +69,13 @@ class SyndicResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Syndic createEntity() {
-        Syndic syndic = new Syndic().salaire(DEFAULT_SALAIRE);
+    public static Syndic createEntity(EntityManager em) {
+        Syndic syndic = new Syndic()
+            .adresse(DEFAULT_ADRESSE)
+            .tel(DEFAULT_TEL)
+            .dateTravail(DEFAULT_DATE_TRAVAIL)
+            .photo(DEFAULT_PHOTO)
+            .photoContentType(DEFAULT_PHOTO_CONTENT_TYPE);
         return syndic;
     }
 
@@ -57,18 +85,23 @@ class SyndicResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Syndic createUpdatedEntity() {
-        Syndic syndic = new Syndic().salaire(UPDATED_SALAIRE);
+    public static Syndic createUpdatedEntity(EntityManager em) {
+        Syndic syndic = new Syndic()
+            .adresse(UPDATED_ADRESSE)
+            .tel(UPDATED_TEL)
+            .dateTravail(UPDATED_DATE_TRAVAIL)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
         return syndic;
     }
 
     @BeforeEach
     public void initTest() {
-        syndicRepository.deleteAll();
-        syndic = createEntity();
+        syndic = createEntity(em);
     }
 
     @Test
+    @Transactional
     void createSyndic() throws Exception {
         int databaseSizeBeforeCreate = syndicRepository.findAll().size();
         // Create the Syndic
@@ -80,13 +113,18 @@ class SyndicResourceIT {
         List<Syndic> syndicList = syndicRepository.findAll();
         assertThat(syndicList).hasSize(databaseSizeBeforeCreate + 1);
         Syndic testSyndic = syndicList.get(syndicList.size() - 1);
-        assertThat(testSyndic.getSalaire()).isEqualTo(DEFAULT_SALAIRE);
+        assertThat(testSyndic.getAdresse()).isEqualTo(DEFAULT_ADRESSE);
+        assertThat(testSyndic.getTel()).isEqualTo(DEFAULT_TEL);
+        assertThat(testSyndic.getDateTravail()).isEqualTo(DEFAULT_DATE_TRAVAIL);
+        assertThat(testSyndic.getPhoto()).isEqualTo(DEFAULT_PHOTO);
+        assertThat(testSyndic.getPhotoContentType()).isEqualTo(DEFAULT_PHOTO_CONTENT_TYPE);
     }
 
     @Test
+    @Transactional
     void createSyndicWithExistingId() throws Exception {
         // Create the Syndic with an existing ID
-        syndic.setId("existing_id");
+        syndic.setId(1L);
 
         int databaseSizeBeforeCreate = syndicRepository.findAll().size();
 
@@ -101,49 +139,68 @@ class SyndicResourceIT {
     }
 
     @Test
+    @Transactional
     void getAllSyndics() throws Exception {
         // Initialize the database
-        syndicRepository.save(syndic);
+        syndicRepository.saveAndFlush(syndic);
 
         // Get all the syndicList
         restSyndicMockMvc
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(syndic.getId())))
-            .andExpect(jsonPath("$.[*].salaire").value(hasItem(DEFAULT_SALAIRE.doubleValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(syndic.getId().intValue())))
+            .andExpect(jsonPath("$.[*].adresse").value(hasItem(DEFAULT_ADRESSE)))
+            .andExpect(jsonPath("$.[*].tel").value(hasItem(DEFAULT_TEL)))
+            .andExpect(jsonPath("$.[*].dateTravail").value(hasItem(DEFAULT_DATE_TRAVAIL.toString())))
+            .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))));
     }
 
     @Test
+    @Transactional
     void getSyndic() throws Exception {
         // Initialize the database
-        syndicRepository.save(syndic);
+        syndicRepository.saveAndFlush(syndic);
 
         // Get the syndic
         restSyndicMockMvc
             .perform(get(ENTITY_API_URL_ID, syndic.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(syndic.getId()))
-            .andExpect(jsonPath("$.salaire").value(DEFAULT_SALAIRE.doubleValue()));
+            .andExpect(jsonPath("$.id").value(syndic.getId().intValue()))
+            .andExpect(jsonPath("$.adresse").value(DEFAULT_ADRESSE))
+            .andExpect(jsonPath("$.tel").value(DEFAULT_TEL))
+            .andExpect(jsonPath("$.dateTravail").value(DEFAULT_DATE_TRAVAIL.toString()))
+            .andExpect(jsonPath("$.photoContentType").value(DEFAULT_PHOTO_CONTENT_TYPE))
+            .andExpect(jsonPath("$.photo").value(Base64Utils.encodeToString(DEFAULT_PHOTO)));
     }
 
     @Test
+    @Transactional
     void getNonExistingSyndic() throws Exception {
         // Get the syndic
         restSyndicMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
+    @Transactional
     void putNewSyndic() throws Exception {
         // Initialize the database
-        syndicRepository.save(syndic);
+        syndicRepository.saveAndFlush(syndic);
 
         int databaseSizeBeforeUpdate = syndicRepository.findAll().size();
 
         // Update the syndic
         Syndic updatedSyndic = syndicRepository.findById(syndic.getId()).get();
-        updatedSyndic.salaire(UPDATED_SALAIRE);
+        // Disconnect from session so that the updates on updatedSyndic are not directly saved in db
+        em.detach(updatedSyndic);
+        updatedSyndic
+            .adresse(UPDATED_ADRESSE)
+            .tel(UPDATED_TEL)
+            .dateTravail(UPDATED_DATE_TRAVAIL)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
 
         restSyndicMockMvc
             .perform(
@@ -157,13 +214,18 @@ class SyndicResourceIT {
         List<Syndic> syndicList = syndicRepository.findAll();
         assertThat(syndicList).hasSize(databaseSizeBeforeUpdate);
         Syndic testSyndic = syndicList.get(syndicList.size() - 1);
-        assertThat(testSyndic.getSalaire()).isEqualTo(UPDATED_SALAIRE);
+        assertThat(testSyndic.getAdresse()).isEqualTo(UPDATED_ADRESSE);
+        assertThat(testSyndic.getTel()).isEqualTo(UPDATED_TEL);
+        assertThat(testSyndic.getDateTravail()).isEqualTo(UPDATED_DATE_TRAVAIL);
+        assertThat(testSyndic.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testSyndic.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
     }
 
     @Test
+    @Transactional
     void putNonExistingSyndic() throws Exception {
         int databaseSizeBeforeUpdate = syndicRepository.findAll().size();
-        syndic.setId(UUID.randomUUID().toString());
+        syndic.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restSyndicMockMvc
@@ -180,14 +242,15 @@ class SyndicResourceIT {
     }
 
     @Test
+    @Transactional
     void putWithIdMismatchSyndic() throws Exception {
         int databaseSizeBeforeUpdate = syndicRepository.findAll().size();
-        syndic.setId(UUID.randomUUID().toString());
+        syndic.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSyndicMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, UUID.randomUUID().toString())
+                put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(syndic))
             )
@@ -199,9 +262,10 @@ class SyndicResourceIT {
     }
 
     @Test
+    @Transactional
     void putWithMissingIdPathParamSyndic() throws Exception {
         int databaseSizeBeforeUpdate = syndicRepository.findAll().size();
-        syndic.setId(UUID.randomUUID().toString());
+        syndic.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSyndicMockMvc
@@ -214,15 +278,22 @@ class SyndicResourceIT {
     }
 
     @Test
+    @Transactional
     void partialUpdateSyndicWithPatch() throws Exception {
         // Initialize the database
-        syndicRepository.save(syndic);
+        syndicRepository.saveAndFlush(syndic);
 
         int databaseSizeBeforeUpdate = syndicRepository.findAll().size();
 
         // Update the syndic using partial update
         Syndic partialUpdatedSyndic = new Syndic();
         partialUpdatedSyndic.setId(syndic.getId());
+
+        partialUpdatedSyndic
+            .tel(UPDATED_TEL)
+            .dateTravail(UPDATED_DATE_TRAVAIL)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
 
         restSyndicMockMvc
             .perform(
@@ -236,13 +307,18 @@ class SyndicResourceIT {
         List<Syndic> syndicList = syndicRepository.findAll();
         assertThat(syndicList).hasSize(databaseSizeBeforeUpdate);
         Syndic testSyndic = syndicList.get(syndicList.size() - 1);
-        assertThat(testSyndic.getSalaire()).isEqualTo(DEFAULT_SALAIRE);
+        assertThat(testSyndic.getAdresse()).isEqualTo(DEFAULT_ADRESSE);
+        assertThat(testSyndic.getTel()).isEqualTo(UPDATED_TEL);
+        assertThat(testSyndic.getDateTravail()).isEqualTo(UPDATED_DATE_TRAVAIL);
+        assertThat(testSyndic.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testSyndic.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
     }
 
     @Test
+    @Transactional
     void fullUpdateSyndicWithPatch() throws Exception {
         // Initialize the database
-        syndicRepository.save(syndic);
+        syndicRepository.saveAndFlush(syndic);
 
         int databaseSizeBeforeUpdate = syndicRepository.findAll().size();
 
@@ -250,7 +326,12 @@ class SyndicResourceIT {
         Syndic partialUpdatedSyndic = new Syndic();
         partialUpdatedSyndic.setId(syndic.getId());
 
-        partialUpdatedSyndic.salaire(UPDATED_SALAIRE);
+        partialUpdatedSyndic
+            .adresse(UPDATED_ADRESSE)
+            .tel(UPDATED_TEL)
+            .dateTravail(UPDATED_DATE_TRAVAIL)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
 
         restSyndicMockMvc
             .perform(
@@ -264,13 +345,18 @@ class SyndicResourceIT {
         List<Syndic> syndicList = syndicRepository.findAll();
         assertThat(syndicList).hasSize(databaseSizeBeforeUpdate);
         Syndic testSyndic = syndicList.get(syndicList.size() - 1);
-        assertThat(testSyndic.getSalaire()).isEqualTo(UPDATED_SALAIRE);
+        assertThat(testSyndic.getAdresse()).isEqualTo(UPDATED_ADRESSE);
+        assertThat(testSyndic.getTel()).isEqualTo(UPDATED_TEL);
+        assertThat(testSyndic.getDateTravail()).isEqualTo(UPDATED_DATE_TRAVAIL);
+        assertThat(testSyndic.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testSyndic.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
     }
 
     @Test
+    @Transactional
     void patchNonExistingSyndic() throws Exception {
         int databaseSizeBeforeUpdate = syndicRepository.findAll().size();
-        syndic.setId(UUID.randomUUID().toString());
+        syndic.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restSyndicMockMvc
@@ -287,14 +373,15 @@ class SyndicResourceIT {
     }
 
     @Test
+    @Transactional
     void patchWithIdMismatchSyndic() throws Exception {
         int databaseSizeBeforeUpdate = syndicRepository.findAll().size();
-        syndic.setId(UUID.randomUUID().toString());
+        syndic.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSyndicMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, UUID.randomUUID().toString())
+                patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(syndic))
             )
@@ -306,9 +393,10 @@ class SyndicResourceIT {
     }
 
     @Test
+    @Transactional
     void patchWithMissingIdPathParamSyndic() throws Exception {
         int databaseSizeBeforeUpdate = syndicRepository.findAll().size();
-        syndic.setId(UUID.randomUUID().toString());
+        syndic.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSyndicMockMvc
@@ -321,9 +409,10 @@ class SyndicResourceIT {
     }
 
     @Test
+    @Transactional
     void deleteSyndic() throws Exception {
         // Initialize the database
-        syndicRepository.save(syndic);
+        syndicRepository.saveAndFlush(syndic);
 
         int databaseSizeBeforeDelete = syndicRepository.findAll().size();
 

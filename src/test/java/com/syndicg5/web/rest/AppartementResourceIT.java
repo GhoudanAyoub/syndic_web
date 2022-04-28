@@ -9,7 +9,9 @@ import com.syndicg5.IntegrationTest;
 import com.syndicg5.domain.Appartement;
 import com.syndicg5.repository.AppartementRepository;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration tests for the {@link AppartementResource} REST controller.
@@ -38,8 +41,14 @@ class AppartementResourceIT {
     private static final String ENTITY_API_URL = "/api/appartements";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
+    private static Random random = new Random();
+    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+
     @Autowired
     private AppartementRepository appartementRepository;
+
+    @Autowired
+    private EntityManager em;
 
     @Autowired
     private MockMvc restAppartementMockMvc;
@@ -52,7 +61,7 @@ class AppartementResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Appartement createEntity() {
+    public static Appartement createEntity(EntityManager em) {
         Appartement appartement = new Appartement().numero(DEFAULT_NUMERO).etage(DEFAULT_ETAGE).surface(DEFAULT_SURFACE);
         return appartement;
     }
@@ -63,18 +72,18 @@ class AppartementResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Appartement createUpdatedEntity() {
+    public static Appartement createUpdatedEntity(EntityManager em) {
         Appartement appartement = new Appartement().numero(UPDATED_NUMERO).etage(UPDATED_ETAGE).surface(UPDATED_SURFACE);
         return appartement;
     }
 
     @BeforeEach
     public void initTest() {
-        appartementRepository.deleteAll();
-        appartement = createEntity();
+        appartement = createEntity(em);
     }
 
     @Test
+    @Transactional
     void createAppartement() throws Exception {
         int databaseSizeBeforeCreate = appartementRepository.findAll().size();
         // Create the Appartement
@@ -92,9 +101,10 @@ class AppartementResourceIT {
     }
 
     @Test
+    @Transactional
     void createAppartementWithExistingId() throws Exception {
         // Create the Appartement with an existing ID
-        appartement.setId("existing_id");
+        appartement.setId(1L);
 
         int databaseSizeBeforeCreate = appartementRepository.findAll().size();
 
@@ -109,52 +119,58 @@ class AppartementResourceIT {
     }
 
     @Test
+    @Transactional
     void getAllAppartements() throws Exception {
         // Initialize the database
-        appartementRepository.save(appartement);
+        appartementRepository.saveAndFlush(appartement);
 
         // Get all the appartementList
         restAppartementMockMvc
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(appartement.getId())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(appartement.getId().intValue())))
             .andExpect(jsonPath("$.[*].numero").value(hasItem(DEFAULT_NUMERO)))
             .andExpect(jsonPath("$.[*].etage").value(hasItem(DEFAULT_ETAGE)))
             .andExpect(jsonPath("$.[*].surface").value(hasItem(DEFAULT_SURFACE.doubleValue())));
     }
 
     @Test
+    @Transactional
     void getAppartement() throws Exception {
         // Initialize the database
-        appartementRepository.save(appartement);
+        appartementRepository.saveAndFlush(appartement);
 
         // Get the appartement
         restAppartementMockMvc
             .perform(get(ENTITY_API_URL_ID, appartement.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(appartement.getId()))
+            .andExpect(jsonPath("$.id").value(appartement.getId().intValue()))
             .andExpect(jsonPath("$.numero").value(DEFAULT_NUMERO))
             .andExpect(jsonPath("$.etage").value(DEFAULT_ETAGE))
             .andExpect(jsonPath("$.surface").value(DEFAULT_SURFACE.doubleValue()));
     }
 
     @Test
+    @Transactional
     void getNonExistingAppartement() throws Exception {
         // Get the appartement
         restAppartementMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
+    @Transactional
     void putNewAppartement() throws Exception {
         // Initialize the database
-        appartementRepository.save(appartement);
+        appartementRepository.saveAndFlush(appartement);
 
         int databaseSizeBeforeUpdate = appartementRepository.findAll().size();
 
         // Update the appartement
         Appartement updatedAppartement = appartementRepository.findById(appartement.getId()).get();
+        // Disconnect from session so that the updates on updatedAppartement are not directly saved in db
+        em.detach(updatedAppartement);
         updatedAppartement.numero(UPDATED_NUMERO).etage(UPDATED_ETAGE).surface(UPDATED_SURFACE);
 
         restAppartementMockMvc
@@ -175,9 +191,10 @@ class AppartementResourceIT {
     }
 
     @Test
+    @Transactional
     void putNonExistingAppartement() throws Exception {
         int databaseSizeBeforeUpdate = appartementRepository.findAll().size();
-        appartement.setId(UUID.randomUUID().toString());
+        appartement.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restAppartementMockMvc
@@ -194,14 +211,15 @@ class AppartementResourceIT {
     }
 
     @Test
+    @Transactional
     void putWithIdMismatchAppartement() throws Exception {
         int databaseSizeBeforeUpdate = appartementRepository.findAll().size();
-        appartement.setId(UUID.randomUUID().toString());
+        appartement.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restAppartementMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, UUID.randomUUID().toString())
+                put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(appartement))
             )
@@ -213,9 +231,10 @@ class AppartementResourceIT {
     }
 
     @Test
+    @Transactional
     void putWithMissingIdPathParamAppartement() throws Exception {
         int databaseSizeBeforeUpdate = appartementRepository.findAll().size();
-        appartement.setId(UUID.randomUUID().toString());
+        appartement.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restAppartementMockMvc
@@ -228,9 +247,10 @@ class AppartementResourceIT {
     }
 
     @Test
+    @Transactional
     void partialUpdateAppartementWithPatch() throws Exception {
         // Initialize the database
-        appartementRepository.save(appartement);
+        appartementRepository.saveAndFlush(appartement);
 
         int databaseSizeBeforeUpdate = appartementRepository.findAll().size();
 
@@ -258,9 +278,10 @@ class AppartementResourceIT {
     }
 
     @Test
+    @Transactional
     void fullUpdateAppartementWithPatch() throws Exception {
         // Initialize the database
-        appartementRepository.save(appartement);
+        appartementRepository.saveAndFlush(appartement);
 
         int databaseSizeBeforeUpdate = appartementRepository.findAll().size();
 
@@ -288,9 +309,10 @@ class AppartementResourceIT {
     }
 
     @Test
+    @Transactional
     void patchNonExistingAppartement() throws Exception {
         int databaseSizeBeforeUpdate = appartementRepository.findAll().size();
-        appartement.setId(UUID.randomUUID().toString());
+        appartement.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restAppartementMockMvc
@@ -307,14 +329,15 @@ class AppartementResourceIT {
     }
 
     @Test
+    @Transactional
     void patchWithIdMismatchAppartement() throws Exception {
         int databaseSizeBeforeUpdate = appartementRepository.findAll().size();
-        appartement.setId(UUID.randomUUID().toString());
+        appartement.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restAppartementMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, UUID.randomUUID().toString())
+                patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(appartement))
             )
@@ -326,9 +349,10 @@ class AppartementResourceIT {
     }
 
     @Test
+    @Transactional
     void patchWithMissingIdPathParamAppartement() throws Exception {
         int databaseSizeBeforeUpdate = appartementRepository.findAll().size();
-        appartement.setId(UUID.randomUUID().toString());
+        appartement.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restAppartementMockMvc
@@ -343,9 +367,10 @@ class AppartementResourceIT {
     }
 
     @Test
+    @Transactional
     void deleteAppartement() throws Exception {
         // Initialize the database
-        appartementRepository.save(appartement);
+        appartementRepository.saveAndFlush(appartement);
 
         int databaseSizeBeforeDelete = appartementRepository.findAll().size();
 

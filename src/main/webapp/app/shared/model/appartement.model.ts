@@ -1,9 +1,9 @@
-import { IPayement } from 'app/shared/model/payement.model';
-import { IResident } from 'app/shared/model/resident.model';
-import { IImmeuble } from 'app/shared/model/immeuble.model';
+import { IPayement } from '@/shared/model/payement.model';
+import { IResident } from '@/shared/model/resident.model';
+import { IImmeuble } from '@/shared/model/immeuble.model';
 
 export interface IAppartement {
-  id?: string;
+  id?: number;
   numero?: number | null;
   etage?: number | null;
   surface?: number | null;
@@ -12,4 +12,14 @@ export interface IAppartement {
   immeuble?: IImmeuble | null;
 }
 
-export const defaultValue: Readonly<IAppartement> = {};
+export class Appartement implements IAppartement {
+  constructor(
+    public id?: number,
+    public numero?: number | null,
+    public etage?: number | null,
+    public surface?: number | null,
+    public payements?: IPayement[] | null,
+    public resident?: IResident | null,
+    public immeuble?: IImmeuble | null
+  ) {}
+}

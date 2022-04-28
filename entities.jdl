@@ -5,29 +5,29 @@ application {
     applicationType monolith
     packageName com.syndicg5
     authenticationType jwt
-    databaseType mongodb
-    clientFramework react
+    databaseType sql
+    prodDatabaseType mysql
+    devDatabaseType mysql
+    clientFramework vue
   }
   entities *
 }
 
-entity Personne {
-	nom String,
-    prenom String,
-    email String,
+
+entity Resident {
+	email String,
     motPasse String,
-    adresse String,
-    ville String,
-    photo String,
+    nom String,
+    prenom String,
+	adresse String,
     tel String
 }
 
-entity Resident {
-	etatFamiliale String
-}
-
 entity Syndic {
-    salaire Double
+	adresse String,
+    tel String,
+    dateTravail LocalDate,
+	photo ImageBlob
 }
 
 entity Immeuble {
@@ -35,7 +35,8 @@ entity Immeuble {
     adresse String,
     ville String,
     numero Integer,
-    nbEtages Integer
+    nbEtages Integer,
+    photo ImageBlob
 }
 
 entity Appartement {
@@ -82,9 +83,7 @@ relationship OneToMany {
 }
 
 relationship OneToOne {
-	Personne{internalUser} to User
-	Resident{personne} to Personne
-    Syndic{personne} to Personne
+    Syndic{user} to User
 }
 
 service * with serviceImpl

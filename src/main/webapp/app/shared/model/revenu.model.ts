@@ -1,14 +1,22 @@
-import dayjs from 'dayjs';
-import { ICategorie } from 'app/shared/model/categorie.model';
-import { IImmeuble } from 'app/shared/model/immeuble.model';
+import { ICategorie } from '@/shared/model/categorie.model';
+import { IImmeuble } from '@/shared/model/immeuble.model';
 
 export interface IRevenu {
-  id?: string;
+  id?: number;
   montant?: number | null;
-  date?: string | null;
+  date?: Date | null;
   description?: string | null;
   categories?: ICategorie[] | null;
   immeuble?: IImmeuble | null;
 }
 
-export const defaultValue: Readonly<IRevenu> = {};
+export class Revenu implements IRevenu {
+  constructor(
+    public id?: number,
+    public montant?: number | null,
+    public date?: Date | null,
+    public description?: string | null,
+    public categories?: ICategorie[] | null,
+    public immeuble?: IImmeuble | null
+  ) {}
+}

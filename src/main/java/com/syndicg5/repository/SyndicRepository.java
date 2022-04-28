@@ -1,13 +1,12 @@
 package com.syndicg5.repository;
 
 import com.syndicg5.domain.Syndic;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 /**
- * Spring Data MongoDB repository for the Syndic entity.
+ * Spring Data SQL repository for the Syndic entity.
  */
 @SuppressWarnings("unused")
 @Repository
-public interface SyndicRepository extends MongoRepository<Syndic, String> {}
+public interface SyndicRepository extends JpaRepository<Syndic, Long> {}

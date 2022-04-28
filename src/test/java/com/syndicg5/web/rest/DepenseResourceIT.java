@@ -11,7 +11,9 @@ import com.syndicg5.repository.DepenseRepository;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration tests for the {@link DepenseResource} REST controller.
@@ -40,8 +43,14 @@ class DepenseResourceIT {
     private static final String ENTITY_API_URL = "/api/depenses";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
+    private static Random random = new Random();
+    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+
     @Autowired
     private DepenseRepository depenseRepository;
+
+    @Autowired
+    private EntityManager em;
 
     @Autowired
     private MockMvc restDepenseMockMvc;
@@ -54,7 +63,7 @@ class DepenseResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Depense createEntity() {
+    public static Depense createEntity(EntityManager em) {
         Depense depense = new Depense().montant(DEFAULT_MONTANT).date(DEFAULT_DATE).description(DEFAULT_DESCRIPTION);
         return depense;
     }
@@ -65,18 +74,18 @@ class DepenseResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Depense createUpdatedEntity() {
+    public static Depense createUpdatedEntity(EntityManager em) {
         Depense depense = new Depense().montant(UPDATED_MONTANT).date(UPDATED_DATE).description(UPDATED_DESCRIPTION);
         return depense;
     }
 
     @BeforeEach
     public void initTest() {
-        depenseRepository.deleteAll();
-        depense = createEntity();
+        depense = createEntity(em);
     }
 
     @Test
+    @Transactional
     void createDepense() throws Exception {
         int databaseSizeBeforeCreate = depenseRepository.findAll().size();
         // Create the Depense
@@ -94,9 +103,10 @@ class DepenseResourceIT {
     }
 
     @Test
+    @Transactional
     void createDepenseWithExistingId() throws Exception {
         // Create the Depense with an existing ID
-        depense.setId("existing_id");
+        depense.setId(1L);
 
         int databaseSizeBeforeCreate = depenseRepository.findAll().size();
 
@@ -111,52 +121,58 @@ class DepenseResourceIT {
     }
 
     @Test
+    @Transactional
     void getAllDepenses() throws Exception {
         // Initialize the database
-        depenseRepository.save(depense);
+        depenseRepository.saveAndFlush(depense);
 
         // Get all the depenseList
         restDepenseMockMvc
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(depense.getId())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(depense.getId().intValue())))
             .andExpect(jsonPath("$.[*].montant").value(hasItem(DEFAULT_MONTANT.doubleValue())))
             .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
     }
 
     @Test
+    @Transactional
     void getDepense() throws Exception {
         // Initialize the database
-        depenseRepository.save(depense);
+        depenseRepository.saveAndFlush(depense);
 
         // Get the depense
         restDepenseMockMvc
             .perform(get(ENTITY_API_URL_ID, depense.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(depense.getId()))
+            .andExpect(jsonPath("$.id").value(depense.getId().intValue()))
             .andExpect(jsonPath("$.montant").value(DEFAULT_MONTANT.doubleValue()))
             .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
     }
 
     @Test
+    @Transactional
     void getNonExistingDepense() throws Exception {
         // Get the depense
         restDepenseMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
+    @Transactional
     void putNewDepense() throws Exception {
         // Initialize the database
-        depenseRepository.save(depense);
+        depenseRepository.saveAndFlush(depense);
 
         int databaseSizeBeforeUpdate = depenseRepository.findAll().size();
 
         // Update the depense
         Depense updatedDepense = depenseRepository.findById(depense.getId()).get();
+        // Disconnect from session so that the updates on updatedDepense are not directly saved in db
+        em.detach(updatedDepense);
         updatedDepense.montant(UPDATED_MONTANT).date(UPDATED_DATE).description(UPDATED_DESCRIPTION);
 
         restDepenseMockMvc
@@ -177,9 +193,10 @@ class DepenseResourceIT {
     }
 
     @Test
+    @Transactional
     void putNonExistingDepense() throws Exception {
         int databaseSizeBeforeUpdate = depenseRepository.findAll().size();
-        depense.setId(UUID.randomUUID().toString());
+        depense.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restDepenseMockMvc
@@ -196,14 +213,15 @@ class DepenseResourceIT {
     }
 
     @Test
+    @Transactional
     void putWithIdMismatchDepense() throws Exception {
         int databaseSizeBeforeUpdate = depenseRepository.findAll().size();
-        depense.setId(UUID.randomUUID().toString());
+        depense.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restDepenseMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, UUID.randomUUID().toString())
+                put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(depense))
             )
@@ -215,9 +233,10 @@ class DepenseResourceIT {
     }
 
     @Test
+    @Transactional
     void putWithMissingIdPathParamDepense() throws Exception {
         int databaseSizeBeforeUpdate = depenseRepository.findAll().size();
-        depense.setId(UUID.randomUUID().toString());
+        depense.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restDepenseMockMvc
@@ -230,9 +249,10 @@ class DepenseResourceIT {
     }
 
     @Test
+    @Transactional
     void partialUpdateDepenseWithPatch() throws Exception {
         // Initialize the database
-        depenseRepository.save(depense);
+        depenseRepository.saveAndFlush(depense);
 
         int databaseSizeBeforeUpdate = depenseRepository.findAll().size();
 
@@ -260,9 +280,10 @@ class DepenseResourceIT {
     }
 
     @Test
+    @Transactional
     void fullUpdateDepenseWithPatch() throws Exception {
         // Initialize the database
-        depenseRepository.save(depense);
+        depenseRepository.saveAndFlush(depense);
 
         int databaseSizeBeforeUpdate = depenseRepository.findAll().size();
 
@@ -290,9 +311,10 @@ class DepenseResourceIT {
     }
 
     @Test
+    @Transactional
     void patchNonExistingDepense() throws Exception {
         int databaseSizeBeforeUpdate = depenseRepository.findAll().size();
-        depense.setId(UUID.randomUUID().toString());
+        depense.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restDepenseMockMvc
@@ -309,14 +331,15 @@ class DepenseResourceIT {
     }
 
     @Test
+    @Transactional
     void patchWithIdMismatchDepense() throws Exception {
         int databaseSizeBeforeUpdate = depenseRepository.findAll().size();
-        depense.setId(UUID.randomUUID().toString());
+        depense.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restDepenseMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, UUID.randomUUID().toString())
+                patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(depense))
             )
@@ -328,9 +351,10 @@ class DepenseResourceIT {
     }
 
     @Test
+    @Transactional
     void patchWithMissingIdPathParamDepense() throws Exception {
         int databaseSizeBeforeUpdate = depenseRepository.findAll().size();
-        depense.setId(UUID.randomUUID().toString());
+        depense.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restDepenseMockMvc
@@ -343,9 +367,10 @@ class DepenseResourceIT {
     }
 
     @Test
+    @Transactional
     void deleteDepense() throws Exception {
         // Initialize the database
-        depenseRepository.save(depense);
+        depenseRepository.saveAndFlush(depense);
 
         int databaseSizeBeforeDelete = depenseRepository.findAll().size();
 

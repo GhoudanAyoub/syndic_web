@@ -56,7 +56,7 @@ public class AppartementResource {
         Appartement result = appartementService.save(appartement);
         return ResponseEntity
             .created(new URI("/api/appartements/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
@@ -72,7 +72,7 @@ public class AppartementResource {
      */
     @PutMapping("/appartements/{id}")
     public ResponseEntity<Appartement> updateAppartement(
-        @PathVariable(value = "id", required = false) final String id,
+        @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Appartement appartement
     ) throws URISyntaxException {
         log.debug("REST request to update Appartement : {}, {}", id, appartement);
@@ -90,7 +90,7 @@ public class AppartementResource {
         Appartement result = appartementService.update(appartement);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, appartement.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, appartement.getId().toString()))
             .body(result);
     }
 
@@ -107,7 +107,7 @@ public class AppartementResource {
      */
     @PatchMapping(value = "/appartements/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Appartement> partialUpdateAppartement(
-        @PathVariable(value = "id", required = false) final String id,
+        @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Appartement appartement
     ) throws URISyntaxException {
         log.debug("REST request to partial update Appartement partially : {}, {}", id, appartement);
@@ -126,7 +126,7 @@ public class AppartementResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, appartement.getId())
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, appartement.getId().toString())
         );
     }
 
@@ -148,7 +148,7 @@ public class AppartementResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the appartement, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/appartements/{id}")
-    public ResponseEntity<Appartement> getAppartement(@PathVariable String id) {
+    public ResponseEntity<Appartement> getAppartement(@PathVariable Long id) {
         log.debug("REST request to get Appartement : {}", id);
         Optional<Appartement> appartement = appartementService.findOne(id);
         return ResponseUtil.wrapOrNotFound(appartement);
@@ -161,9 +161,12 @@ public class AppartementResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/appartements/{id}")
-    public ResponseEntity<Void> deleteAppartement(@PathVariable String id) {
+    public ResponseEntity<Void> deleteAppartement(@PathVariable Long id) {
         log.debug("REST request to delete Appartement : {}", id);
         appartementService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

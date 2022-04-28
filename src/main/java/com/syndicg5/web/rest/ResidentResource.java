@@ -56,7 +56,7 @@ public class ResidentResource {
         Resident result = residentService.save(resident);
         return ResponseEntity
             .created(new URI("/api/residents/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
@@ -72,7 +72,7 @@ public class ResidentResource {
      */
     @PutMapping("/residents/{id}")
     public ResponseEntity<Resident> updateResident(
-        @PathVariable(value = "id", required = false) final String id,
+        @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Resident resident
     ) throws URISyntaxException {
         log.debug("REST request to update Resident : {}, {}", id, resident);
@@ -90,7 +90,7 @@ public class ResidentResource {
         Resident result = residentService.update(resident);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, resident.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, resident.getId().toString()))
             .body(result);
     }
 
@@ -107,7 +107,7 @@ public class ResidentResource {
      */
     @PatchMapping(value = "/residents/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Resident> partialUpdateResident(
-        @PathVariable(value = "id", required = false) final String id,
+        @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Resident resident
     ) throws URISyntaxException {
         log.debug("REST request to partial update Resident partially : {}, {}", id, resident);
@@ -126,7 +126,7 @@ public class ResidentResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, resident.getId())
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, resident.getId().toString())
         );
     }
 
@@ -148,7 +148,7 @@ public class ResidentResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the resident, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/residents/{id}")
-    public ResponseEntity<Resident> getResident(@PathVariable String id) {
+    public ResponseEntity<Resident> getResident(@PathVariable Long id) {
         log.debug("REST request to get Resident : {}", id);
         Optional<Resident> resident = residentService.findOne(id);
         return ResponseUtil.wrapOrNotFound(resident);
@@ -161,9 +161,12 @@ public class ResidentResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/residents/{id}")
-    public ResponseEntity<Void> deleteResident(@PathVariable String id) {
+    public ResponseEntity<Void> deleteResident(@PathVariable Long id) {
         log.debug("REST request to delete Resident : {}", id);
         residentService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

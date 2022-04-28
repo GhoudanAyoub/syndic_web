@@ -1,11 +1,13 @@
-import { IDepense } from 'app/shared/model/depense.model';
-import { IRevenu } from 'app/shared/model/revenu.model';
+import { IDepense } from '@/shared/model/depense.model';
+import { IRevenu } from '@/shared/model/revenu.model';
 
 export interface ICategorie {
-  id?: string;
+  id?: number;
   libelle?: string | null;
   depense?: IDepense | null;
   revenu?: IRevenu | null;
 }
 
-export const defaultValue: Readonly<ICategorie> = {};
+export class Categorie implements ICategorie {
+  constructor(public id?: number, public libelle?: string | null, public depense?: IDepense | null, public revenu?: IRevenu | null) {}
+}

@@ -1,13 +1,12 @@
 package com.syndicg5.repository;
 
 import com.syndicg5.domain.Appartement;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 /**
- * Spring Data MongoDB repository for the Appartement entity.
+ * Spring Data SQL repository for the Appartement entity.
  */
 @SuppressWarnings("unused")
 @Repository
-public interface AppartementRepository extends MongoRepository<Appartement, String> {}
+public interface AppartementRepository extends JpaRepository<Appartement, Long> {}

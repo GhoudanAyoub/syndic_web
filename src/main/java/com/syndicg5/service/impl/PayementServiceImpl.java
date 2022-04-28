@@ -8,11 +8,13 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Implementation for managing {@link Payement}.
  */
 @Service
+@Transactional
 public class PayementServiceImpl implements PayementService {
 
     private final Logger log = LoggerFactory.getLogger(PayementServiceImpl.class);
@@ -58,19 +60,21 @@ public class PayementServiceImpl implements PayementService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Payement> findAll() {
         log.debug("Request to get all Payements");
         return payementRepository.findAll();
     }
 
     @Override
-    public Optional<Payement> findOne(String id) {
+    @Transactional(readOnly = true)
+    public Optional<Payement> findOne(Long id) {
         log.debug("Request to get Payement : {}", id);
         return payementRepository.findById(id);
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Long id) {
         log.debug("Request to delete Payement : {}", id);
         payementRepository.deleteById(id);
     }

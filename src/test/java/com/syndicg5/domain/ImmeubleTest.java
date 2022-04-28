@@ -11,11 +11,11 @@ class ImmeubleTest {
     void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Immeuble.class);
         Immeuble immeuble1 = new Immeuble();
-        immeuble1.setId("id1");
+        immeuble1.setId(1L);
         Immeuble immeuble2 = new Immeuble();
         immeuble2.setId(immeuble1.getId());
         assertThat(immeuble1).isEqualTo(immeuble2);
-        immeuble2.setId("id2");
+        immeuble2.setId(2L);
         assertThat(immeuble1).isNotEqualTo(immeuble2);
         immeuble1.setId(null);
         assertThat(immeuble1).isNotEqualTo(immeuble2);

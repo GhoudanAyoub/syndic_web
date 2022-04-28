@@ -45,12 +45,12 @@ public interface RevenuService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<Revenu> findOne(String id);
+    Optional<Revenu> findOne(Long id);
 
     /**
      * Delete the "id" revenu.
      *
      * @param id the id of the entity.
      */
-    void delete(String id);
+    void delete(Long id);
 }

@@ -56,7 +56,7 @@ public class ImmeubleResource {
         Immeuble result = immeubleService.save(immeuble);
         return ResponseEntity
             .created(new URI("/api/immeubles/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
@@ -72,7 +72,7 @@ public class ImmeubleResource {
      */
     @PutMapping("/immeubles/{id}")
     public ResponseEntity<Immeuble> updateImmeuble(
-        @PathVariable(value = "id", required = false) final String id,
+        @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Immeuble immeuble
     ) throws URISyntaxException {
         log.debug("REST request to update Immeuble : {}, {}", id, immeuble);
@@ -90,7 +90,7 @@ public class ImmeubleResource {
         Immeuble result = immeubleService.update(immeuble);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, immeuble.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, immeuble.getId().toString()))
             .body(result);
     }
 
@@ -107,7 +107,7 @@ public class ImmeubleResource {
      */
     @PatchMapping(value = "/immeubles/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Immeuble> partialUpdateImmeuble(
-        @PathVariable(value = "id", required = false) final String id,
+        @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Immeuble immeuble
     ) throws URISyntaxException {
         log.debug("REST request to partial update Immeuble partially : {}, {}", id, immeuble);
@@ -126,7 +126,7 @@ public class ImmeubleResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, immeuble.getId())
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, immeuble.getId().toString())
         );
     }
 
@@ -148,7 +148,7 @@ public class ImmeubleResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the immeuble, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/immeubles/{id}")
-    public ResponseEntity<Immeuble> getImmeuble(@PathVariable String id) {
+    public ResponseEntity<Immeuble> getImmeuble(@PathVariable Long id) {
         log.debug("REST request to get Immeuble : {}", id);
         Optional<Immeuble> immeuble = immeubleService.findOne(id);
         return ResponseUtil.wrapOrNotFound(immeuble);
@@ -161,9 +161,12 @@ public class ImmeubleResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/immeubles/{id}")
-    public ResponseEntity<Void> deleteImmeuble(@PathVariable String id) {
+    public ResponseEntity<Void> deleteImmeuble(@PathVariable Long id) {
         log.debug("REST request to delete Immeuble : {}", id);
         immeubleService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

@@ -1,6 +1,6 @@
 node_modules/
 src/main/docker/
-jest.conf.js
+src/test/javascript/jest.conf.js
 webpack/
 target/
 build/

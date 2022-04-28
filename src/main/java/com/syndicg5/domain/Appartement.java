@@ -4,58 +4,59 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Appartement.
  */
-@Document(collection = "appartement")
+@Entity
+@Table(name = "appartement")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Appartement implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    @Field("numero")
+    @Column(name = "numero")
     private Integer numero;
 
-    @Field("etage")
+    @Column(name = "etage")
     private Integer etage;
 
-    @Field("surface")
+    @Column(name = "surface")
     private Double surface;
 
-    @DBRef
-    @Field("payement")
+    @OneToMany(mappedBy = "appartement")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "appartement" }, allowSetters = true)
     private Set<Payement> payements = new HashSet<>();
 
-    @DBRef
-    @Field("resident")
-    @JsonIgnoreProperties(value = { "personne", "appartements" }, allowSetters = true)
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "appartements" }, allowSetters = true)
     private Resident resident;
 
-    @DBRef
-    @Field("immeuble")
+    @ManyToOne
     @JsonIgnoreProperties(value = { "appartements", "syndic", "depenses", "revenus" }, allowSetters = true)
     private Immeuble immeuble;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public Appartement id(String id) {
+    public Appartement id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

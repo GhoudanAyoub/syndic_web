@@ -45,12 +45,12 @@ public interface PayementService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<Payement> findOne(String id);
+    Optional<Payement> findOne(Long id);
 
     /**
      * Delete the "id" payement.
      *
      * @param id the id of the entity.
      */
-    void delete(String id);
+    void delete(Long id);
 }

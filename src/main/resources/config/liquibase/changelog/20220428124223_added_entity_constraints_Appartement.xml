@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!--
+        Added the constraints for entity Appartement.
+    -->
+    <changeSet id="20220428124223-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="resident_id"
+                                 baseTableName="appartement"
+                                 constraintName="fk_appartement__resident_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="resident"/>
+
+        <addForeignKeyConstraint baseColumnNames="immeuble_id"
+                                 baseTableName="appartement"
+                                 constraintName="fk_appartement__immeuble_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="immeuble"/>
+    </changeSet>
+</databaseChangeLog>

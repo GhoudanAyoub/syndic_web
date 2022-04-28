@@ -1,12 +1,19 @@
-import dayjs from 'dayjs';
-import { IAppartement } from 'app/shared/model/appartement.model';
+import { IAppartement } from '@/shared/model/appartement.model';
 
 export interface IPayement {
-  id?: string;
+  id?: number;
   montant?: number | null;
-  date?: string | null;
+  date?: Date | null;
   description?: string | null;
   appartement?: IAppartement | null;
 }
 
-export const defaultValue: Readonly<IPayement> = {};
+export class Payement implements IPayement {
+  constructor(
+    public id?: number,
+    public montant?: number | null,
+    public date?: Date | null,
+    public description?: string | null,
+    public appartement?: IAppartement | null
+  ) {}
+}

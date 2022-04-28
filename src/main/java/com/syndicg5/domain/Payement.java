@@ -3,48 +3,50 @@ package com.syndicg5.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.LocalDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Payement.
  */
-@Document(collection = "payement")
+@Entity
+@Table(name = "payement")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Payement implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    @Field("montant")
+    @Column(name = "montant")
     private Double montant;
 
-    @Field("date")
+    @Column(name = "date")
     private LocalDate date;
 
-    @Field("description")
+    @Column(name = "description")
     private String description;
 
-    @DBRef
-    @Field("appartement")
+    @ManyToOne
     @JsonIgnoreProperties(value = { "payements", "resident", "immeuble" }, allowSetters = true)
     private Appartement appartement;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public Payement id(String id) {
+    public Payement id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

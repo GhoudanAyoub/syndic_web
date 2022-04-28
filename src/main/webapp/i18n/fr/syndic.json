@@ -18,8 +18,11 @@
         "title": "Syndic"
       },
       "id": "ID",
-      "salaire": "Salaire",
-      "personne": "Personne",
+      "adresse": "Adresse",
+      "tel": "Tel",
+      "dateTravail": "Date Travail",
+      "photo": "Photo",
+      "user": "User",
       "immeuble": "Immeuble"
     }
   }

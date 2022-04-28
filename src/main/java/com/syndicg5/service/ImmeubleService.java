@@ -45,12 +45,12 @@ public interface ImmeubleService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<Immeuble> findOne(String id);
+    Optional<Immeuble> findOne(Long id);
 
     /**
      * Delete the "id" immeuble.
      *
      * @param id the id of the entity.
      */
-    void delete(String id);
+    void delete(Long id);
 }

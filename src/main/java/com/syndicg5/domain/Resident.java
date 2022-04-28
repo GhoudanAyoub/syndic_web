@@ -4,73 +4,139 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Resident.
  */
-@Document(collection = "resident")
+@Entity
+@Table(name = "resident")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Resident implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    @Field("etat_familiale")
-    private String etatFamiliale;
+    @Column(name = "email")
+    private String email;
 
-    @DBRef
-    @Field("personne")
-    private Personne personne;
+    @Column(name = "mot_passe")
+    private String motPasse;
 
-    @DBRef
-    @Field("appartement")
+    @Column(name = "nom")
+    private String nom;
+
+    @Column(name = "prenom")
+    private String prenom;
+
+    @Column(name = "adresse")
+    private String adresse;
+
+    @Column(name = "tel")
+    private String tel;
+
+    @OneToMany(mappedBy = "resident")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "payements", "resident", "immeuble" }, allowSetters = true)
     private Set<Appartement> appartements = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public Resident id(String id) {
+    public Resident id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getEtatFamiliale() {
-        return this.etatFamiliale;
+    public String getEmail() {
+        return this.email;
     }
 
-    public Resident etatFamiliale(String etatFamiliale) {
-        this.setEtatFamiliale(etatFamiliale);
+    public Resident email(String email) {
+        this.setEmail(email);
         return this;
     }
 
-    public void setEtatFamiliale(String etatFamiliale) {
-        this.etatFamiliale = etatFamiliale;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Personne getPersonne() {
-        return this.personne;
+    public String getMotPasse() {
+        return this.motPasse;
     }
 
-    public void setPersonne(Personne personne) {
-        this.personne = personne;
-    }
-
-    public Resident personne(Personne personne) {
-        this.setPersonne(personne);
+    public Resident motPasse(String motPasse) {
+        this.setMotPasse(motPasse);
         return this;
+    }
+
+    public void setMotPasse(String motPasse) {
+        this.motPasse = motPasse;
+    }
+
+    public String getNom() {
+        return this.nom;
+    }
+
+    public Resident nom(String nom) {
+        this.setNom(nom);
+        return this;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return this.prenom;
+    }
+
+    public Resident prenom(String prenom) {
+        this.setPrenom(prenom);
+        return this;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getAdresse() {
+        return this.adresse;
+    }
+
+    public Resident adresse(String adresse) {
+        this.setAdresse(adresse);
+        return this;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public String getTel() {
+        return this.tel;
+    }
+
+    public Resident tel(String tel) {
+        this.setTel(tel);
+        return this;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 
     public Set<Appartement> getAppartements() {
@@ -128,7 +194,12 @@ public class Resident implements Serializable {
     public String toString() {
         return "Resident{" +
             "id=" + getId() +
-            ", etatFamiliale='" + getEtatFamiliale() + "'" +
+            ", email='" + getEmail() + "'" +
+            ", motPasse='" + getMotPasse() + "'" +
+            ", nom='" + getNom() + "'" +
+            ", prenom='" + getPrenom() + "'" +
+            ", adresse='" + getAdresse() + "'" +
+            ", tel='" + getTel() + "'" +
             "}";
     }
 }

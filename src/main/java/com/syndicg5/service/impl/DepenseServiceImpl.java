@@ -8,11 +8,13 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Implementation for managing {@link Depense}.
  */
 @Service
+@Transactional
 public class DepenseServiceImpl implements DepenseService {
 
     private final Logger log = LoggerFactory.getLogger(DepenseServiceImpl.class);
@@ -58,19 +60,21 @@ public class DepenseServiceImpl implements DepenseService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Depense> findAll() {
         log.debug("Request to get all Depenses");
         return depenseRepository.findAll();
     }
 
     @Override
-    public Optional<Depense> findOne(String id) {
+    @Transactional(readOnly = true)
+    public Optional<Depense> findOne(Long id) {
         log.debug("Request to get Depense : {}", id);
         return depenseRepository.findById(id);
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Long id) {
         log.debug("Request to delete Depense : {}", id);
         depenseRepository.deleteById(id);
     }

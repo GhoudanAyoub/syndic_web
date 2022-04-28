@@ -56,7 +56,7 @@ public class CategorieResource {
         Categorie result = categorieService.save(categorie);
         return ResponseEntity
             .created(new URI("/api/categories/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
@@ -72,7 +72,7 @@ public class CategorieResource {
      */
     @PutMapping("/categories/{id}")
     public ResponseEntity<Categorie> updateCategorie(
-        @PathVariable(value = "id", required = false) final String id,
+        @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Categorie categorie
     ) throws URISyntaxException {
         log.debug("REST request to update Categorie : {}, {}", id, categorie);
@@ -90,7 +90,7 @@ public class CategorieResource {
         Categorie result = categorieService.update(categorie);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, categorie.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, categorie.getId().toString()))
             .body(result);
     }
 
@@ -107,7 +107,7 @@ public class CategorieResource {
      */
     @PatchMapping(value = "/categories/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Categorie> partialUpdateCategorie(
-        @PathVariable(value = "id", required = false) final String id,
+        @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Categorie categorie
     ) throws URISyntaxException {
         log.debug("REST request to partial update Categorie partially : {}, {}", id, categorie);
@@ -126,7 +126,7 @@ public class CategorieResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, categorie.getId())
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, categorie.getId().toString())
         );
     }
 
@@ -148,7 +148,7 @@ public class CategorieResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the categorie, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/categories/{id}")
-    public ResponseEntity<Categorie> getCategorie(@PathVariable String id) {
+    public ResponseEntity<Categorie> getCategorie(@PathVariable Long id) {
         log.debug("REST request to get Categorie : {}", id);
         Optional<Categorie> categorie = categorieService.findOne(id);
         return ResponseUtil.wrapOrNotFound(categorie);
@@ -161,9 +161,12 @@ public class CategorieResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/categories/{id}")
-    public ResponseEntity<Void> deleteCategorie(@PathVariable String id) {
+    public ResponseEntity<Void> deleteCategorie(@PathVariable Long id) {
         log.debug("REST request to delete Categorie : {}", id);
         categorieService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

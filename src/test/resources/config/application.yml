@@ -13,22 +13,40 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-mongock:
-  migration-scan-package:
-    - com.syndicg5.config.dbmigrations
-  mongo-db:
-    read-concern: local
-    write-concern:
-      journal: false
-
 spring:
   application:
     name: syndic_web
 
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:h2:mem:syndic_web;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    name:
+    username:
+    password:
+    hikari:
+      auto-commit: false
   jackson:
     serialization:
       write-durations-as-timestamps: false
-  data:
+  jpa:
+    database-platform: tech.jhipster.domain.util.FixedH2Dialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    properties:
+      hibernate.id.new_generator_mappings: true
+      hibernate.connection.provider_disables_autocommit: true
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: false
+      hibernate.hbm2ddl.auto: validate
+      hibernate.jdbc.time_zone: UTC
+      hibernate.query.fail_on_pagination_over_collection_fetch: true
+  liquibase:
+    contexts: test
   mail:
     host: localhost
   main:
@@ -79,7 +97,7 @@ jhipster:
     authentication:
       jwt:
         # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
-        base64-secret: ZmU4NmEwODdkZTU1MDI1MzJkMjcxNjI5NWY3Y2YxMmU1OTNkMzMwMjhiOGEzOGIwN2Y4YTY5ZTFlZTFjM2JmZjM5NjkzMTdkMWNhMzIyNjAzODY0NTJjZTMwN2Q3YjA2ZDExNTMxZDM2MmMzYWRmOWVkNjk5ZGZmM2FmNzU5ODE=
+        base64-secret: ZjFhMzRmZmU2Mzk1OTdjODFmMDYwMjJiMDA3MWQwNzhmODg1YzAxNDA0ODk3OTJhZTdkYWU0MGEzMTRmOGQ1NmIzMmQ2Y2RjMzBmNTkyYmQ3NzI2NTVkZmU5YWE3ODEzZDdhOTUxZDVhNGQ4NTY4OWNiNmU3MmYyYmJlZTUyNDQ=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
 # ===================================================================

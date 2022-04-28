@@ -18,8 +18,12 @@
         "title": "Resident"
       },
       "id": "ID",
-      "etatFamiliale": "Etat Familiale",
-      "personne": "Personne",
+      "email": "Email",
+      "motPasse": "Mot Passe",
+      "nom": "Nom",
+      "prenom": "Prenom",
+      "adresse": "Adresse",
+      "tel": "Tel",
       "appartement": "Appartement"
     }
   }

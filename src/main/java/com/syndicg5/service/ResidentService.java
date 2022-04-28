@@ -45,12 +45,12 @@ public interface ResidentService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<Resident> findOne(String id);
+    Optional<Resident> findOne(Long id);
 
     /**
      * Delete the "id" resident.
      *
      * @param id the id of the entity.
      */
-    void delete(String id);
+    void delete(Long id);
 }

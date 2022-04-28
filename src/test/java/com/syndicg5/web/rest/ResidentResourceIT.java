@@ -9,7 +9,9 @@ import com.syndicg5.IntegrationTest;
 import com.syndicg5.domain.Resident;
 import com.syndicg5.repository.ResidentRepository;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration tests for the {@link ResidentResource} REST controller.
@@ -26,14 +29,35 @@ import org.springframework.test.web.servlet.MockMvc;
 @WithMockUser
 class ResidentResourceIT {
 
-    private static final String DEFAULT_ETAT_FAMILIALE = "AAAAAAAAAA";
-    private static final String UPDATED_ETAT_FAMILIALE = "BBBBBBBBBB";
+    private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
+    private static final String UPDATED_EMAIL = "BBBBBBBBBB";
+
+    private static final String DEFAULT_MOT_PASSE = "AAAAAAAAAA";
+    private static final String UPDATED_MOT_PASSE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_NOM = "AAAAAAAAAA";
+    private static final String UPDATED_NOM = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PRENOM = "AAAAAAAAAA";
+    private static final String UPDATED_PRENOM = "BBBBBBBBBB";
+
+    private static final String DEFAULT_ADRESSE = "AAAAAAAAAA";
+    private static final String UPDATED_ADRESSE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_TEL = "AAAAAAAAAA";
+    private static final String UPDATED_TEL = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/residents";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
+    private static Random random = new Random();
+    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+
     @Autowired
     private ResidentRepository residentRepository;
+
+    @Autowired
+    private EntityManager em;
 
     @Autowired
     private MockMvc restResidentMockMvc;
@@ -46,8 +70,14 @@ class ResidentResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Resident createEntity() {
-        Resident resident = new Resident().etatFamiliale(DEFAULT_ETAT_FAMILIALE);
+    public static Resident createEntity(EntityManager em) {
+        Resident resident = new Resident()
+            .email(DEFAULT_EMAIL)
+            .motPasse(DEFAULT_MOT_PASSE)
+            .nom(DEFAULT_NOM)
+            .prenom(DEFAULT_PRENOM)
+            .adresse(DEFAULT_ADRESSE)
+            .tel(DEFAULT_TEL);
         return resident;
     }
 
@@ -57,18 +87,24 @@ class ResidentResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Resident createUpdatedEntity() {
-        Resident resident = new Resident().etatFamiliale(UPDATED_ETAT_FAMILIALE);
+    public static Resident createUpdatedEntity(EntityManager em) {
+        Resident resident = new Resident()
+            .email(UPDATED_EMAIL)
+            .motPasse(UPDATED_MOT_PASSE)
+            .nom(UPDATED_NOM)
+            .prenom(UPDATED_PRENOM)
+            .adresse(UPDATED_ADRESSE)
+            .tel(UPDATED_TEL);
         return resident;
     }
 
     @BeforeEach
     public void initTest() {
-        residentRepository.deleteAll();
-        resident = createEntity();
+        resident = createEntity(em);
     }
 
     @Test
+    @Transactional
     void createResident() throws Exception {
         int databaseSizeBeforeCreate = residentRepository.findAll().size();
         // Create the Resident
@@ -80,13 +116,19 @@ class ResidentResourceIT {
         List<Resident> residentList = residentRepository.findAll();
         assertThat(residentList).hasSize(databaseSizeBeforeCreate + 1);
         Resident testResident = residentList.get(residentList.size() - 1);
-        assertThat(testResident.getEtatFamiliale()).isEqualTo(DEFAULT_ETAT_FAMILIALE);
+        assertThat(testResident.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(testResident.getMotPasse()).isEqualTo(DEFAULT_MOT_PASSE);
+        assertThat(testResident.getNom()).isEqualTo(DEFAULT_NOM);
+        assertThat(testResident.getPrenom()).isEqualTo(DEFAULT_PRENOM);
+        assertThat(testResident.getAdresse()).isEqualTo(DEFAULT_ADRESSE);
+        assertThat(testResident.getTel()).isEqualTo(DEFAULT_TEL);
     }
 
     @Test
+    @Transactional
     void createResidentWithExistingId() throws Exception {
         // Create the Resident with an existing ID
-        resident.setId("existing_id");
+        resident.setId(1L);
 
         int databaseSizeBeforeCreate = residentRepository.findAll().size();
 
@@ -101,49 +143,71 @@ class ResidentResourceIT {
     }
 
     @Test
+    @Transactional
     void getAllResidents() throws Exception {
         // Initialize the database
-        residentRepository.save(resident);
+        residentRepository.saveAndFlush(resident);
 
         // Get all the residentList
         restResidentMockMvc
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(resident.getId())))
-            .andExpect(jsonPath("$.[*].etatFamiliale").value(hasItem(DEFAULT_ETAT_FAMILIALE)));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(resident.getId().intValue())))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
+            .andExpect(jsonPath("$.[*].motPasse").value(hasItem(DEFAULT_MOT_PASSE)))
+            .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM)))
+            .andExpect(jsonPath("$.[*].prenom").value(hasItem(DEFAULT_PRENOM)))
+            .andExpect(jsonPath("$.[*].adresse").value(hasItem(DEFAULT_ADRESSE)))
+            .andExpect(jsonPath("$.[*].tel").value(hasItem(DEFAULT_TEL)));
     }
 
     @Test
+    @Transactional
     void getResident() throws Exception {
         // Initialize the database
-        residentRepository.save(resident);
+        residentRepository.saveAndFlush(resident);
 
         // Get the resident
         restResidentMockMvc
             .perform(get(ENTITY_API_URL_ID, resident.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(resident.getId()))
-            .andExpect(jsonPath("$.etatFamiliale").value(DEFAULT_ETAT_FAMILIALE));
+            .andExpect(jsonPath("$.id").value(resident.getId().intValue()))
+            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
+            .andExpect(jsonPath("$.motPasse").value(DEFAULT_MOT_PASSE))
+            .andExpect(jsonPath("$.nom").value(DEFAULT_NOM))
+            .andExpect(jsonPath("$.prenom").value(DEFAULT_PRENOM))
+            .andExpect(jsonPath("$.adresse").value(DEFAULT_ADRESSE))
+            .andExpect(jsonPath("$.tel").value(DEFAULT_TEL));
     }
 
     @Test
+    @Transactional
     void getNonExistingResident() throws Exception {
         // Get the resident
         restResidentMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
+    @Transactional
     void putNewResident() throws Exception {
         // Initialize the database
-        residentRepository.save(resident);
+        residentRepository.saveAndFlush(resident);
 
         int databaseSizeBeforeUpdate = residentRepository.findAll().size();
 
         // Update the resident
         Resident updatedResident = residentRepository.findById(resident.getId()).get();
-        updatedResident.etatFamiliale(UPDATED_ETAT_FAMILIALE);
+        // Disconnect from session so that the updates on updatedResident are not directly saved in db
+        em.detach(updatedResident);
+        updatedResident
+            .email(UPDATED_EMAIL)
+            .motPasse(UPDATED_MOT_PASSE)
+            .nom(UPDATED_NOM)
+            .prenom(UPDATED_PRENOM)
+            .adresse(UPDATED_ADRESSE)
+            .tel(UPDATED_TEL);
 
         restResidentMockMvc
             .perform(
@@ -157,13 +221,19 @@ class ResidentResourceIT {
         List<Resident> residentList = residentRepository.findAll();
         assertThat(residentList).hasSize(databaseSizeBeforeUpdate);
         Resident testResident = residentList.get(residentList.size() - 1);
-        assertThat(testResident.getEtatFamiliale()).isEqualTo(UPDATED_ETAT_FAMILIALE);
+        assertThat(testResident.getEmail()).isEqualTo(UPDATED_EMAIL);
+        assertThat(testResident.getMotPasse()).isEqualTo(UPDATED_MOT_PASSE);
+        assertThat(testResident.getNom()).isEqualTo(UPDATED_NOM);
+        assertThat(testResident.getPrenom()).isEqualTo(UPDATED_PRENOM);
+        assertThat(testResident.getAdresse()).isEqualTo(UPDATED_ADRESSE);
+        assertThat(testResident.getTel()).isEqualTo(UPDATED_TEL);
     }
 
     @Test
+    @Transactional
     void putNonExistingResident() throws Exception {
         int databaseSizeBeforeUpdate = residentRepository.findAll().size();
-        resident.setId(UUID.randomUUID().toString());
+        resident.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restResidentMockMvc
@@ -180,14 +250,15 @@ class ResidentResourceIT {
     }
 
     @Test
+    @Transactional
     void putWithIdMismatchResident() throws Exception {
         int databaseSizeBeforeUpdate = residentRepository.findAll().size();
-        resident.setId(UUID.randomUUID().toString());
+        resident.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restResidentMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, UUID.randomUUID().toString())
+                put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(resident))
             )
@@ -199,9 +270,10 @@ class ResidentResourceIT {
     }
 
     @Test
+    @Transactional
     void putWithMissingIdPathParamResident() throws Exception {
         int databaseSizeBeforeUpdate = residentRepository.findAll().size();
-        resident.setId(UUID.randomUUID().toString());
+        resident.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restResidentMockMvc
@@ -214,15 +286,18 @@ class ResidentResourceIT {
     }
 
     @Test
+    @Transactional
     void partialUpdateResidentWithPatch() throws Exception {
         // Initialize the database
-        residentRepository.save(resident);
+        residentRepository.saveAndFlush(resident);
 
         int databaseSizeBeforeUpdate = residentRepository.findAll().size();
 
         // Update the resident using partial update
         Resident partialUpdatedResident = new Resident();
         partialUpdatedResident.setId(resident.getId());
+
+        partialUpdatedResident.adresse(UPDATED_ADRESSE);
 
         restResidentMockMvc
             .perform(
@@ -236,13 +311,19 @@ class ResidentResourceIT {
         List<Resident> residentList = residentRepository.findAll();
         assertThat(residentList).hasSize(databaseSizeBeforeUpdate);
         Resident testResident = residentList.get(residentList.size() - 1);
-        assertThat(testResident.getEtatFamiliale()).isEqualTo(DEFAULT_ETAT_FAMILIALE);
+        assertThat(testResident.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(testResident.getMotPasse()).isEqualTo(DEFAULT_MOT_PASSE);
+        assertThat(testResident.getNom()).isEqualTo(DEFAULT_NOM);
+        assertThat(testResident.getPrenom()).isEqualTo(DEFAULT_PRENOM);
+        assertThat(testResident.getAdresse()).isEqualTo(UPDATED_ADRESSE);
+        assertThat(testResident.getTel()).isEqualTo(DEFAULT_TEL);
     }
 
     @Test
+    @Transactional
     void fullUpdateResidentWithPatch() throws Exception {
         // Initialize the database
-        residentRepository.save(resident);
+        residentRepository.saveAndFlush(resident);
 
         int databaseSizeBeforeUpdate = residentRepository.findAll().size();
 
@@ -250,7 +331,13 @@ class ResidentResourceIT {
         Resident partialUpdatedResident = new Resident();
         partialUpdatedResident.setId(resident.getId());
 
-        partialUpdatedResident.etatFamiliale(UPDATED_ETAT_FAMILIALE);
+        partialUpdatedResident
+            .email(UPDATED_EMAIL)
+            .motPasse(UPDATED_MOT_PASSE)
+            .nom(UPDATED_NOM)
+            .prenom(UPDATED_PRENOM)
+            .adresse(UPDATED_ADRESSE)
+            .tel(UPDATED_TEL);
 
         restResidentMockMvc
             .perform(
@@ -264,13 +351,19 @@ class ResidentResourceIT {
         List<Resident> residentList = residentRepository.findAll();
         assertThat(residentList).hasSize(databaseSizeBeforeUpdate);
         Resident testResident = residentList.get(residentList.size() - 1);
-        assertThat(testResident.getEtatFamiliale()).isEqualTo(UPDATED_ETAT_FAMILIALE);
+        assertThat(testResident.getEmail()).isEqualTo(UPDATED_EMAIL);
+        assertThat(testResident.getMotPasse()).isEqualTo(UPDATED_MOT_PASSE);
+        assertThat(testResident.getNom()).isEqualTo(UPDATED_NOM);
+        assertThat(testResident.getPrenom()).isEqualTo(UPDATED_PRENOM);
+        assertThat(testResident.getAdresse()).isEqualTo(UPDATED_ADRESSE);
+        assertThat(testResident.getTel()).isEqualTo(UPDATED_TEL);
     }
 
     @Test
+    @Transactional
     void patchNonExistingResident() throws Exception {
         int databaseSizeBeforeUpdate = residentRepository.findAll().size();
-        resident.setId(UUID.randomUUID().toString());
+        resident.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restResidentMockMvc
@@ -287,14 +380,15 @@ class ResidentResourceIT {
     }
 
     @Test
+    @Transactional
     void patchWithIdMismatchResident() throws Exception {
         int databaseSizeBeforeUpdate = residentRepository.findAll().size();
-        resident.setId(UUID.randomUUID().toString());
+        resident.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restResidentMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, UUID.randomUUID().toString())
+                patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(resident))
             )
@@ -306,9 +400,10 @@ class ResidentResourceIT {
     }
 
     @Test
+    @Transactional
     void patchWithMissingIdPathParamResident() throws Exception {
         int databaseSizeBeforeUpdate = residentRepository.findAll().size();
-        resident.setId(UUID.randomUUID().toString());
+        resident.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restResidentMockMvc
@@ -321,9 +416,10 @@ class ResidentResourceIT {
     }
 
     @Test
+    @Transactional
     void deleteResident() throws Exception {
         // Initialize the database
-        residentRepository.save(resident);
+        residentRepository.saveAndFlush(resident);
 
         int databaseSizeBeforeDelete = residentRepository.findAll().size();
 

@@ -8,11 +8,13 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Implementation for managing {@link Immeuble}.
  */
 @Service
+@Transactional
 public class ImmeubleServiceImpl implements ImmeubleService {
 
     private final Logger log = LoggerFactory.getLogger(ImmeubleServiceImpl.class);
@@ -57,6 +59,12 @@ public class ImmeubleServiceImpl implements ImmeubleService {
                 if (immeuble.getNbEtages() != null) {
                     existingImmeuble.setNbEtages(immeuble.getNbEtages());
                 }
+                if (immeuble.getPhoto() != null) {
+                    existingImmeuble.setPhoto(immeuble.getPhoto());
+                }
+                if (immeuble.getPhotoContentType() != null) {
+                    existingImmeuble.setPhotoContentType(immeuble.getPhotoContentType());
+                }
 
                 return existingImmeuble;
             })
@@ -64,19 +72,21 @@ public class ImmeubleServiceImpl implements ImmeubleService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Immeuble> findAll() {
         log.debug("Request to get all Immeubles");
         return immeubleRepository.findAll();
     }
 
     @Override
-    public Optional<Immeuble> findOne(String id) {
+    @Transactional(readOnly = true)
+    public Optional<Immeuble> findOne(Long id) {
         log.debug("Request to get Immeuble : {}", id);
         return immeubleRepository.findById(id);
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Long id) {
         log.debug("Request to delete Immeuble : {}", id);
         immeubleRepository.deleteById(id);
     }

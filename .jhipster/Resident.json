@@ -1,12 +1,32 @@
 {
   "applications": ["syndic_web"],
-  "changelogDate": "20220419192827",
+  "changelogDate": "20220428124220",
   "dto": "no",
   "embedded": false,
   "entityTableName": "resident",
   "fields": [
     {
-      "fieldName": "etatFamiliale",
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "motPasse",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nom",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "prenom",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "adresse",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tel",
       "fieldType": "String"
     }
   ],
@@ -16,13 +36,6 @@
   "pagination": "no",
   "readOnly": false,
   "relationships": [
-    {
-      "otherEntityName": "personne",
-      "otherEntityRelationshipName": "resident",
-      "ownerSide": true,
-      "relationshipName": "personne",
-      "relationshipType": "one-to-one"
-    },
     {
       "otherEntityName": "appartement",
       "otherEntityRelationshipName": "resident",

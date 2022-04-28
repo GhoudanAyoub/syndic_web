@@ -5,53 +5,55 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Depense.
  */
-@Document(collection = "depense")
+@Entity
+@Table(name = "depense")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Depense implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    @Field("montant")
+    @Column(name = "montant")
     private Double montant;
 
-    @Field("date")
+    @Column(name = "date")
     private LocalDate date;
 
-    @Field("description")
+    @Column(name = "description")
     private String description;
 
-    @DBRef
-    @Field("categorie")
+    @OneToMany(mappedBy = "depense")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "depense", "revenu" }, allowSetters = true)
     private Set<Categorie> categories = new HashSet<>();
 
-    @DBRef
-    @Field("immeuble")
+    @ManyToOne
     @JsonIgnoreProperties(value = { "appartements", "syndic", "depenses", "revenus" }, allowSetters = true)
     private Immeuble immeuble;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public Depense id(String id) {
+    public Depense id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

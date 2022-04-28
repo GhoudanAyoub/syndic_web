@@ -56,7 +56,7 @@ public class SyndicResource {
         Syndic result = syndicService.save(syndic);
         return ResponseEntity
             .created(new URI("/api/syndics/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
@@ -71,7 +71,7 @@ public class SyndicResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/syndics/{id}")
-    public ResponseEntity<Syndic> updateSyndic(@PathVariable(value = "id", required = false) final String id, @RequestBody Syndic syndic)
+    public ResponseEntity<Syndic> updateSyndic(@PathVariable(value = "id", required = false) final Long id, @RequestBody Syndic syndic)
         throws URISyntaxException {
         log.debug("REST request to update Syndic : {}, {}", id, syndic);
         if (syndic.getId() == null) {
@@ -88,7 +88,7 @@ public class SyndicResource {
         Syndic result = syndicService.update(syndic);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, syndic.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, syndic.getId().toString()))
             .body(result);
     }
 
@@ -105,7 +105,7 @@ public class SyndicResource {
      */
     @PatchMapping(value = "/syndics/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Syndic> partialUpdateSyndic(
-        @PathVariable(value = "id", required = false) final String id,
+        @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Syndic syndic
     ) throws URISyntaxException {
         log.debug("REST request to partial update Syndic partially : {}, {}", id, syndic);
@@ -122,7 +122,10 @@ public class SyndicResource {
 
         Optional<Syndic> result = syndicService.partialUpdate(syndic);
 
-        return ResponseUtil.wrapOrNotFound(result, HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, syndic.getId()));
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, syndic.getId().toString())
+        );
     }
 
     /**
@@ -143,7 +146,7 @@ public class SyndicResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the syndic, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/syndics/{id}")
-    public ResponseEntity<Syndic> getSyndic(@PathVariable String id) {
+    public ResponseEntity<Syndic> getSyndic(@PathVariable Long id) {
         log.debug("REST request to get Syndic : {}", id);
         Optional<Syndic> syndic = syndicService.findOne(id);
         return ResponseUtil.wrapOrNotFound(syndic);
@@ -156,9 +159,12 @@ public class SyndicResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/syndics/{id}")
-    public ResponseEntity<Void> deleteSyndic(@PathVariable String id) {
+    public ResponseEntity<Void> deleteSyndic(@PathVariable Long id) {
         log.debug("REST request to delete Syndic : {}", id);
         syndicService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

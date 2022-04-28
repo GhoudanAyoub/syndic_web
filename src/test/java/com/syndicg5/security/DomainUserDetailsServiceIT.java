@@ -13,10 +13,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integrations tests for {@link DomainUserDetailsService}.
  */
+@Transactional
 @IntegrationTest
 class DomainUserDetailsServiceIT {
 
@@ -35,8 +37,6 @@ class DomainUserDetailsServiceIT {
 
     @BeforeEach
     public void init() {
-        userRepository.deleteAll();
-
         User userOne = new User();
         userOne.setLogin(USER_ONE_LOGIN);
         userOne.setPassword(RandomStringUtils.random(60));

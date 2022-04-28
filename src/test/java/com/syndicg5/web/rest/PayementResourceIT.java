@@ -11,7 +11,9 @@ import com.syndicg5.repository.PayementRepository;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration tests for the {@link PayementResource} REST controller.
@@ -40,8 +43,14 @@ class PayementResourceIT {
     private static final String ENTITY_API_URL = "/api/payements";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
+    private static Random random = new Random();
+    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+
     @Autowired
     private PayementRepository payementRepository;
+
+    @Autowired
+    private EntityManager em;
 
     @Autowired
     private MockMvc restPayementMockMvc;
@@ -54,7 +63,7 @@ class PayementResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Payement createEntity() {
+    public static Payement createEntity(EntityManager em) {
         Payement payement = new Payement().montant(DEFAULT_MONTANT).date(DEFAULT_DATE).description(DEFAULT_DESCRIPTION);
         return payement;
     }
@@ -65,18 +74,18 @@ class PayementResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Payement createUpdatedEntity() {
+    public static Payement createUpdatedEntity(EntityManager em) {
         Payement payement = new Payement().montant(UPDATED_MONTANT).date(UPDATED_DATE).description(UPDATED_DESCRIPTION);
         return payement;
     }
 
     @BeforeEach
     public void initTest() {
-        payementRepository.deleteAll();
-        payement = createEntity();
+        payement = createEntity(em);
     }
 
     @Test
+    @Transactional
     void createPayement() throws Exception {
         int databaseSizeBeforeCreate = payementRepository.findAll().size();
         // Create the Payement
@@ -94,9 +103,10 @@ class PayementResourceIT {
     }
 
     @Test
+    @Transactional
     void createPayementWithExistingId() throws Exception {
         // Create the Payement with an existing ID
-        payement.setId("existing_id");
+        payement.setId(1L);
 
         int databaseSizeBeforeCreate = payementRepository.findAll().size();
 
@@ -111,52 +121,58 @@ class PayementResourceIT {
     }
 
     @Test
+    @Transactional
     void getAllPayements() throws Exception {
         // Initialize the database
-        payementRepository.save(payement);
+        payementRepository.saveAndFlush(payement);
 
         // Get all the payementList
         restPayementMockMvc
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(payement.getId())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(payement.getId().intValue())))
             .andExpect(jsonPath("$.[*].montant").value(hasItem(DEFAULT_MONTANT.doubleValue())))
             .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
     }
 
     @Test
+    @Transactional
     void getPayement() throws Exception {
         // Initialize the database
-        payementRepository.save(payement);
+        payementRepository.saveAndFlush(payement);
 
         // Get the payement
         restPayementMockMvc
             .perform(get(ENTITY_API_URL_ID, payement.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(payement.getId()))
+            .andExpect(jsonPath("$.id").value(payement.getId().intValue()))
             .andExpect(jsonPath("$.montant").value(DEFAULT_MONTANT.doubleValue()))
             .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
     }
 
     @Test
+    @Transactional
     void getNonExistingPayement() throws Exception {
         // Get the payement
         restPayementMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
+    @Transactional
     void putNewPayement() throws Exception {
         // Initialize the database
-        payementRepository.save(payement);
+        payementRepository.saveAndFlush(payement);
 
         int databaseSizeBeforeUpdate = payementRepository.findAll().size();
 
         // Update the payement
         Payement updatedPayement = payementRepository.findById(payement.getId()).get();
+        // Disconnect from session so that the updates on updatedPayement are not directly saved in db
+        em.detach(updatedPayement);
         updatedPayement.montant(UPDATED_MONTANT).date(UPDATED_DATE).description(UPDATED_DESCRIPTION);
 
         restPayementMockMvc
@@ -177,9 +193,10 @@ class PayementResourceIT {
     }
 
     @Test
+    @Transactional
     void putNonExistingPayement() throws Exception {
         int databaseSizeBeforeUpdate = payementRepository.findAll().size();
-        payement.setId(UUID.randomUUID().toString());
+        payement.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restPayementMockMvc
@@ -196,14 +213,15 @@ class PayementResourceIT {
     }
 
     @Test
+    @Transactional
     void putWithIdMismatchPayement() throws Exception {
         int databaseSizeBeforeUpdate = payementRepository.findAll().size();
-        payement.setId(UUID.randomUUID().toString());
+        payement.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restPayementMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, UUID.randomUUID().toString())
+                put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(payement))
             )
@@ -215,9 +233,10 @@ class PayementResourceIT {
     }
 
     @Test
+    @Transactional
     void putWithMissingIdPathParamPayement() throws Exception {
         int databaseSizeBeforeUpdate = payementRepository.findAll().size();
-        payement.setId(UUID.randomUUID().toString());
+        payement.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restPayementMockMvc
@@ -230,9 +249,10 @@ class PayementResourceIT {
     }
 
     @Test
+    @Transactional
     void partialUpdatePayementWithPatch() throws Exception {
         // Initialize the database
-        payementRepository.save(payement);
+        payementRepository.saveAndFlush(payement);
 
         int databaseSizeBeforeUpdate = payementRepository.findAll().size();
 
@@ -258,9 +278,10 @@ class PayementResourceIT {
     }
 
     @Test
+    @Transactional
     void fullUpdatePayementWithPatch() throws Exception {
         // Initialize the database
-        payementRepository.save(payement);
+        payementRepository.saveAndFlush(payement);
 
         int databaseSizeBeforeUpdate = payementRepository.findAll().size();
 
@@ -288,9 +309,10 @@ class PayementResourceIT {
     }
 
     @Test
+    @Transactional
     void patchNonExistingPayement() throws Exception {
         int databaseSizeBeforeUpdate = payementRepository.findAll().size();
-        payement.setId(UUID.randomUUID().toString());
+        payement.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restPayementMockMvc
@@ -307,14 +329,15 @@ class PayementResourceIT {
     }
 
     @Test
+    @Transactional
     void patchWithIdMismatchPayement() throws Exception {
         int databaseSizeBeforeUpdate = payementRepository.findAll().size();
-        payement.setId(UUID.randomUUID().toString());
+        payement.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restPayementMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, UUID.randomUUID().toString())
+                patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(payement))
             )
@@ -326,9 +349,10 @@ class PayementResourceIT {
     }
 
     @Test
+    @Transactional
     void patchWithMissingIdPathParamPayement() throws Exception {
         int databaseSizeBeforeUpdate = payementRepository.findAll().size();
-        payement.setId(UUID.randomUUID().toString());
+        payement.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restPayementMockMvc
@@ -341,9 +365,10 @@ class PayementResourceIT {
     }
 
     @Test
+    @Transactional
     void deletePayement() throws Exception {
         // Initialize the database
-        payementRepository.save(payement);
+        payementRepository.saveAndFlush(payement);
 
         int databaseSizeBeforeDelete = payementRepository.findAll().size();
 

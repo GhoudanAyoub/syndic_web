@@ -45,12 +45,12 @@ public interface DepenseService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<Depense> findOne(String id);
+    Optional<Depense> findOne(Long id);
 
     /**
      * Delete the "id" depense.
      *
      * @param id the id of the entity.
      */
-    void delete(String id);
+    void delete(Long id);
 }

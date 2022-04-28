@@ -2,47 +2,48 @@ package com.syndicg5.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Categorie.
  */
-@Document(collection = "categorie")
+@Entity
+@Table(name = "categorie")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Categorie implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    @Field("libelle")
+    @Column(name = "libelle")
     private String libelle;
 
-    @DBRef
-    @Field("depense")
+    @ManyToOne
     @JsonIgnoreProperties(value = { "categories", "immeuble" }, allowSetters = true)
     private Depense depense;
 
-    @DBRef
-    @Field("revenu")
+    @ManyToOne
     @JsonIgnoreProperties(value = { "categories", "immeuble" }, allowSetters = true)
     private Revenu revenu;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public Categorie id(String id) {
+    public Categorie id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

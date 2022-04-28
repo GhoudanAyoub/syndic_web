@@ -56,7 +56,7 @@ public class RevenuResource {
         Revenu result = revenuService.save(revenu);
         return ResponseEntity
             .created(new URI("/api/revenus/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
@@ -71,7 +71,7 @@ public class RevenuResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/revenus/{id}")
-    public ResponseEntity<Revenu> updateRevenu(@PathVariable(value = "id", required = false) final String id, @RequestBody Revenu revenu)
+    public ResponseEntity<Revenu> updateRevenu(@PathVariable(value = "id", required = false) final Long id, @RequestBody Revenu revenu)
         throws URISyntaxException {
         log.debug("REST request to update Revenu : {}, {}", id, revenu);
         if (revenu.getId() == null) {
@@ -88,7 +88,7 @@ public class RevenuResource {
         Revenu result = revenuService.update(revenu);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, revenu.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, revenu.getId().toString()))
             .body(result);
     }
 
@@ -105,7 +105,7 @@ public class RevenuResource {
      */
     @PatchMapping(value = "/revenus/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Revenu> partialUpdateRevenu(
-        @PathVariable(value = "id", required = false) final String id,
+        @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Revenu revenu
     ) throws URISyntaxException {
         log.debug("REST request to partial update Revenu partially : {}, {}", id, revenu);
@@ -122,7 +122,10 @@ public class RevenuResource {
 
         Optional<Revenu> result = revenuService.partialUpdate(revenu);
 
-        return ResponseUtil.wrapOrNotFound(result, HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, revenu.getId()));
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, revenu.getId().toString())
+        );
     }
 
     /**
@@ -143,7 +146,7 @@ public class RevenuResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the revenu, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/revenus/{id}")
-    public ResponseEntity<Revenu> getRevenu(@PathVariable String id) {
+    public ResponseEntity<Revenu> getRevenu(@PathVariable Long id) {
         log.debug("REST request to get Revenu : {}", id);
         Optional<Revenu> revenu = revenuService.findOne(id);
         return ResponseUtil.wrapOrNotFound(revenu);
@@ -156,9 +159,12 @@ public class RevenuResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/revenus/{id}")
-    public ResponseEntity<Void> deleteRevenu(@PathVariable String id) {
+    public ResponseEntity<Void> deleteRevenu(@PathVariable Long id) {
         log.debug("REST request to delete Revenu : {}", id);
         revenuService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

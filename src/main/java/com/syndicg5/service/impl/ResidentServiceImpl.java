@@ -8,11 +8,13 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Implementation for managing {@link Resident}.
  */
 @Service
+@Transactional
 public class ResidentServiceImpl implements ResidentService {
 
     private final Logger log = LoggerFactory.getLogger(ResidentServiceImpl.class);
@@ -42,8 +44,23 @@ public class ResidentServiceImpl implements ResidentService {
         return residentRepository
             .findById(resident.getId())
             .map(existingResident -> {
-                if (resident.getEtatFamiliale() != null) {
-                    existingResident.setEtatFamiliale(resident.getEtatFamiliale());
+                if (resident.getEmail() != null) {
+                    existingResident.setEmail(resident.getEmail());
+                }
+                if (resident.getMotPasse() != null) {
+                    existingResident.setMotPasse(resident.getMotPasse());
+                }
+                if (resident.getNom() != null) {
+                    existingResident.setNom(resident.getNom());
+                }
+                if (resident.getPrenom() != null) {
+                    existingResident.setPrenom(resident.getPrenom());
+                }
+                if (resident.getAdresse() != null) {
+                    existingResident.setAdresse(resident.getAdresse());
+                }
+                if (resident.getTel() != null) {
+                    existingResident.setTel(resident.getTel());
                 }
 
                 return existingResident;
@@ -52,19 +69,21 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Resident> findAll() {
         log.debug("Request to get all Residents");
         return residentRepository.findAll();
     }
 
     @Override
-    public Optional<Resident> findOne(String id) {
+    @Transactional(readOnly = true)
+    public Optional<Resident> findOne(Long id) {
         log.debug("Request to get Resident : {}", id);
         return residentRepository.findById(id);
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Long id) {
         log.debug("Request to delete Resident : {}", id);
         residentRepository.deleteById(id);
     }

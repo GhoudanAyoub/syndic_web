@@ -11,11 +11,11 @@ class AppartementTest {
     void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Appartement.class);
         Appartement appartement1 = new Appartement();
-        appartement1.setId("id1");
+        appartement1.setId(1L);
         Appartement appartement2 = new Appartement();
         appartement2.setId(appartement1.getId());
         assertThat(appartement1).isEqualTo(appartement2);
-        appartement2.setId("id2");
+        appartement2.setId(2L);
         assertThat(appartement1).isNotEqualTo(appartement2);
         appartement1.setId(null);
         assertThat(appartement1).isNotEqualTo(appartement2);

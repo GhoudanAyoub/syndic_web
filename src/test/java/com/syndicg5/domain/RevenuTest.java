@@ -11,11 +11,11 @@ class RevenuTest {
     void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Revenu.class);
         Revenu revenu1 = new Revenu();
-        revenu1.setId("id1");
+        revenu1.setId(1L);
         Revenu revenu2 = new Revenu();
         revenu2.setId(revenu1.getId());
         assertThat(revenu1).isEqualTo(revenu2);
-        revenu2.setId("id2");
+        revenu2.setId(2L);
         assertThat(revenu1).isNotEqualTo(revenu2);
         revenu1.setId(null);
         assertThat(revenu1).isNotEqualTo(revenu2);

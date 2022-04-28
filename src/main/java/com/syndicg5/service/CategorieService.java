@@ -45,12 +45,12 @@ public interface CategorieService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<Categorie> findOne(String id);
+    Optional<Categorie> findOne(Long id);
 
     /**
      * Delete the "id" categorie.
      *
      * @param id the id of the entity.
      */
-    void delete(String id);
+    void delete(Long id);
 }

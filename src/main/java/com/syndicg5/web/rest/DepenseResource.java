@@ -56,7 +56,7 @@ public class DepenseResource {
         Depense result = depenseService.save(depense);
         return ResponseEntity
             .created(new URI("/api/depenses/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
@@ -71,10 +71,8 @@ public class DepenseResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/depenses/{id}")
-    public ResponseEntity<Depense> updateDepense(
-        @PathVariable(value = "id", required = false) final String id,
-        @RequestBody Depense depense
-    ) throws URISyntaxException {
+    public ResponseEntity<Depense> updateDepense(@PathVariable(value = "id", required = false) final Long id, @RequestBody Depense depense)
+        throws URISyntaxException {
         log.debug("REST request to update Depense : {}, {}", id, depense);
         if (depense.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -90,7 +88,7 @@ public class DepenseResource {
         Depense result = depenseService.update(depense);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, depense.getId()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, depense.getId().toString()))
             .body(result);
     }
 
@@ -107,7 +105,7 @@ public class DepenseResource {
      */
     @PatchMapping(value = "/depenses/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Depense> partialUpdateDepense(
-        @PathVariable(value = "id", required = false) final String id,
+        @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Depense depense
     ) throws URISyntaxException {
         log.debug("REST request to partial update Depense partially : {}, {}", id, depense);
@@ -124,7 +122,10 @@ public class DepenseResource {
 
         Optional<Depense> result = depenseService.partialUpdate(depense);
 
-        return ResponseUtil.wrapOrNotFound(result, HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, depense.getId()));
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, depense.getId().toString())
+        );
     }
 
     /**
@@ -145,7 +146,7 @@ public class DepenseResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the depense, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/depenses/{id}")
-    public ResponseEntity<Depense> getDepense(@PathVariable String id) {
+    public ResponseEntity<Depense> getDepense(@PathVariable Long id) {
         log.debug("REST request to get Depense : {}", id);
         Optional<Depense> depense = depenseService.findOne(id);
         return ResponseUtil.wrapOrNotFound(depense);
@@ -158,9 +159,12 @@ public class DepenseResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/depenses/{id}")
-    public ResponseEntity<Void> deleteDepense(@PathVariable String id) {
+    public ResponseEntity<Void> deleteDepense(@PathVariable Long id) {
         log.debug("REST request to delete Depense : {}", id);
         depenseService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

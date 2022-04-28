@@ -45,12 +45,12 @@ public interface AppartementService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<Appartement> findOne(String id);
+    Optional<Appartement> findOne(Long id);
 
     /**
      * Delete the "id" appartement.
      *
      * @param id the id of the entity.
      */
-    void delete(String id);
+    void delete(Long id);
 }

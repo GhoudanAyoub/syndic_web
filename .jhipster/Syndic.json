@@ -1,13 +1,26 @@
 {
   "applications": ["syndic_web"],
-  "changelogDate": "20220419192828",
+  "changelogDate": "20220428124221",
   "dto": "no",
   "embedded": false,
   "entityTableName": "syndic",
   "fields": [
     {
-      "fieldName": "salaire",
-      "fieldType": "Double"
+      "fieldName": "adresse",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tel",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateTravail",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "photo",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
     }
   ],
   "fluentMethods": true,
@@ -17,10 +30,10 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "personne",
+      "otherEntityName": "user",
       "otherEntityRelationshipName": "syndic",
       "ownerSide": true,
-      "relationshipName": "personne",
+      "relationshipName": "user",
       "relationshipType": "one-to-one"
     },
     {
