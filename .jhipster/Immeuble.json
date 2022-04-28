@@ -1,6 +1,6 @@
 {
   "applications": ["syndic_web"],
-  "changelogDate": "20220428124222",
+  "changelogDate": "20220428132956",
   "dto": "no",
   "embedded": false,
   "entityTableName": "immeuble",

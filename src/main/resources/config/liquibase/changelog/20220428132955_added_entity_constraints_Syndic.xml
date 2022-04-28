@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Syndic.
     -->
-    <changeSet id="20220428124221-2" author="jhipster">
+    <changeSet id="20220428132955-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="syndic"
