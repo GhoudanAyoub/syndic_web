@@ -41,6 +41,13 @@ public class Resident implements Serializable {
     @Column(name = "tel")
     private String tel;
 
+    @Lob
+    @Column(name = "photo")
+    private byte[] photo;
+
+    @Column(name = "photo_content_type")
+    private String photoContentType;
+
     @OneToMany(mappedBy = "resident")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "payements", "resident", "immeuble" }, allowSetters = true)
@@ -139,6 +146,32 @@ public class Resident implements Serializable {
         this.tel = tel;
     }
 
+    public byte[] getPhoto() {
+        return this.photo;
+    }
+
+    public Resident photo(byte[] photo) {
+        this.setPhoto(photo);
+        return this;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public String getPhotoContentType() {
+        return this.photoContentType;
+    }
+
+    public Resident photoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+        return this;
+    }
+
+    public void setPhotoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+    }
+
     public Set<Appartement> getAppartements() {
         return this.appartements;
     }
@@ -200,6 +233,8 @@ public class Resident implements Serializable {
             ", prenom='" + getPrenom() + "'" +
             ", adresse='" + getAdresse() + "'" +
             ", tel='" + getTel() + "'" +
+            ", photo='" + getPhoto() + "'" +
+            ", photoContentType='" + getPhotoContentType() + "'" +
             "}";
     }
 }

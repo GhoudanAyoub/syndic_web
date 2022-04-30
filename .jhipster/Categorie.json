@@ -1,6 +1,6 @@
 {
   "applications": ["syndic_web"],
-  "changelogDate": "20220428133000",
+  "changelogDate": "20220429234049",
   "dto": "no",
   "embedded": false,
   "entityTableName": "categorie",

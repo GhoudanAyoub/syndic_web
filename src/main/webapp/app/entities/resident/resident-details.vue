@@ -42,6 +42,21 @@
           <dd>
             <span>{{ resident.tel }}</span>
           </dd>
+          <dt>
+            <span v-text="$t('syndicWebApp.resident.photo')">Photo</span>
+          </dt>
+          <dd>
+            <div v-if="resident.photo">
+              <a v-on:click="openFile(resident.photoContentType, resident.photo)">
+                <img
+                  v-bind:src="'data:' + resident.photoContentType + ';base64,' + resident.photo"
+                  style="max-width: 100%"
+                  alt="resident image"
+                />
+              </a>
+              {{ resident.photoContentType }}, {{ byteSize(resident.photo) }}
+            </div>
+          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="$t('entity.action.back')"> Back</span>

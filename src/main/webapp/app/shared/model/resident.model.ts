@@ -8,6 +8,8 @@ export interface IResident {
   prenom?: string | null;
   adresse?: string | null;
   tel?: string | null;
+  photoContentType?: string | null;
+  photo?: string | null;
   appartements?: IAppartement[] | null;
 }
 
@@ -20,6 +22,8 @@ export class Resident implements IResident {
     public prenom?: string | null,
     public adresse?: string | null,
     public tel?: string | null,
+    public photoContentType?: string | null,
+    public photo?: string | null,
     public appartements?: IAppartement[] | null
   ) {}
 }

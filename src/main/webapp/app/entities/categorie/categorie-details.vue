@@ -18,7 +18,7 @@
           <dd>
             <div v-if="categorie.depense">
               <router-link :to="{ name: 'DepenseView', params: { depenseId: categorie.depense.id } }">{{
-                categorie.depense.id
+                categorie.depense.description
               }}</router-link>
             </div>
           </dd>
@@ -27,7 +27,9 @@
           </dt>
           <dd>
             <div v-if="categorie.revenu">
-              <router-link :to="{ name: 'RevenuView', params: { revenuId: categorie.revenu.id } }">{{ categorie.revenu.id }}</router-link>
+              <router-link :to="{ name: 'RevenuView', params: { revenuId: categorie.revenu.id } }">{{
+                categorie.revenu.description
+              }}</router-link>
             </div>
           </dd>
         </dl>

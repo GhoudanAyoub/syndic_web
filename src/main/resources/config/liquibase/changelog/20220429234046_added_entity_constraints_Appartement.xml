@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Appartement.
     -->
-    <changeSet id="20220428132957-2" author="jhipster">
+    <changeSet id="20220429234046-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="resident_id"
                                  baseTableName="appartement"

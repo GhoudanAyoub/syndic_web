@@ -35,7 +35,7 @@
                 v-for="depenseOption in depenses"
                 :key="depenseOption.id"
               >
-                {{ depenseOption.id }}
+                {{ depenseOption.description }}
               </option>
             </select>
           </div>
@@ -48,7 +48,7 @@
                 v-for="revenuOption in revenus"
                 :key="revenuOption.id"
               >
-                {{ revenuOption.id }}
+                {{ revenuOption.description }}
               </option>
             </select>
           </div>

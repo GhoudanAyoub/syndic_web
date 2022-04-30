@@ -20,7 +20,8 @@ entity Resident {
     nom String,
     prenom String,
 	adresse String,
-    tel String
+    tel String,
+    photo ImageBlob
 }
 
 entity Syndic {

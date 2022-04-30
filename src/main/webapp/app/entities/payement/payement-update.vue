@@ -81,7 +81,7 @@
                 v-for="appartementOption in appartements"
                 :key="appartementOption.id"
               >
-                {{ appartementOption.id }}
+                {{ appartementOption.numero }}
               </option>
             </select>
           </div>

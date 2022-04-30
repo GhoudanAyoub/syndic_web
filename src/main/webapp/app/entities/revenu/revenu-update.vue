@@ -75,7 +75,7 @@
                 v-for="immeubleOption in immeubles"
                 :key="immeubleOption.id"
               >
-                {{ immeubleOption.id }}
+                {{ immeubleOption.libelle }}
               </option>
             </select>
           </div>

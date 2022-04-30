@@ -47,7 +47,7 @@
             <td>
               <div v-if="depense.immeuble">
                 <router-link :to="{ name: 'ImmeubleView', params: { immeubleId: depense.immeuble.id } }">{{
-                  depense.immeuble.id
+                  depense.immeuble.libelle
                 }}</router-link>
               </div>
             </td>

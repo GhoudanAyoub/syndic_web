@@ -4,14 +4,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
     <!--
-        Added the constraints for entity Payement.
+        Added the constraints for entity Depense.
     -->
-    <changeSet id="20220428133001-2" author="jhipster">
+    <changeSet id="20220429234048-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="appartement_id"
-                                 baseTableName="payement"
-                                 constraintName="fk_payement__appartement_id"
+        <addForeignKeyConstraint baseColumnNames="immeuble_id"
+                                 baseTableName="depense"
+                                 constraintName="fk_depense__immeuble_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="appartement"/>
+                                 referencedTableName="immeuble"/>
     </changeSet>
 </databaseChangeLog>

@@ -1,6 +1,6 @@
 {
   "applications": ["syndic_web"],
-  "changelogDate": "20220428132954",
+  "changelogDate": "20220429234043",
   "dto": "no",
   "embedded": false,
   "entityTableName": "resident",
@@ -28,6 +28,11 @@
     {
       "fieldName": "tel",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "photo",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
     }
   ],
   "fluentMethods": true,

@@ -62,6 +62,12 @@ public class ResidentServiceImpl implements ResidentService {
                 if (resident.getTel() != null) {
                     existingResident.setTel(resident.getTel());
                 }
+                if (resident.getPhoto() != null) {
+                    existingResident.setPhoto(resident.getPhoto());
+                }
+                if (resident.getPhotoContentType() != null) {
+                    existingResident.setPhotoContentType(resident.getPhotoContentType());
+                }
 
                 return existingResident;
             })

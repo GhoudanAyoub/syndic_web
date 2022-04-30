@@ -56,7 +56,7 @@
               <span v-if="syndic.photo">{{ syndic.photoContentType }}, {{ byteSize(syndic.photo) }}</span>
             </td>
             <td>
-              {{ syndic.user ? syndic.user.id : '' }}
+              {{ syndic.user ? syndic.user.login : '' }}
             </td>
             <td class="text-right">
               <div class="btn-group">

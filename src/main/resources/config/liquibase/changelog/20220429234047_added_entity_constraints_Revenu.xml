@@ -4,13 +4,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
     <!--
-        Added the constraints for entity Depense.
+        Added the constraints for entity Revenu.
     -->
-    <changeSet id="20220428132959-2" author="jhipster">
+    <changeSet id="20220429234047-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="immeuble_id"
-                                 baseTableName="depense"
-                                 constraintName="fk_depense__immeuble_id"
+                                 baseTableName="revenu"
+                                 constraintName="fk_revenu__immeuble_id"
                                  referencedColumnNames="id"
                                  referencedTableName="immeuble"/>
     </changeSet>

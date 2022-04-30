@@ -43,7 +43,7 @@
             <span v-text="$t('syndicWebApp.syndic.user')">User</span>
           </dt>
           <dd>
-            {{ syndic.user ? syndic.user.id : '' }}
+            {{ syndic.user ? syndic.user.login : '' }}
           </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

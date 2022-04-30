@@ -29,7 +29,9 @@
           </dt>
           <dd>
             <div v-if="revenu.immeuble">
-              <router-link :to="{ name: 'ImmeubleView', params: { immeubleId: revenu.immeuble.id } }">{{ revenu.immeuble.id }}</router-link>
+              <router-link :to="{ name: 'ImmeubleView', params: { immeubleId: revenu.immeuble.id } }">{{
+                revenu.immeuble.libelle
+              }}</router-link>
             </div>
           </dd>
         </dl>

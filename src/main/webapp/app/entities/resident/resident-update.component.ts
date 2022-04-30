@@ -1,4 +1,7 @@
-import { Component, Vue, Inject } from 'vue-property-decorator';
+import { Component, Inject } from 'vue-property-decorator';
+
+import { mixins } from 'vue-class-component';
+import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import AlertService from '@/shared/alert/alert.service';
 
@@ -16,13 +19,14 @@ const validations: any = {
     prenom: {},
     adresse: {},
     tel: {},
+    photo: {},
   },
 };
 
 @Component({
   validations,
 })
-export default class ResidentUpdate extends Vue {
+export default class ResidentUpdate extends mixins(JhiDataUtils) {
   @Inject('residentService') private residentService: () => ResidentService;
   @Inject('alertService') private alertService: () => AlertService;
 
@@ -109,6 +113,20 @@ export default class ResidentUpdate extends Vue {
 
   public previousState(): void {
     this.$router.go(-1);
+  }
+
+  public clearInputImage(field, fieldContentType, idInput): void {
+    if (this.resident && field && fieldContentType) {
+      if (Object.prototype.hasOwnProperty.call(this.resident, field)) {
+        this.resident[field] = null;
+      }
+      if (Object.prototype.hasOwnProperty.call(this.resident, fieldContentType)) {
+        this.resident[fieldContentType] = null;
+      }
+      if (idInput) {
+        (<any>this).$refs[idInput] = null;
+      }
+    }
   }
 
   public initRelationships(): void {

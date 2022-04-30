@@ -20,6 +20,7 @@ public class Syndic implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -39,9 +40,8 @@ public class Syndic implements Serializable {
     @Column(name = "photo_content_type")
     private String photoContentType;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    @MapsId
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(unique = true, name = "user_id", referencedColumnName = "id")
     private User user;
 
     @OneToMany(mappedBy = "syndic")

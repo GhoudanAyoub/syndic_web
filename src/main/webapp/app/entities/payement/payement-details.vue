@@ -30,7 +30,7 @@
           <dd>
             <div v-if="payement.appartement">
               <router-link :to="{ name: 'AppartementView', params: { appartementId: payement.appartement.id } }">{{
-                payement.appartement.id
+                payement.appartement.numero
               }}</router-link>
             </div>
           </dd>

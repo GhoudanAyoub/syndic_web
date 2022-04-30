@@ -86,6 +86,52 @@
               v-model="$v.resident.tel.$model"
             />
           </div>
+          <div class="form-group">
+            <label class="form-control-label" v-text="$t('syndicWebApp.resident.photo')" for="resident-photo">Photo</label>
+            <div>
+              <img
+                v-bind:src="'data:' + resident.photoContentType + ';base64,' + resident.photo"
+                style="max-height: 100px"
+                v-if="resident.photo"
+                alt="resident image"
+              />
+              <div v-if="resident.photo" class="form-text text-danger clearfix">
+                <span class="pull-left">{{ resident.photoContentType }}, {{ byteSize(resident.photo) }}</span>
+                <button
+                  type="button"
+                  v-on:click="clearInputImage('photo', 'photoContentType', 'file_photo')"
+                  class="btn btn-secondary btn-xs pull-right"
+                >
+                  <font-awesome-icon icon="times"></font-awesome-icon>
+                </button>
+              </div>
+              <input
+                type="file"
+                ref="file_photo"
+                id="file_photo"
+                data-cy="photo"
+                v-on:change="setFileData($event, resident, 'photo', true)"
+                accept="image/*"
+                v-text="$t('entity.action.addimage')"
+              />
+            </div>
+            <input
+              type="hidden"
+              class="form-control"
+              name="photo"
+              id="resident-photo"
+              data-cy="photo"
+              :class="{ valid: !$v.resident.photo.$invalid, invalid: $v.resident.photo.$invalid }"
+              v-model="$v.resident.photo.$model"
+            />
+            <input
+              type="hidden"
+              class="form-control"
+              name="photoContentType"
+              id="resident-photoContentType"
+              v-model="resident.photoContentType"
+            />
+          </div>
         </div>
         <div>
           <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" v-on:click="previousState()">

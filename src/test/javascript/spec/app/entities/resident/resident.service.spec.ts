@@ -29,7 +29,7 @@ describe('Service Tests', () => {
 
     beforeEach(() => {
       service = new ResidentService();
-      elemDefault = new Resident(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Resident(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'image/png', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -87,6 +87,7 @@ describe('Service Tests', () => {
             prenom: 'BBBBBB',
             adresse: 'BBBBBB',
             tel: 'BBBBBB',
+            photo: 'BBBBBB',
           },
           elemDefault
         );
@@ -149,6 +150,7 @@ describe('Service Tests', () => {
             prenom: 'BBBBBB',
             adresse: 'BBBBBB',
             tel: 'BBBBBB',
+            photo: 'BBBBBB',
           },
           elemDefault
         );

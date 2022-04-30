@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 /**
  * Integration tests for the {@link ResidentResource} REST controller.
@@ -46,6 +47,11 @@ class ResidentResourceIT {
 
     private static final String DEFAULT_TEL = "AAAAAAAAAA";
     private static final String UPDATED_TEL = "BBBBBBBBBB";
+
+    private static final byte[] DEFAULT_PHOTO = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_PHOTO = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_PHOTO_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_PHOTO_CONTENT_TYPE = "image/png";
 
     private static final String ENTITY_API_URL = "/api/residents";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -77,7 +83,9 @@ class ResidentResourceIT {
             .nom(DEFAULT_NOM)
             .prenom(DEFAULT_PRENOM)
             .adresse(DEFAULT_ADRESSE)
-            .tel(DEFAULT_TEL);
+            .tel(DEFAULT_TEL)
+            .photo(DEFAULT_PHOTO)
+            .photoContentType(DEFAULT_PHOTO_CONTENT_TYPE);
         return resident;
     }
 
@@ -94,7 +102,9 @@ class ResidentResourceIT {
             .nom(UPDATED_NOM)
             .prenom(UPDATED_PRENOM)
             .adresse(UPDATED_ADRESSE)
-            .tel(UPDATED_TEL);
+            .tel(UPDATED_TEL)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
         return resident;
     }
 
@@ -122,6 +132,8 @@ class ResidentResourceIT {
         assertThat(testResident.getPrenom()).isEqualTo(DEFAULT_PRENOM);
         assertThat(testResident.getAdresse()).isEqualTo(DEFAULT_ADRESSE);
         assertThat(testResident.getTel()).isEqualTo(DEFAULT_TEL);
+        assertThat(testResident.getPhoto()).isEqualTo(DEFAULT_PHOTO);
+        assertThat(testResident.getPhotoContentType()).isEqualTo(DEFAULT_PHOTO_CONTENT_TYPE);
     }
 
     @Test
@@ -159,7 +171,9 @@ class ResidentResourceIT {
             .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM)))
             .andExpect(jsonPath("$.[*].prenom").value(hasItem(DEFAULT_PRENOM)))
             .andExpect(jsonPath("$.[*].adresse").value(hasItem(DEFAULT_ADRESSE)))
-            .andExpect(jsonPath("$.[*].tel").value(hasItem(DEFAULT_TEL)));
+            .andExpect(jsonPath("$.[*].tel").value(hasItem(DEFAULT_TEL)))
+            .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))));
     }
 
     @Test
@@ -179,7 +193,9 @@ class ResidentResourceIT {
             .andExpect(jsonPath("$.nom").value(DEFAULT_NOM))
             .andExpect(jsonPath("$.prenom").value(DEFAULT_PRENOM))
             .andExpect(jsonPath("$.adresse").value(DEFAULT_ADRESSE))
-            .andExpect(jsonPath("$.tel").value(DEFAULT_TEL));
+            .andExpect(jsonPath("$.tel").value(DEFAULT_TEL))
+            .andExpect(jsonPath("$.photoContentType").value(DEFAULT_PHOTO_CONTENT_TYPE))
+            .andExpect(jsonPath("$.photo").value(Base64Utils.encodeToString(DEFAULT_PHOTO)));
     }
 
     @Test
@@ -207,7 +223,9 @@ class ResidentResourceIT {
             .nom(UPDATED_NOM)
             .prenom(UPDATED_PRENOM)
             .adresse(UPDATED_ADRESSE)
-            .tel(UPDATED_TEL);
+            .tel(UPDATED_TEL)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
 
         restResidentMockMvc
             .perform(
@@ -227,6 +245,8 @@ class ResidentResourceIT {
         assertThat(testResident.getPrenom()).isEqualTo(UPDATED_PRENOM);
         assertThat(testResident.getAdresse()).isEqualTo(UPDATED_ADRESSE);
         assertThat(testResident.getTel()).isEqualTo(UPDATED_TEL);
+        assertThat(testResident.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testResident.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
     }
 
     @Test
@@ -297,7 +317,7 @@ class ResidentResourceIT {
         Resident partialUpdatedResident = new Resident();
         partialUpdatedResident.setId(resident.getId());
 
-        partialUpdatedResident.adresse(UPDATED_ADRESSE);
+        partialUpdatedResident.adresse(UPDATED_ADRESSE).photo(UPDATED_PHOTO).photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
 
         restResidentMockMvc
             .perform(
@@ -317,6 +337,8 @@ class ResidentResourceIT {
         assertThat(testResident.getPrenom()).isEqualTo(DEFAULT_PRENOM);
         assertThat(testResident.getAdresse()).isEqualTo(UPDATED_ADRESSE);
         assertThat(testResident.getTel()).isEqualTo(DEFAULT_TEL);
+        assertThat(testResident.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testResident.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
     }
 
     @Test
@@ -337,7 +359,9 @@ class ResidentResourceIT {
             .nom(UPDATED_NOM)
             .prenom(UPDATED_PRENOM)
             .adresse(UPDATED_ADRESSE)
-            .tel(UPDATED_TEL);
+            .tel(UPDATED_TEL)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
 
         restResidentMockMvc
             .perform(
@@ -357,6 +381,8 @@ class ResidentResourceIT {
         assertThat(testResident.getPrenom()).isEqualTo(UPDATED_PRENOM);
         assertThat(testResident.getAdresse()).isEqualTo(UPDATED_ADRESSE);
         assertThat(testResident.getTel()).isEqualTo(UPDATED_TEL);
+        assertThat(testResident.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testResident.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
     }
 
     @Test

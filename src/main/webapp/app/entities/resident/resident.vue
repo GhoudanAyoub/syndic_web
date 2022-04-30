@@ -35,6 +35,7 @@
             <th scope="row"><span v-text="$t('syndicWebApp.resident.prenom')">Prenom</span></th>
             <th scope="row"><span v-text="$t('syndicWebApp.resident.adresse')">Adresse</span></th>
             <th scope="row"><span v-text="$t('syndicWebApp.resident.tel')">Tel</span></th>
+            <th scope="row"><span v-text="$t('syndicWebApp.resident.photo')">Photo</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -49,6 +50,16 @@
             <td>{{ resident.prenom }}</td>
             <td>{{ resident.adresse }}</td>
             <td>{{ resident.tel }}</td>
+            <td>
+              <a v-if="resident.photo" v-on:click="openFile(resident.photoContentType, resident.photo)">
+                <img
+                  v-bind:src="'data:' + resident.photoContentType + ';base64,' + resident.photo"
+                  style="max-height: 30px"
+                  alt="resident image"
+                />
+              </a>
+              <span v-if="resident.photo">{{ resident.photoContentType }}, {{ byteSize(resident.photo) }}</span>
+            </td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'ResidentView', params: { residentId: resident.id } }" custom v-slot="{ navigate }">

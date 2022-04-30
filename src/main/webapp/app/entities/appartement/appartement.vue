@@ -48,14 +48,14 @@
             <td>
               <div v-if="appartement.resident">
                 <router-link :to="{ name: 'ResidentView', params: { residentId: appartement.resident.id } }">{{
-                  appartement.resident.id
+                  appartement.resident.nom + ' ' + appartement.resident.prenom
                 }}</router-link>
               </div>
             </td>
             <td>
               <div v-if="appartement.immeuble">
                 <router-link :to="{ name: 'ImmeubleView', params: { immeubleId: appartement.immeuble.id } }">{{
-                  appartement.immeuble.id
+                  appartement.immeuble.libelle
                 }}</router-link>
               </div>
             </td>

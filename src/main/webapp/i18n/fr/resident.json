@@ -24,6 +24,7 @@
       "prenom": "Prenom",
       "adresse": "Adresse",
       "tel": "Tel",
+      "photo": "Photo",
       "appartement": "Appartement"
     }
   }
