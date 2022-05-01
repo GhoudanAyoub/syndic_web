@@ -14,9 +14,6 @@ public class Categorie implements Serializable {
     @Column(name = "libelle")
     private String libelle;
 
-    @ManyToOne
-    private Depense depense;
-
     public Long getId() {
         return id;
     }
@@ -31,13 +28,5 @@ public class Categorie implements Serializable {
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
-    }
-
-    public Depense getDepense() {
-        return depense;
-    }
-
-    public void setDepense(Depense depense) {
-        this.depense = depense;
     }
 }

@@ -22,7 +22,6 @@ public class CategorieServiceImpl implements CategorieService {
     public void update(long id, Categorie categorie) {
         Categorie c = categorieRepository.getById(id);
         c.setLibelle(categorie.getLibelle());
-        c.setDepense(categorie.getDepense());
         categorieRepository.save(c);
     }
 
