@@ -33,7 +33,7 @@ public class Syndic implements Serializable {
 
     @Lob
     @Column(name = "photo")
-    private byte[] photo;
+    private String photo;
 
     @OneToMany(mappedBy = "syndic")
     private Set<Immeuble> immeubles = new HashSet<>();
@@ -94,11 +94,11 @@ public class Syndic implements Serializable {
         this.telephone = telephone;
     }
 
-    public byte[] getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(byte[] photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 

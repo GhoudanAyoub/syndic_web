@@ -34,7 +34,7 @@ public class Resident implements Serializable {
 
     @Lob
     @Column(name = "photo")
-    private byte[] photo;
+    private String photo;
 
     @OneToMany(mappedBy = "resident")
     private Set<Appartement> appartements = new HashSet<>();
@@ -95,11 +95,11 @@ public class Resident implements Serializable {
         this.telephone = telephone;
     }
 
-    public byte[] getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(byte[] photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 
