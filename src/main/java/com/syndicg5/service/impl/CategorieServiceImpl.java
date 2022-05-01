@@ -19,10 +19,11 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
-    public void update(Categorie categorie) {
-        Categorie c = categorieRepository.getById(categorie.getId());
-        if (c != null)
-            categorieRepository.save(c);
+    public void update(long id, Categorie categorie) {
+        Categorie c = categorieRepository.getById(id);
+        c.setLibelle(categorie.getLibelle());
+        c.setDepense(categorie.getDepense());
+        categorieRepository.save(c);
     }
 
     @Override

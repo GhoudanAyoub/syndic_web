@@ -19,10 +19,14 @@ public class DepenseServiceImpl implements DepenseService {
     }
 
     @Override
-    public void update(Depense depense) {
-        Depense d = depenseRepository.getById(depense.getId());
-        if (d != null)
-            depenseRepository.save(d);
+    public void update(long id, Depense depense) {
+        Depense d = depenseRepository.getById(id);
+        d.setDescription(depense.getDescription());
+        d.setCategorie(depense.getCategorie());
+        d.setDate(depense.getDate());
+        d.setImmeuble(d.getImmeuble());
+        d.setMontant(d.getMontant());
+        depenseRepository.save(d);
     }
 
     @Override

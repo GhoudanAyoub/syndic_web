@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AppartementService {
     void save(Appartement appartement);
-    void update(Appartement appartement);
+    void update(long id, Appartement appartement);
     List<Appartement> findAll();
     Appartement findOne(Long id);
     void delete(Long id);

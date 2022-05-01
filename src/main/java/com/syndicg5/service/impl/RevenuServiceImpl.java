@@ -20,10 +20,14 @@ public class RevenuServiceImpl implements RevenuService {
     }
 
     @Override
-    public void update(Revenu revenu) {
-        Revenu r = revenuRepository.getById(revenu.getId());
-        if (r != null)
-            revenuRepository.save(r);
+    public void update(long id, Revenu revenu) {
+        Revenu r = revenuRepository.getById(id);
+        r.setDescription(revenu.getDescription());
+        r.setDate(revenu.getDate());
+        r.setImmeuble(revenu.getImmeuble());
+        r.setAppartement(revenu.getAppartement());
+        r.setMontant(revenu.getMontant());
+        revenuRepository.save(r);
     }
 
     @Override

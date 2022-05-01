@@ -22,9 +22,6 @@ public class Appartement implements Serializable {
     @Column(name = "surface")
     private Double surface;
 
-    @OneToMany(mappedBy = "appartement")
-    private Set<Payement> payements = new HashSet<>();
-
     @ManyToOne
     private Resident resident;
 
@@ -61,14 +58,6 @@ public class Appartement implements Serializable {
 
     public void setSurface(Double surface) {
         this.surface = surface;
-    }
-
-    public Set<Payement> getPayements() {
-        return payements;
-    }
-
-    public void setPayements(Set<Payement> payements) {
-        this.payements = payements;
     }
 
     public Resident getResident() {

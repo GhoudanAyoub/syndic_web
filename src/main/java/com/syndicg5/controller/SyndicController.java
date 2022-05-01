@@ -5,6 +5,7 @@ import com.syndicg5.service.impl.SyndicServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,9 +20,9 @@ public class SyndicController {
         syndicService.save(syndic);
     }
 
-    @PutMapping("/syndics")
-    public void updateSyndic(@RequestBody Syndic syndic) {
-        syndicService.update(syndic);
+    @PutMapping("/syndics/{id}")
+    public void updateSyndic(@PathVariable(value = "id") long id, @Valid @RequestBody Syndic syndic) {
+        syndicService.update(id, syndic);
     }
 
     @GetMapping("/syndics")

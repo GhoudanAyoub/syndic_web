@@ -5,6 +5,7 @@ import com.syndicg5.service.impl.RevenuServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,9 +20,9 @@ public class RevenuController {
         revenuService.save(revenu);
     }
 
-    @PutMapping("/revenus")
-    public void updateRevenu(@RequestBody Revenu revenu) {
-        revenuService.update(revenu);
+    @PutMapping("/revenus/{id}")
+    public void updateRevenu(@PathVariable(value = "id") long id, @Valid @RequestBody Revenu revenu) {
+        revenuService.update(id, revenu);
     }
 
     @GetMapping("/revenus")

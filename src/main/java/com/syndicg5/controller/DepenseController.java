@@ -5,6 +5,7 @@ import com.syndicg5.service.impl.DepenseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,9 +20,9 @@ public class DepenseController {
         depenseService.save(depense);
     }
 
-    @PutMapping("/depenses")
-    public void updateDepense(@RequestBody Depense depense) {
-        depenseService.update(depense);
+    @PutMapping("/depenses/{id}")
+    public void updateDepense(@PathVariable(value = "id") long id, @Valid @RequestBody Depense depense) {
+        depenseService.update(id, depense);
     }
 
     @GetMapping("/depenses")

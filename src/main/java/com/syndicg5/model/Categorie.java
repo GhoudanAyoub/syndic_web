@@ -17,9 +17,6 @@ public class Categorie implements Serializable {
     @ManyToOne
     private Depense depense;
 
-    @ManyToOne
-    private Revenu revenu;
-
     public Long getId() {
         return id;
     }
@@ -42,13 +39,5 @@ public class Categorie implements Serializable {
 
     public void setDepense(Depense depense) {
         this.depense = depense;
-    }
-
-    public Revenu getRevenu() {
-        return revenu;
-    }
-
-    public void setRevenu(Revenu revenu) {
-        this.revenu = revenu;
     }
 }

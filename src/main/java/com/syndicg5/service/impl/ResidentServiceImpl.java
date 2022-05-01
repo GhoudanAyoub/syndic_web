@@ -1,6 +1,5 @@
 package com.syndicg5.service.impl;
 
-import com.syndicg5.model.Payement;
 import com.syndicg5.model.Resident;
 import com.syndicg5.repository.ResidentRepository;
 import com.syndicg5.service.ResidentService;
@@ -20,10 +19,17 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public void update(Resident resident) {
-        Resident r = residentRepository.getById(resident.getId());
-        if (r != null)
-            residentRepository.save(r);
+    public void update(long id, Resident resident) {
+        Resident r = residentRepository.getById(id);
+        r.setNom(resident.getNom());
+        r.setPrenom(resident.getPrenom());
+        r.setEmail(resident.getEmail());
+        r.setMdp(resident.getMdp());
+        r.setTelephone(resident.getTelephone());
+        r.setVille(resident.getVille());
+        r.setPhoto(resident.getPhoto());
+        r.setAppartements(resident.getAppartements());
+        residentRepository.save(r);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.syndicg5.service.impl.AppartementServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,9 +20,9 @@ public class AppartementController {
         appartementService.save(appartement);
     }
 
-    @PutMapping("/appartements")
-    public void updateAppartement(@RequestBody Appartement appartement) {
-        appartementService.update(appartement);
+    @PutMapping("/appartements/{id}")
+    public void updateAppartement(@PathVariable(value = "id") long id, @Valid @RequestBody Appartement appartement) {
+        appartementService.update(id, appartement);
     }
 
     @GetMapping("/appartements")

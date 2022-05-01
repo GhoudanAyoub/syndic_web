@@ -20,10 +20,17 @@ public class SyndicServiceImpl implements SyndicService {
     }
 
     @Override
-    public void update(Syndic syndic) {
-        Syndic s = syndicRepository.getById(syndic.getId());
-        if (s != null)
-            syndicRepository.save(s);
+    public void update(long id, Syndic syndic) {
+        Syndic s = syndicRepository.getById(id);
+        s.setNom(syndic.getNom());
+        s.setPrenom(syndic.getPrenom());
+        s.setEmail(syndic.getEmail());
+        s.setMdp(syndic.getMdp());
+        s.setTelephone(syndic.getTelephone());
+        s.setVille(syndic.getVille());
+        s.setPhoto(syndic.getPhoto());
+        s.setImmeubles(syndic.getImmeubles());
+        syndicRepository.save(s);
     }
 
     @Override

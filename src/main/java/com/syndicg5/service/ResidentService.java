@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ResidentService {
     void save(Resident resident);
-    void update(Resident resident);
+    void update(long id, Resident resident);
     List<Resident> findAll();
     Resident findOne(Long id);
     void delete(Long id);

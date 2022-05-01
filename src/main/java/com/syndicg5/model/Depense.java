@@ -3,8 +3,6 @@ package com.syndicg5.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "depense")
@@ -23,11 +21,11 @@ public class Depense implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "depense")
-    private Set<Categorie> categories = new HashSet<>();
-
     @ManyToOne
     private Immeuble immeuble;
+
+    @ManyToOne
+    private Categorie categorie;
 
     public Long getId() {
         return id;
@@ -61,19 +59,19 @@ public class Depense implements Serializable {
         this.description = description;
     }
 
-    public Set<Categorie> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Set<Categorie> categories) {
-        this.categories = categories;
-    }
-
     public Immeuble getImmeuble() {
         return immeuble;
     }
 
     public void setImmeuble(Immeuble immeuble) {
         this.immeuble = immeuble;
+    }
+
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
     }
 }

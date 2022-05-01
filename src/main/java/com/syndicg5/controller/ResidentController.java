@@ -5,6 +5,7 @@ import com.syndicg5.service.impl.ResidentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,9 +20,9 @@ public class ResidentController {
         residentService.save(resident);
     }
 
-    @PutMapping("/residents")
-    public void updateResident(@RequestBody Resident resident) {
-        residentService.update(resident);
+    @PutMapping("/residents/{id}")
+    public void updateResident(@PathVariable(value = "id") long id, @Valid @RequestBody Resident resident) {
+        residentService.update(id, resident);
     }
 
     @GetMapping("/residents")

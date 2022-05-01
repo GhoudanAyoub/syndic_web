@@ -20,10 +20,19 @@ public class ImmeubleServiceImpl implements ImmeubleService {
     }
 
     @Override
-    public void update(Immeuble immeuble) {
-        Immeuble i = immeubleRepository.getById(immeuble.getId());
-        if (i != null)
-            immeubleRepository.save(i);
+    public void update(long id, Immeuble immeuble) {
+        Immeuble i = immeubleRepository.getById(id);
+        i.setNom(immeuble.getNom());
+        i.setNumero(immeuble.getNumero());
+        i.setAdresse(immeuble.getAdresse());
+        i.setVille(immeuble.getVille());
+        i.setEtages(immeuble.getEtages());
+        i.setPhoto(immeuble.getPhoto());
+        i.setSyndic(immeuble.getSyndic());
+        i.setAppartements(immeuble.getAppartements());
+        i.setDepenses(immeuble.getDepenses());
+        i.setRevenus(immeuble.getRevenus());
+        immeubleRepository.save(i);
     }
 
     @Override

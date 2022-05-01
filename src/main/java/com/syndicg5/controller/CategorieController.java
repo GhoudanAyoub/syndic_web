@@ -5,6 +5,7 @@ import com.syndicg5.service.impl.CategorieServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,9 +20,9 @@ public class CategorieController {
         categorieService.save(categorie);
     }
 
-    @PutMapping("/categories")
-    public void updateCategorie(@RequestBody Categorie categorie) {
-        categorieService.update(categorie);
+    @PutMapping("/categories/{id}")
+    public void updateCategorie(@PathVariable(value = "id") long id, @Valid @RequestBody Categorie categorie) {
+        categorieService.update(id, categorie);
     }
 
     @GetMapping("/categories")

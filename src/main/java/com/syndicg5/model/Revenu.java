@@ -23,11 +23,11 @@ public class Revenu implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "revenu")
-    private Set<Categorie> categories = new HashSet<>();
-
     @ManyToOne
     private Immeuble immeuble;
+
+    @ManyToOne
+    private Appartement appartement;
 
     public Long getId() {
         return id;
@@ -61,19 +61,19 @@ public class Revenu implements Serializable {
         this.description = description;
     }
 
-    public Set<Categorie> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Set<Categorie> categories) {
-        this.categories = categories;
-    }
-
     public Immeuble getImmeuble() {
         return immeuble;
     }
 
     public void setImmeuble(Immeuble immeuble) {
         this.immeuble = immeuble;
+    }
+
+    public Appartement getAppartement() {
+        return appartement;
+    }
+
+    public void setAppartement(Appartement appartement) {
+        this.appartement = appartement;
     }
 }

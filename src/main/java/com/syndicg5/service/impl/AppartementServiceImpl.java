@@ -19,10 +19,14 @@ public class AppartementServiceImpl implements AppartementService {
     }
 
     @Override
-    public void update(Appartement appartement) {
-        Appartement a = appartementRepository.getById(appartement.getId());
-        if (a != null)
-            appartementRepository.save(a);
+    public void update(long id, Appartement appartement) {
+        Appartement a = appartementRepository.getById(id);
+        a.setNumero(appartement.getNumero());
+        a.setEtage(appartement.getEtage());
+        a.setImmeuble(appartement.getImmeuble());
+        a.setResident(appartement.getResident());
+        a.setSurface(appartement.getSurface());
+        appartementRepository.save(a);
     }
 
     @Override

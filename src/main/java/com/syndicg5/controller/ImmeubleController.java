@@ -5,6 +5,7 @@ import com.syndicg5.service.impl.ImmeubleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,9 +20,9 @@ public class ImmeubleController {
         immeubleService.save(immeuble);
     }
 
-    @PutMapping("/immeubles")
-    public void updateImmeuble(@RequestBody Immeuble immeuble) {
-        immeubleService.update(immeuble);
+    @PutMapping("/immeubles/{id}")
+    public void updateImmeuble(@PathVariable(value = "id") long id, @Valid @RequestBody Immeuble immeuble) {
+        immeubleService.update(id, immeuble);
     }
 
     @GetMapping("/immeubles")
