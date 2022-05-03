@@ -5,17 +5,27 @@ import com.syndicg5.model.Syndic;
 import com.syndicg5.repository.SyndicRepository;
 import com.syndicg5.service.SyndicService;
 import java.util.List;
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SyndicServiceImpl implements SyndicService {
+public class SyndicServiceImpl implements SyndicService, UserDetailsService {
 
     @Autowired
     SyndicRepository syndicRepository;
 
+    PasswordEncoder passwordEncoder;
+
     @Override
     public void save(Syndic syndic) {
+        syndic.setMdp(passwordEncoder.encode(syndic.getMdp()));
         syndicRepository.save(syndic);
     }
 
@@ -46,6 +56,17 @@ public class SyndicServiceImpl implements SyndicService {
     @Override
     public void delete(Long id) {
         syndicRepository.deleteById(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Objects.requireNonNull(email);
+        Syndic syndic = syndicRepository.findByEmail(email);
+        if (syndic == null) {
+            throw new UsernameNotFoundException("Syndic Not found!");
+        }
+
+        return syndic;
     }
 }
 

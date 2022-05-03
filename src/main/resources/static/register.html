@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Basic Page Info -->
+    <meta charset="utf-8">
+    <title>DeskApp - Bootstrap Admin Dashboard HTML Template</title>
+
+    <!-- Site favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="vendors/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="vendors/images/favicon-16x16.png">
+
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="vendors/styles/core.css">
+    <link rel="stylesheet" type="text/css" href="vendors/styles/icon-font.min.css">
+<!--    <link rel="stylesheet" type="text/css" href="src/plugins/jquery-steps/jquery.steps.css">-->
+    <link rel="stylesheet" type="text/css" href="vendors/styles/style.css">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-119386393-1');
+    </script>
+</head>
+
+<body class="login-page">
+<!--<div class="login-header box-shadow">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <div class="brand-logo">
+            <a href="login.html">
+                <img src="vendors/images/deskapp-logo.svg" alt="">
+            </a>
+        </div>
+        <div class="login-menu">
+            <ul>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </div>
+</div>-->
+<div class="login-wrap d-flex align-items-center flex-wrap justify-content-center">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 col-lg-7">
+                <img src="vendors/images/login-page-img.png" alt="">
+            </div>
+            <div class="col-md-6 col-lg-5">
+                <div class="login-box bg-white box-shadow border-radius-10">
+                    <div class="login-title mb-2">
+                        <h2 class="text-center text-primary">Inscription Syndic</h2>
+                    </div>
+                    <form>
+                        <div class="input-group custom mb-2">
+                            <input type="text" class="form-control form-control-sm" placeholder="Nom" id="nom">
+                        </div>
+                        <div class="input-group custom mb-2">
+                            <input type="text" class="form-control form-control-sm" placeholder="Prénom" id="prenom">
+                        </div>
+                        <div class="input-group custom mb-2">
+                            <input type="email" class="form-control form-control-sm" placeholder="Email" id="email">
+                        </div>
+                        <div class="input-group custom mb-2">
+                            <input type="text" class="form-control form-control-sm" placeholder="Téléphone" id="tel">
+                        </div>
+                        <div class="input-group custom mb-2">
+                            <input type="text" class="form-control form-control-sm" placeholder="Ville" id="ville">
+                        </div>
+                        <div class="input-group custom mb-2">
+                            <input type="file" class="form-control form-control-sm" accept=".png, .jpg, .jpeg" id="photo">
+                        </div>
+                        <div class="input-group custom mb-2">
+                            <input type="password" class="form-control form-control-sm" placeholder="Mot de passe" id="password">
+                        </div>
+                        <div class="input-group custom mb-2">
+                            <input type="password" class="form-control form-control-sm" placeholder="Confirmer le mot de passe" id="passwordconf">
+                        </div>
+                        <p class="text-danger font-weight-bold mb-3" id="password-error" hidden>Les deux mots de passe ne sont pas identiques!</p>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-0">
+                                    <!--
+                                        use code for form submit
+                                        <input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
+                                    -->
+                                    <input class="btn btn-primary btn-sm btn-block" type="submit" value="S'inscrire" id="inscrire">
+                                    <!--<a class="btn btn-primary btn-lg btn-block" href="index.html">Se connecter</a>-->
+                                </div>
+                                <div class="font-16 weight-600 pt-10 pb-10 text-center" data-color="#707373">OU</div>
+                                <div class="input-group mb-0">
+                                    <a class="btn btn-outline-primary btn-sm btn-block" href="index.html">Se connecter avec un compte existant</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- js -->
+<script src="vendors/scripts/core.js"></script>
+<script src="vendors/scripts/script.min.js"></script>
+<script src="vendors/scripts/process.js"></script>
+<script src="vendors/scripts/layout-settings.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="script/register.js"></script>
+<!--<script src="src/plugins/jquery-steps/jquery.steps.js"></script>
+<script src="vendors/scripts/steps-setting.js"></script>-->
+</body>
+
+</html>
