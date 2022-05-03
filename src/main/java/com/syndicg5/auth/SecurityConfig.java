@@ -45,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authenticationProvider(getProvider())
                 .formLogin()
                 .loginProcessingUrl("/login")
+                .usernameParameter("email")
                 .successHandler(new AuthentificationLoginSuccessHandler())
                 .failureHandler(new UrlAuthenticationFailureHandler())
                 .and().logout().logoutUrl("/logout")
@@ -53,41 +54,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/login").permitAll()
                 .antMatchers("/logout").permitAll()
-                .antMatchers("/home.html").authenticated()
+                .antMatchers("/syndic/home.html").authenticated()
                 .antMatchers("/").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/api/appartements", "/api/categories", "/api/depenses", "/api/immeubles", "/api/residents", "/api/revenus").authenticated()
                 .antMatchers("/script/**", "/src/**", "/syndic/**", "/vendors/**")
                 .permitAll()
                 .anyRequest().permitAll();
-/*        httpSecurity
-                .csrf()
-                .disable()
-                .authorizeRequests()
-                .antMatchers("/syndics")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .httpBasic();*/
-/*        httpSecurity
-                .formLogin()
-                .loginPage("/login")
-                .usernameParameter("email")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();*/
-/*        httpSecurity
-                .authorizeRequests()
-                .antMatchers("/resources/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();*/
     }
 
     @Bean
@@ -108,7 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         public void commence(HttpServletRequest request, HttpServletResponse response,
                              AuthenticationException authException) throws IOException {
             // TODO Auto-generated method stub
-            response.sendRedirect("index.html");
+            response.sendRedirect("/index.html");
         }
 
     }
@@ -119,7 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                             AuthenticationException exception) throws IOException, ServletException {
             // TODO Auto-generated method stub
             super.onAuthenticationFailure(request, response, exception);
-            response.sendRedirect("index.html");
+            response.sendRedirect("/index.html");
         }
     }
 
@@ -129,7 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                             Authentication authentication) throws IOException, ServletException {
             response.setStatus(HttpServletResponse.SC_OK);
 
-            response.sendRedirect("home.html");
+            response.sendRedirect("/syndic/home.html");
         }
     }
 
@@ -138,7 +110,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
                                     Authentication authentication) throws IOException, ServletException {
             response.setStatus(HttpServletResponse.SC_OK);
-            response.sendRedirect("index.html");
+            response.sendRedirect("/index.html");
         }
     }
 

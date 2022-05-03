@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class AppAuthProvider extends DaoAuthenticationProvider {
     @Autowired
@@ -19,10 +20,12 @@ public class AppAuthProvider extends DaoAuthenticationProvider {
         String password = auth.getCredentials().toString();
         System.out.println(name+" "+password);
         UserDetails user = syndicService.loadUserByUsername(name);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if (user == null) {
             throw new BadCredentialsException("Email/Password does not match for " + auth.getPrincipal());
         }
-        if(password.equals(user.getPassword()))
+//        if(password.equals(user.getPassword()))
+        if(encoder.matches(password, user.getPassword()))
             return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
         else
             throw new BadCredentialsException("Email/Password does not match for " + auth.getPrincipal());

@@ -130,10 +130,14 @@ $(document).ready(function() {
                     success : function(data,
                                        textStatus, jqXHR) {
                         console.log('syndic done');
+                        swal("Succès!", "Inscription avec succès!", "success").then(() => {
+                            location.href = "index.html";
+                        });
                     },
                     error : function(jqXHR, textStatus,
                                      errorThrown) {
                         console.log(textStatus, errorThrown);
+                        swal("Echec!", "Echec lors de l'inscription!", "warning");
                     }
                 });
             }
