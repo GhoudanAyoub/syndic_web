@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,13 +21,22 @@ public class SyndicServiceImpl implements SyndicService, UserDetailsService {
 
     @Autowired
     SyndicRepository syndicRepository;
-
+    @Lazy
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Override
     public void save(Syndic syndic) {
-        syndic.setMdp(passwordEncoder.encode(syndic.getMdp()));
-        syndicRepository.save(syndic);
+        Syndic s = new Syndic();
+        s.setNom(syndic.getNom());
+        s.setPrenom(syndic.getPrenom());
+        s.setEmail(syndic.getEmail());
+        s.setTelephone(syndic.getTelephone());
+        s.setVille(syndic.getVille());
+        s.setPhoto(syndic.getPhoto());
+        s.setImmeubles(syndic.getImmeubles());
+        s.setMdp(passwordEncoder.encode(syndic.getMdp()));
+        syndicRepository.save(s);
     }
 
     @Override

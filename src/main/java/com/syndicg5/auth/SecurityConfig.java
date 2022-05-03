@@ -32,7 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authProvider());
+        //auth.authenticationProvider(authProvider());
+        auth.userDetailsService(syndicService);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/logout").permitAll()
                 .antMatchers("/home.html").authenticated()
                 .antMatchers("/").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/api/**").authenticated()
+                .antMatchers("/api/appartements", "/api/categories", "/api/depenses", "/api/immeubles", "/api/residents", "/api/revenus").authenticated()
                 .antMatchers("/script/**", "/src/**", "/syndic/**", "/vendors/**")
                 .permitAll()
                 .anyRequest().permitAll();
@@ -94,20 +95,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+/*    @Bean
     public DaoAuthenticationProvider authProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(syndicService);
         authProvider.setPasswordEncoder(encoder());
         return authProvider;
-    }
+    }*/
 
     public class DeniedAuthenticationEntryPoint extends Http403ForbiddenEntryPoint {
         @Override
         public void commence(HttpServletRequest request, HttpServletResponse response,
                              AuthenticationException authException) throws IOException {
             // TODO Auto-generated method stub
-            response.sendRedirect("/login.html");
+            response.sendRedirect("index.html");
         }
 
     }
@@ -118,7 +119,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                             AuthenticationException exception) throws IOException, ServletException {
             // TODO Auto-generated method stub
             super.onAuthenticationFailure(request, response, exception);
-            response.sendRedirect("/index.html");
+            response.sendRedirect("index.html");
         }
     }
 
@@ -128,7 +129,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                             Authentication authentication) throws IOException, ServletException {
             response.setStatus(HttpServletResponse.SC_OK);
 
-            response.sendRedirect("/index.html");
+            response.sendRedirect("home.html");
         }
     }
 
@@ -137,7 +138,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
                                     Authentication authentication) throws IOException, ServletException {
             response.setStatus(HttpServletResponse.SC_OK);
-            response.sendRedirect("/login.html");
+            response.sendRedirect("index.html");
         }
     }
 

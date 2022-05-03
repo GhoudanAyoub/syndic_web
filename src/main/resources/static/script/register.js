@@ -62,9 +62,9 @@ $(document).ready(function() {
         if(password != "" && passwordconf != "") {
             if(password != passwordconf) {
                 verif = false;
-                $("#password-error").show();
+                $("#password-error").attr('hidden', false);
             }else {
-                $("#password-error").hide();
+                $("#password-error").attr('hidden', true);
             }
         }
 
