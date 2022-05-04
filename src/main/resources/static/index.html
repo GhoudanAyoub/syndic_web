@@ -51,16 +51,16 @@
           <div class="login-title mb-2">
             <h2 class="text-center text-primary">Se connecter</h2>
           </div>
-          <form action="/login" method="post">
+          <form>
             <div class="select-role">
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn active">
+                <label class="btn active" id="syndicIcon">
                   <input type="radio" name="options" value="syndic">
                   <div class="icon"><img src="vendors/images/briefcase.svg" class="svg" alt=""></div>
                   <span>Je suis un </span>
                   Syndic
                 </label>
-                <label class="btn">
+                <label class="btn" id="residentIcon">
                   <input type="radio" name="options" value="resident">
                   <div class="icon"><img src="vendors/images/person.svg" class="svg" alt=""></div>
                   <span>Je suis un </span>
@@ -119,6 +119,6 @@
 <script src="vendors/scripts/process.js"></script>
 <script src="vendors/scripts/layout-settings.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<!--<script src="script/index.js"></script>-->
+<script src="script/index.js"></script>
 </body>
 </html>

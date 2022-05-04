@@ -32,7 +32,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //auth.authenticationProvider(authProvider());
         auth.userDetailsService(syndicService);
     }
 
@@ -67,13 +66,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-/*    @Bean
-    public DaoAuthenticationProvider authProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(syndicService);
-        authProvider.setPasswordEncoder(encoder());
-        return authProvider;
-    }*/
 
     public class DeniedAuthenticationEntryPoint extends Http403ForbiddenEntryPoint {
         @Override

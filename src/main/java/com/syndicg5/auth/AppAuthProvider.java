@@ -24,7 +24,6 @@ public class AppAuthProvider extends DaoAuthenticationProvider {
         if (user == null) {
             throw new BadCredentialsException("Email/Password does not match for " + auth.getPrincipal());
         }
-//        if(password.equals(user.getPassword()))
         if(encoder.matches(password, user.getPassword()))
             return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
         else

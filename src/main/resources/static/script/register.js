@@ -141,29 +141,6 @@ $(document).ready(function() {
                     }
                 });
             }
-
-/*            $.ajax({
-                url: "/syndics",
-                data: { op: "insert", nom: nom, prenom: prenom, cin: cin, password: password },
-                type: 'POST',
-                success: function(data, textStatus, jqXHR) {
-                    if (data != null) {
-                        $("#nomI").val("");
-                        $("#prenomI").val("");
-                        $("#cinI").val("");
-                        $("#passwordI").val("");
-                        $("#insert-client").modal("hide");
-                        swal("Succès!", "Création du client avec succès!", "success").then(() => {
-                            remplir(data);
-                        });
-                    } else {
-                        swal("Echec!", "Echec lors de la création du client!", "warning");
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(errorThrown);
-                }
-            });*/
         }
     });
 });
