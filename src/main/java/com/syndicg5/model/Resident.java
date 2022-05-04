@@ -36,9 +36,6 @@ public class Resident implements Serializable {
     @Column(name = "photo")
     private String photo;
 
-    @OneToMany(mappedBy = "resident")
-    private Set<Appartement> appartements = new HashSet<>();
-
     public Long getId() {
         return id;
     }
@@ -101,13 +98,5 @@ public class Resident implements Serializable {
 
     public void setPhoto(String photo) {
         this.photo = photo;
-    }
-
-    public Set<Appartement> getAppartements() {
-        return appartements;
-    }
-
-    public void setAppartements(Set<Appartement> appartements) {
-        this.appartements = appartements;
     }
 }

@@ -34,7 +34,6 @@ public class SyndicServiceImpl implements SyndicService, UserDetailsService {
         s.setTelephone(syndic.getTelephone());
         s.setVille(syndic.getVille());
         s.setPhoto(syndic.getPhoto());
-        s.setImmeubles(syndic.getImmeubles());
         s.setMdp(passwordEncoder.encode(syndic.getMdp()));
         syndicRepository.save(s);
     }
@@ -49,7 +48,6 @@ public class SyndicServiceImpl implements SyndicService, UserDetailsService {
         s.setTelephone(syndic.getTelephone());
         s.setVille(syndic.getVille());
         s.setPhoto(syndic.getPhoto());
-        s.setImmeubles(syndic.getImmeubles());
         syndicRepository.save(s);
     }
 

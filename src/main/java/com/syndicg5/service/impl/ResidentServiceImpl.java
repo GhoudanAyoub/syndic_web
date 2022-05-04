@@ -28,7 +28,6 @@ public class ResidentServiceImpl implements ResidentService {
         r.setTelephone(resident.getTelephone());
         r.setVille(resident.getVille());
         r.setPhoto(resident.getPhoto());
-        r.setAppartements(resident.getAppartements());
         residentRepository.save(r);
     }
 

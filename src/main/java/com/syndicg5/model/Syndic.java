@@ -39,9 +39,6 @@ public class Syndic implements Serializable, UserDetails {
     @Column(name = "photo")
     private String photo;
 
-    @OneToMany(mappedBy = "syndic")
-    private Set<Immeuble> immeubles = new HashSet<>();
-
     public Long getId() {
         return id;
     }
@@ -104,14 +101,6 @@ public class Syndic implements Serializable, UserDetails {
 
     public void setPhoto(String photo) {
         this.photo = photo;
-    }
-
-    public Set<Immeuble> getImmeubles() {
-        return immeubles;
-    }
-
-    public void setImmeubles(Set<Immeuble> immeubles) {
-        this.immeubles = immeubles;
     }
 
     @Override

@@ -38,12 +38,6 @@ public class Immeuble implements Serializable {
     @ManyToOne
     private Syndic syndic;
 
-    @OneToMany(mappedBy = "immeuble")
-    private Set<Depense> depenses = new HashSet<>();
-
-    @OneToMany(mappedBy = "immeuble")
-    private Set<Revenu> revenus = new HashSet<>();
-
     public Long getId() {
         return id;
     }
@@ -114,21 +108,5 @@ public class Immeuble implements Serializable {
 
     public void setSyndic(Syndic syndic) {
         this.syndic = syndic;
-    }
-
-    public Set<Depense> getDepenses() {
-        return depenses;
-    }
-
-    public void setDepenses(Set<Depense> depenses) {
-        this.depenses = depenses;
-    }
-
-    public Set<Revenu> getRevenus() {
-        return revenus;
-    }
-
-    public void setRevenus(Set<Revenu> revenus) {
-        this.revenus = revenus;
     }
 }
