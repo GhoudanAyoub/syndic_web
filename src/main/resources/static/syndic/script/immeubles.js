@@ -145,7 +145,7 @@ $(document).ready(function() {
         var ligne = "";
         if (data.length > 0) {
             for (var i = 0; i < data.length; i++) {
-                ligne += '<tr><td align="center"><span class="user-icon"><img src="' + data[i].photo + '"></span></td><td align="center">' + data[i].numero + '</td><td align="center">' + data[i].nom + '</td><td align="center">' + data[i].adresse + '</td><td align="center">' + data[i].ville + '</td><td align="center">' + data[i].etages + '</td><td><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item" href="#"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item" href="#"><i class="dw dw-delete-3"></i> Supprimer</a></div></td></tr>';
+                ligne += '<tr><td class="img-fluid"><img src="' + data[i].photo + '"></td><td>' + data[i].numero + '</td><td>' + data[i].nom + '</td><td>' + data[i].adresse + '</td><td>' + data[i].ville + '</td><td>' + data[i].etages + '</td><td><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item" href="#"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item" href="#"><i class="dw dw-delete-3"></i> Supprimer</a></div></td></tr>';
             }
         }
         $("#table").html(ligne);
