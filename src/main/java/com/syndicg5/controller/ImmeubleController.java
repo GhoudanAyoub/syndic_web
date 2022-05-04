@@ -30,6 +30,11 @@ public class ImmeubleController {
         return immeubleService.findAll();
     }
 
+    @GetMapping("/immeubles/syndic/{id}")
+    public List<Immeuble> getAllImmeublesBySyndic(@PathVariable(value = "id") long id) {
+        return immeubleService.findAllBySyndic(id);
+    }
+
     @GetMapping("/immeubles/{id}")
     public Immeuble getImmeuble(@PathVariable Long id) {
         return immeubleService.findOne(id);

@@ -164,6 +164,9 @@
                                        id="photo">
                             </div>
                         </div>
+                        <div class="col-sm-3 col-md-2">
+                            <input class="btn btn-primary btn-sm btn-block" type="submit" value="Ajouter" id="ajouter">
+                        </div>
                     </div>
                 </form>
                 <!-- Default Basic Forms End -->
@@ -185,7 +188,7 @@
                                 <th class="datatable-nosort">Action</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="table">
                             </tbody>
                         </table>
                     </div>
@@ -214,6 +217,7 @@
 <script src="../src/plugins/datatables/js/vfs_fonts.js"></script>
 <!-- Datatable Setting js -->
 <script src="../vendors/scripts/datatable-setting.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="script/immeubles.js"></script>
 </body>
 </html>
