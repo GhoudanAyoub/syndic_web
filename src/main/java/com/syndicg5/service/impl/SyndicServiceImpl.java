@@ -64,6 +64,11 @@ public class SyndicServiceImpl implements SyndicService, UserDetailsService {
     }
 
     @Override
+    public Syndic findOneByEmail(String email) {
+        return syndicRepository.findByEmail(email);
+    }
+
+    @Override
     public void delete(Long id) {
         syndicRepository.deleteById(id);
     }

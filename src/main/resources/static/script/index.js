@@ -38,7 +38,21 @@ $(document).ready(function() {
                     async : false,
                     success : function(data,
                                        textStatus, jqXHR) {
-                        location.href = "/syndic/home.html";
+                        $.ajax({
+                            url : '/api/sessions/save?email=' + email,
+                            type : 'POST',
+                            async : false,
+                            success : function(data,
+                                               textStatus, jqXHR) {
+                                console.log("session done : ", data);
+                                location.href = "/syndic/home.html";
+                            },
+                            error : function(jqXHR, textStatus,
+                                             errorThrown) {
+                                console.log(textStatus, errorThrown);
+                                swal("Echec!", "Erreur session!", "warning");
+                            }
+                        });
                     },
                     error : function(jqXHR, textStatus,
                                      errorThrown) {

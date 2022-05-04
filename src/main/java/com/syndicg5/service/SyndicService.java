@@ -9,6 +9,7 @@ public interface SyndicService {
     void update(long id, Syndic syndic);
     List<Syndic> findAll();
     Syndic findOne(Long id);
+    Syndic findOneByEmail(String email);
     void delete(Long id);
 }
 
