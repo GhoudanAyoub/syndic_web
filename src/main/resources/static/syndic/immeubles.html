@@ -19,8 +19,8 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="../vendors/styles/core.css">
     <link rel="stylesheet" type="text/css" href="../vendors/styles/icon-font.min.css">
-<!--    <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/responsive.bootstrap4.min.css">-->
+    <!--    <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/responsive.bootstrap4.min.css">-->
     <link rel="stylesheet" type="text/css" href="../vendors/styles/style.css">
 
 
@@ -124,6 +124,23 @@
                 </div>
                 <form>
                     <div class="row">
+                        <aside class="col-md-12">
+                            <figure class="text-md-center">
+                                <img style="width:150px;height:100px;" src="" id="img"
+                                     onerror="this.src='images/no-image.png'" class="mb-3">
+                                <figcaption>
+                                    <a class="btn btn-outline-primary btn-sm" id="uploadimg" href="javascript:void(0)">
+                                        <i class="icon-copy dw dw-upload1"></i> Télécharger une image
+                                    </a>
+                                    <input class="form-control" type="file" accept=".png, .jpg, .jpeg"
+                                           placeholder="Photo"
+                                           id="photo" style="display:none;">
+                                    <a class="btn btn-outline-danger btn-sm" id="deleteimg" href="javascript:void(0)" hidden>
+                                        <i class="icon-copy dw dw-delete-3"></i> Supprimer une image
+                                    </a>
+                                </figcaption>
+                            </figure>
+                        </aside>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Numéro</label>
@@ -159,14 +176,10 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Photo</label>
-                                <input class="form-control" type="file" accept=".png, .jpg, .jpeg" placeholder="Photo"
-                                       id="photo">
-                            </div>
                         </div>
                         <div class="col-sm-3 col-md-2 mb-3" id="divannuler" hidden>
-                            <input class="btn btn-secondary btn-sm btn-block" type="button" value="Annuler" id="annuler">
+                            <input class="btn btn-secondary btn-sm btn-block" type="button" value="Annuler"
+                                   id="annuler">
                         </div>
                         <div class="col-sm-3 col-md-2 mb-3">
                             <input class="btn btn-primary btn-sm btn-block" type="submit" value="Ajouter" id="ajouter">
@@ -196,23 +209,23 @@
                             </tbody>
                         </table>
                     </div>
-<!--                    <div class="pb-20">
-                        <table class="data-table table stripe hover nowrap">
-                            <thead>
-                            <tr>
-                                <th>Photo</th>
-                                <th class="table-plus datatable-nosort">Numero</th>
-                                <th>Nom</th>
-                                <th>Address</th>
-                                <th>Ville</th>
-                                <th>Nombre d'étages</th>
-                                <th class="datatable-nosort">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody id="table">
-                            </tbody>
-                        </table>
-                    </div>-->
+                    <!--                    <div class="pb-20">
+                                            <table class="data-table table stripe hover nowrap">
+                                                <thead>
+                                                <tr>
+                                                    <th>Photo</th>
+                                                    <th class="table-plus datatable-nosort">Numero</th>
+                                                    <th>Nom</th>
+                                                    <th>Address</th>
+                                                    <th>Ville</th>
+                                                    <th>Nombre d'étages</th>
+                                                    <th class="datatable-nosort">Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="table">
+                                                </tbody>
+                                            </table>
+                                        </div>-->
                 </div>
                 <!-- Simple Datatable End -->
             </div>

@@ -1,4 +1,15 @@
 $(document).ready(function() {
+    $("#uploadimg").on("click", function(){
+        $("#photo").trigger("click");
+    });
+    $("#photo").on("change", function(){
+        readIMG(this);
+    });
+    $("#deleteimg").on("click", function() {
+        $("#img").prop("src", "");
+        $("#photo").val("");
+        $(this).prop('hidden', true);
+    });
     $.ajax({
         url : '/api/sessions',
         type : 'GET',
@@ -289,4 +300,15 @@ $(document).ready(function() {
         });
     }
 });
+
+function readIMG(input) {
+    if(input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $("#img").attr("src", e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+        $("#deleteimg").prop('hidden', false);
+    }
+}
 
