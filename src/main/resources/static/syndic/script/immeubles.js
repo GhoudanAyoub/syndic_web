@@ -1,14 +1,20 @@
 $(document).ready(function() {
+    var deleted = false;
+    var uploaded = false;
     $("#uploadimg").on("click", function(){
         $("#photo").trigger("click");
     });
     $("#photo").on("change", function(){
         readIMG(this);
+        deleted = false;
+        uploaded = true;
     });
     $("#deleteimg").on("click", function() {
         $("#img").prop("src", "");
         $("#photo").val("");
         $(this).prop('hidden', true);
+        deleted = true;
+        uploaded = false;
     });
     $.ajax({
         url : '/api/sessions',
@@ -33,57 +39,88 @@ $(document).ready(function() {
             });
 
             $("#ajouter").click(function(e) {
-                e.preventDefault();
-                var verif = true;
-                var numero = $("#numero").val();
-                var nom = $("#nom").val();
-                var etages = $("#etages").val();
-                var adresse = $("#adresse").val();
-                var ville = $("#ville").val();
-                var photo = $("#photo").val();
+                if($(this).attr("value") == "Ajouter") {
+                    e.preventDefault();
+                    var verif = true;
+                    var numero = $("#numero").val();
+                    var nom = $("#nom").val();
+                    var etages = $("#etages").val();
+                    var adresse = $("#adresse").val();
+                    var ville = $("#ville").val();
+                    var photo = $("#photo").val();
 
-                if (numero == "") {
-                    $("#numero").css("border", "1px solid red");
-                    verif = false;
-                } else {
-                    $("#numero").css("border", "1px solid #d4d4d4");
-                }
+                    if (numero == "") {
+                        $("#numero").css("border", "1px solid red");
+                        verif = false;
+                    } else {
+                        $("#numero").css("border", "1px solid #d4d4d4");
+                    }
 
-                if (nom == "") {
-                    $("#nom").css("border", "1px solid red");
-                    verif = false;
-                } else {
-                    $("#nom").css("border", "1px solid #d4d4d4");
-                }
+                    if (nom == "") {
+                        $("#nom").css("border", "1px solid red");
+                        verif = false;
+                    } else {
+                        $("#nom").css("border", "1px solid #d4d4d4");
+                    }
 
-                if (etages == "") {
-                    $("#etages").css("border", "1px solid red");
-                    verif = false;
-                } else {
-                    $("#etages").css("border", "1px solid #d4d4d4");
-                }
+                    if (etages == "") {
+                        $("#etages").css("border", "1px solid red");
+                        verif = false;
+                    } else {
+                        $("#etages").css("border", "1px solid #d4d4d4");
+                    }
 
-                if (adresse == "") {
-                    $("#adresse").css("border", "1px solid red");
-                    verif = false;
-                } else {
-                    $("#adresse").css("border", "1px solid #d4d4d4");
-                }
+                    if (adresse == "") {
+                        $("#adresse").css("border", "1px solid red");
+                        verif = false;
+                    } else {
+                        $("#adresse").css("border", "1px solid #d4d4d4");
+                    }
 
-                if (ville == "") {
-                    $("#ville").css("border", "1px solid red");
-                    verif = false;
-                } else {
-                    $("#ville").css("border", "1px solid #d4d4d4");
-                }
+                    if (ville == "") {
+                        $("#ville").css("border", "1px solid red");
+                        verif = false;
+                    } else {
+                        $("#ville").css("border", "1px solid #d4d4d4");
+                    }
 
-                if (verif) {
-                    if(photo) {
-                        var file = document.querySelector('input[type=file]')['files'][0];
-                        var reader = new FileReader();
-                        var baseString;
-                        reader.onloadend = function () {
-                            baseString = reader.result;
+                    if (verif) {
+                        if(photo) {
+                            var file = document.querySelector('input[type=file]')['files'][0];
+                            var reader = new FileReader();
+                            var baseString;
+                            reader.onloadend = function () {
+                                baseString = reader.result;
+                                var json = {
+                                    syndic : {id : id},
+                                    numero : numero,
+                                    nom : nom,
+                                    etages : etages,
+                                    adresse : adresse,
+                                    ville : ville,
+                                    photo : baseString
+                                };
+
+                                $.ajax({
+                                    url : '/api/immeubles',
+                                    contentType : 'application/json',
+                                    dataType : 'text',
+                                    data : JSON.stringify(json),
+                                    type : 'POST',
+                                    async : false,
+                                    success : function(data,
+                                                       textStatus, jqXHR) {
+                                        swal("Succès!", "Ajout de l'immeuble avec succès!", "success");
+                                    },
+                                    error : function(jqXHR, textStatus,
+                                                     errorThrown) {
+                                        console.log(textStatus, errorThrown);
+                                        swal("Echec!", "Echec lors de l'ajout de l'immeuble!", "warning");
+                                    }
+                                });
+                            };
+                            reader.readAsDataURL(file);
+                        }else {
                             var json = {
                                 syndic : {id : id},
                                 numero : numero,
@@ -91,7 +128,7 @@ $(document).ready(function() {
                                 etages : etages,
                                 adresse : adresse,
                                 ville : ville,
-                                photo : baseString
+                                photo : null
                             };
 
                             $.ajax({
@@ -111,36 +148,7 @@ $(document).ready(function() {
                                     swal("Echec!", "Echec lors de l'ajout de l'immeuble!", "warning");
                                 }
                             });
-                        };
-                        reader.readAsDataURL(file);
-                    }else {
-                        var json = {
-                            syndic : {id : id},
-                            numero : numero,
-                            nom : nom,
-                            etages : etages,
-                            adresse : adresse,
-                            ville : ville,
-                            photo : null
-                        };
-
-                        $.ajax({
-                            url : '/api/immeubles',
-                            contentType : 'application/json',
-                            dataType : 'text',
-                            data : JSON.stringify(json),
-                            type : 'POST',
-                            async : false,
-                            success : function(data,
-                                               textStatus, jqXHR) {
-                                swal("Succès!", "Ajout de l'immeuble avec succès!", "success");
-                            },
-                            error : function(jqXHR, textStatus,
-                                             errorThrown) {
-                                console.log(textStatus, errorThrown);
-                                swal("Echec!", "Echec lors de l'ajout de l'immeuble!", "warning");
-                            }
-                        });
+                        }
                     }
                 }
             });
@@ -156,7 +164,7 @@ $(document).ready(function() {
         var ligne = "";
         if (data.length > 0) {
             for (var i = 0; i < data.length; i++) {
-                ligne += '<tr><td class="text-center"><img style="width:150px;height:100px;" src="' + data[i].photo + '"></td><td class="text-center">' + data[i].numero + '</td><td class="text-center">' + data[i].nom + '</td><td class="text-center">' + data[i].adresse + '</td><td class="text-center">' + data[i].ville + '</td><td class="text-center">' + data[i].etages + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-update" data-immeuble=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-delete" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-delete-3"></i> Supprimer</a></div></td></tr>';
+                ligne += '<tr><td class="text-center"><img style="width:150px;height:100px;" src="' + data[i].photo + '" onerror="this.src=\'images/no-image.png\'"></td><td class="text-center">' + data[i].numero + '</td><td class="text-center">' + data[i].nom + '</td><td class="text-center">' + data[i].adresse + '</td><td class="text-center">' + data[i].ville + '</td><td class="text-center">' + data[i].etages + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-update" data-immeuble=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-delete" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-delete-3"></i> Supprimer</a></div></td></tr>';
             }
         }
         $("#table").html(ligne);
@@ -169,6 +177,11 @@ $(document).ready(function() {
             $("#etages").val(immeuble.etages);
             $("#adresse").val(immeuble.adresse);
             $("#ville").val(immeuble.ville);
+            if(immeuble.photo != null) {
+                $("#img").attr("src", immeuble.photo);
+                $("#deleteimg").prop('hidden', false);
+                deleted = false;
+            }
 
             $("#ajouter").prop('value', 'Modifier');
             $("#divannuler").prop('hidden', false);
@@ -181,61 +194,96 @@ $(document).ready(function() {
                 $("#adresse").val("");
                 $("#ville").val("");
                 $("#photo").val("");
+                $("#img").attr("src", "");
                 $("#divannuler").prop('hidden', true);
             });
 
             $("#ajouter").click(function(e) {
-                e.preventDefault();
-                var verif = true;
-                var numero = $("#numero").val();
-                var nom = $("#nom").val();
-                var etages = $("#etages").val();
-                var adresse = $("#adresse").val();
-                var ville = $("#ville").val();
-                var photo = $("#photo").val();
+                if($(this).attr("value") == "Modifier") {
+                    e.preventDefault();
+                    var verif = true;
+                    var numero = $("#numero").val();
+                    var nom = $("#nom").val();
+                    var etages = $("#etages").val();
+                    var adresse = $("#adresse").val();
+                    var ville = $("#ville").val();
+                    if(deleted || uploaded) {
+                        immeuble.photo = null;
+                        var photo = $("#photo").val();
+                    }
 
-                if (numero == "") {
-                    $("#numero").css("border", "1px solid red");
-                    verif = false;
-                } else {
-                    $("#numero").css("border", "1px solid #d4d4d4");
-                }
+                    if (numero == "") {
+                        $("#numero").css("border", "1px solid red");
+                        verif = false;
+                    } else {
+                        $("#numero").css("border", "1px solid #d4d4d4");
+                    }
 
-                if (nom == "") {
-                    $("#nom").css("border", "1px solid red");
-                    verif = false;
-                } else {
-                    $("#nom").css("border", "1px solid #d4d4d4");
-                }
+                    if (nom == "") {
+                        $("#nom").css("border", "1px solid red");
+                        verif = false;
+                    } else {
+                        $("#nom").css("border", "1px solid #d4d4d4");
+                    }
 
-                if (etages == "") {
-                    $("#etages").css("border", "1px solid red");
-                    verif = false;
-                } else {
-                    $("#etages").css("border", "1px solid #d4d4d4");
-                }
+                    if (etages == "") {
+                        $("#etages").css("border", "1px solid red");
+                        verif = false;
+                    } else {
+                        $("#etages").css("border", "1px solid #d4d4d4");
+                    }
 
-                if (adresse == "") {
-                    $("#adresse").css("border", "1px solid red");
-                    verif = false;
-                } else {
-                    $("#adresse").css("border", "1px solid #d4d4d4");
-                }
+                    if (adresse == "") {
+                        $("#adresse").css("border", "1px solid red");
+                        verif = false;
+                    } else {
+                        $("#adresse").css("border", "1px solid #d4d4d4");
+                    }
 
-                if (ville == "") {
-                    $("#ville").css("border", "1px solid red");
-                    verif = false;
-                } else {
-                    $("#ville").css("border", "1px solid #d4d4d4");
-                }
+                    if (ville == "") {
+                        $("#ville").css("border", "1px solid red");
+                        verif = false;
+                    } else {
+                        $("#ville").css("border", "1px solid #d4d4d4");
+                    }
 
-                if (verif) {
-                    if(photo) {
-                        var file = document.querySelector('input[type=file]')['files'][0];
-                        var reader = new FileReader();
-                        var baseString;
-                        reader.onloadend = function () {
-                            baseString = reader.result;
+                    if (verif) {
+                        if(photo) {
+                            var file = document.querySelector('input[type=file]')['files'][0];
+                            var reader = new FileReader();
+                            var baseString;
+                            reader.onloadend = function () {
+                                baseString = reader.result;
+                                var json = {
+                                    syndic : {id : immeuble.syndic.id},
+                                    numero : numero,
+                                    nom : nom,
+                                    etages : etages,
+                                    adresse : adresse,
+                                    ville : ville,
+                                    photo : baseString
+                                };
+
+                                $.ajax({
+                                    url : '/api/immeubles/' + immeuble.id,
+                                    contentType : 'application/json',
+                                    dataType : 'text',
+                                    data : JSON.stringify(json),
+                                    type : 'PUT',
+                                    async : false,
+                                    success : function(data,
+                                                       textStatus, jqXHR) {
+                                        swal("Succès!", "Modification de l'immeuble avec succès!", "success");
+                                    },
+                                    error : function(jqXHR, textStatus,
+                                                     errorThrown) {
+                                        console.log(textStatus, errorThrown);
+                                        swal("Echec!", "Echec lors de la modification de l'immeuble!", "warning");
+                                    }
+                                });
+                            };
+                            reader.readAsDataURL(file);
+                        }else {
                             var json = {
                                 syndic : {id : immeuble.syndic.id},
                                 numero : numero,
@@ -243,7 +291,7 @@ $(document).ready(function() {
                                 etages : etages,
                                 adresse : adresse,
                                 ville : ville,
-                                photo : baseString
+                                photo : immeuble.photo
                             };
 
                             $.ajax({
@@ -263,36 +311,7 @@ $(document).ready(function() {
                                     swal("Echec!", "Echec lors de la modification de l'immeuble!", "warning");
                                 }
                             });
-                        };
-                        reader.readAsDataURL(file);
-                    }else {
-                        var json = {
-                            syndic : {id : immeuble.syndic.id},
-                            numero : numero,
-                            nom : nom,
-                            etages : etages,
-                            adresse : adresse,
-                            ville : ville,
-                            photo : immeuble.photo
-                        };
-
-                        $.ajax({
-                            url : '/api/immeubles/' + immeuble.id,
-                            contentType : 'application/json',
-                            dataType : 'text',
-                            data : JSON.stringify(json),
-                            type : 'PUT',
-                            async : false,
-                            success : function(data,
-                                               textStatus, jqXHR) {
-                                swal("Succès!", "Modification de l'immeuble avec succès!", "success");
-                            },
-                            error : function(jqXHR, textStatus,
-                                             errorThrown) {
-                                console.log(textStatus, errorThrown);
-                                swal("Echec!", "Echec lors de la modification de l'immeuble!", "warning");
-                            }
-                        });
+                        }
                     }
                 }
             });
