@@ -19,8 +19,8 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="../vendors/styles/core.css">
     <link rel="stylesheet" type="text/css" href="../vendors/styles/icon-font.min.css">
-    <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/responsive.bootstrap4.min.css">
+<!--    <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/responsive.bootstrap4.min.css">-->
     <link rel="stylesheet" type="text/css" href="../vendors/styles/style.css">
 
 
@@ -42,6 +42,7 @@
 
 <div class="header">
     <div class="header-left">
+        <div class="menu-icon dw dw-menu"></div>
     </div>
     <div class="header-right">
         <div class="user-info-dropdown">
@@ -62,7 +63,7 @@
 </div>
 
 <div class="left-side-bar">
-<!--    <div class="brand-logo">
+    <div class="brand-logo">
         <a href="index.html">
             <img src="../vendors/images/deskapp-logo.svg" alt="" class="dark-logo">
             <img src="../vendors/images/deskapp-logo-white.svg" alt="" class="light-logo">
@@ -70,7 +71,7 @@
         <div class="close-sidebar" data-toggle="left-sidebar-close">
             <i class="ion-close-round"></i>
         </div>
-    </div>-->
+    </div>
     <div class="menu-block customscroll">
         <div class="sidebar-menu">
             <ul id="accordion-menu">
@@ -164,7 +165,10 @@
                                        id="photo">
                             </div>
                         </div>
-                        <div class="col-sm-3 col-md-2">
+                        <div class="col-sm-3 col-md-2 mb-3" id="divannuler" hidden>
+                            <input class="btn btn-secondary btn-sm btn-block" type="button" value="Annuler" id="annuler">
+                        </div>
+                        <div class="col-sm-3 col-md-2 mb-3">
                             <input class="btn btn-primary btn-sm btn-block" type="submit" value="Ajouter" id="ajouter">
                         </div>
                     </div>
@@ -175,7 +179,24 @@
                     <div class="pd-20">
                         <h4 class="text-blue h4">Liste des immeubles</h4>
                     </div>
-                    <div class="pb-20">
+                    <div class="table-responsive pre-scrollable">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th class="text-center" style="min-width: 150px">Photo</th>
+                                <th class="text-center">Numero</th>
+                                <th class="text-center">Nom</th>
+                                <th class="text-center">Address</th>
+                                <th class="text-center">Ville</th>
+                                <th class="text-center">Nombre d'étages</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="table">
+                            </tbody>
+                        </table>
+                    </div>
+<!--                    <div class="pb-20">
                         <table class="data-table table stripe hover nowrap">
                             <thead>
                             <tr>
@@ -191,7 +212,7 @@
                             <tbody id="table">
                             </tbody>
                         </table>
-                    </div>
+                    </div>-->
                 </div>
                 <!-- Simple Datatable End -->
             </div>
@@ -203,20 +224,20 @@
 <script src="../vendors/scripts/script.min.js"></script>
 <script src="../vendors/scripts/process.js"></script>
 <script src="../vendors/scripts/layout-settings.js"></script>
-<script src="../src/plugins/datatables/js/jquery.dataTables.min.js"></script>
-<script src="../src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
-<script src="../src/plugins/datatables/js/dataTables.responsive.min.js"></script>
-<script src="../src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
+<!--<script src="../src/plugins/datatables/js/jquery.dataTables.min.js"></script>-->
+<!--<script src="../src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="../src/plugins/datatables/js/dataTables.responsive.min.js"></script>-->
+<!--<script src="../src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>-->
 <!-- buttons for Export datatable -->
-<script src="../src/plugins/datatables/js/dataTables.buttons.min.js"></script>
+<!--<script src="../src/plugins/datatables/js/dataTables.buttons.min.js"></script>
 <script src="../src/plugins/datatables/js/buttons.bootstrap4.min.js"></script>
 <script src="../src/plugins/datatables/js/buttons.print.min.js"></script>
 <script src="../src/plugins/datatables/js/buttons.html5.min.js"></script>
 <script src="../src/plugins/datatables/js/buttons.flash.min.js"></script>
 <script src="../src/plugins/datatables/js/pdfmake.min.js"></script>
-<script src="../src/plugins/datatables/js/vfs_fonts.js"></script>
+<script src="../src/plugins/datatables/js/vfs_fonts.js"></script>-->
 <!-- Datatable Setting js -->
-<script src="../vendors/scripts/datatable-setting.js"></script>
+<!--<script src="../vendors/scripts/datatable-setting.js"></script>-->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="script/immeubles.js"></script>
 </body>
