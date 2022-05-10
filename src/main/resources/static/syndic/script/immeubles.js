@@ -252,6 +252,10 @@ $(document).ready(function() {
                         photo = $("#photo").val();
                     }
 
+                    if(deleted) {
+                        $("#img").attr("src", "");
+                    }
+
                     if (numero == "") {
                         $("#numero").css("border", "1px solid red");
                         verif = false;
@@ -338,6 +342,10 @@ $(document).ready(function() {
                             };
                             reader.readAsDataURL(file);
                         }else {
+                            var p = null;
+                            if($("#img").attr("src") != "" && $("#img").attr("src") != "images/no-image.png") {
+                                p = $("#img").attr("src");
+                            }
                             var json = {
                                 syndic : {id : syndicId},
                                 numero : numero,
@@ -345,7 +353,7 @@ $(document).ready(function() {
                                 etages : etages,
                                 adresse : adresse,
                                 ville : ville,
-                                photo : immeuble.photo
+                                photo : p
                             };
 
                             $.ajax({
