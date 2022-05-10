@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    var id;
     var deleted = false;
     var uploaded = false;
     $("#uploadimg").on("click", function(){
@@ -22,14 +23,13 @@ $(document).ready(function() {
         async : false,
         success : function(data,
                            textStatus, jqXHR) {
-            var id = data;
+            id = data;
             $.ajax({
                 url : '/api/immeubles/syndic/' + id,
                 type : 'GET',
                 async : false,
                 success : function(data,
                                    textStatus, jqXHR) {
-                    console.log(data);
                     remplir(data);
                 },
                 error : function(jqXHR, textStatus,
@@ -104,12 +104,12 @@ $(document).ready(function() {
                                 $.ajax({
                                     url : '/api/immeubles',
                                     contentType : 'application/json',
-                                    dataType : 'text',
                                     data : JSON.stringify(json),
                                     type : 'POST',
                                     async : false,
                                     success : function(data,
                                                        textStatus, jqXHR) {
+                                        remplir(data);
                                         swal("Succès!", "Ajout de l'immeuble avec succès!", "success");
                                     },
                                     error : function(jqXHR, textStatus,
@@ -134,12 +134,12 @@ $(document).ready(function() {
                             $.ajax({
                                 url : '/api/immeubles',
                                 contentType : 'application/json',
-                                dataType : 'text',
                                 data : JSON.stringify(json),
                                 type : 'POST',
                                 async : false,
                                 success : function(data,
                                                    textStatus, jqXHR) {
+                                    remplir(data);
                                     swal("Succès!", "Ajout de l'immeuble avec succès!", "success");
                                 },
                                 error : function(jqXHR, textStatus,
@@ -169,6 +169,36 @@ $(document).ready(function() {
         }
         $("#table").html(ligne);
 
+        $(".btn-delete").click(function() {
+            swal({
+                title: "Voulez-vous supprimer cet immeuble?",
+                icon: "info",
+                buttons: true,
+                showcancelbutton: true,
+            })
+                .then((isConfirm) => {
+                    if (isConfirm) {
+                        var delid = $(this).data("id");
+                        $.ajax({
+                            url : '/api/immeubles/' + delid,
+                            contentType : 'application/json',
+                            type : 'DELETE',
+                            async : false,
+                            success : function(data,
+                                               textStatus, jqXHR) {
+                                remplir(data);
+                                swal("Succès!", "Suppression de l'immeuble avec succès!", "success");
+                            },
+                            error : function(jqXHR, textStatus,
+                                             errorThrown) {
+                                console.log(textStatus, errorThrown);
+                                swal("Echec!", "Echec lors de la suppression de l'immeuble!", "warning");
+                            }
+                        });
+                    }
+                });
+        });
+
         $(".btn-update").click(function() {
             var immeuble = $(this).data("immeuble");
 
@@ -177,11 +207,13 @@ $(document).ready(function() {
             $("#etages").val(immeuble.etages);
             $("#adresse").val(immeuble.adresse);
             $("#ville").val(immeuble.ville);
+            console.log("immeuble.photo 1 : " + immeuble.photo);
             if(immeuble.photo != null) {
                 $("#img").attr("src", immeuble.photo);
                 $("#deleteimg").prop('hidden', false);
                 deleted = false;
             }
+            console.log("immeuble.photo 1.5 : " + immeuble.photo);
 
             $("#ajouter").prop('value', 'Modifier');
             $("#divannuler").prop('hidden', false);
@@ -196,19 +228,22 @@ $(document).ready(function() {
                 $("#photo").val("");
                 $("#img").attr("src", "");
                 $("#divannuler").prop('hidden', true);
+                $("#deleteimg").prop('hidden', true);
+                deleted = false;
+                uploaded = false;
             });
 
             $("#ajouter").click(function(e) {
                 if($(this).attr("value") == "Modifier") {
                     e.preventDefault();
+                    console.log("immeuble.photo 2 : " + immeuble.photo);
                     var verif = true;
                     var numero = $("#numero").val();
                     var nom = $("#nom").val();
                     var etages = $("#etages").val();
                     var adresse = $("#adresse").val();
                     var ville = $("#ville").val();
-                    if(deleted || uploaded) {
-                        immeuble.photo = null;
+                    if(uploaded) {
                         var photo = $("#photo").val();
                     }
 
@@ -248,7 +283,9 @@ $(document).ready(function() {
                     }
 
                     if (verif) {
+                        console.log("immeuble.photo 3 : " + immeuble.photo);
                         if(photo) {
+                            console.log("one");
                             var file = document.querySelector('input[type=file]')['files'][0];
                             var reader = new FileReader();
                             var baseString;
@@ -267,12 +304,24 @@ $(document).ready(function() {
                                 $.ajax({
                                     url : '/api/immeubles/' + immeuble.id,
                                     contentType : 'application/json',
-                                    dataType : 'text',
                                     data : JSON.stringify(json),
                                     type : 'PUT',
                                     async : false,
                                     success : function(data,
                                                        textStatus, jqXHR) {
+                                        remplir(data);
+                                        $("#ajouter").prop('value', 'Ajouter');
+                                        $("#numero").val("");
+                                        $("#nom").val("");
+                                        $("#etages").val("");
+                                        $("#adresse").val("");
+                                        $("#ville").val("");
+                                        $("#photo").val("");
+                                        $("#img").attr("src", "");
+                                        $("#divannuler").prop('hidden', true);
+                                        $("#deleteimg").prop('hidden', true);
+                                        deleted = false;
+                                        uploaded = false;
                                         swal("Succès!", "Modification de l'immeuble avec succès!", "success");
                                     },
                                     error : function(jqXHR, textStatus,
@@ -284,6 +333,7 @@ $(document).ready(function() {
                             };
                             reader.readAsDataURL(file);
                         }else {
+                            console.log("two : " + immeuble.photo);
                             var json = {
                                 syndic : {id : immeuble.syndic.id},
                                 numero : numero,
@@ -297,12 +347,24 @@ $(document).ready(function() {
                             $.ajax({
                                 url : '/api/immeubles/' + immeuble.id,
                                 contentType : 'application/json',
-                                dataType : 'text',
                                 data : JSON.stringify(json),
                                 type : 'PUT',
                                 async : false,
                                 success : function(data,
                                                    textStatus, jqXHR) {
+                                    remplir(data);
+                                    $("#ajouter").prop('value', 'Ajouter');
+                                    $("#numero").val("");
+                                    $("#nom").val("");
+                                    $("#etages").val("");
+                                    $("#adresse").val("");
+                                    $("#ville").val("");
+                                    $("#photo").val("");
+                                    $("#img").attr("src", "");
+                                    $("#divannuler").prop('hidden', true);
+                                    $("#deleteimg").prop('hidden', true);
+                                    deleted = false;
+                                    uploaded = false;
                                     swal("Succès!", "Modification de l'immeuble avec succès!", "success");
                                 },
                                 error : function(jqXHR, textStatus,

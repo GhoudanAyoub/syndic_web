@@ -16,13 +16,13 @@ public class ImmeubleController {
     ImmeubleServiceImpl immeubleService;
 
     @PostMapping("/immeubles")
-    public void createImmeuble(@RequestBody Immeuble immeuble) {
-        immeubleService.save(immeuble);
+    public List<Immeuble> createImmeuble(@RequestBody Immeuble immeuble) {
+        return immeubleService.save(immeuble);
     }
 
     @PutMapping("/immeubles/{id}")
-    public void updateImmeuble(@PathVariable(value = "id") long id, @Valid @RequestBody Immeuble immeuble) {
-        immeubleService.update(id, immeuble);
+    public List<Immeuble> updateImmeuble(@PathVariable(value = "id") long id, @Valid @RequestBody Immeuble immeuble) {
+        return immeubleService.update(id, immeuble);
     }
 
     @GetMapping("/immeubles")
@@ -41,7 +41,7 @@ public class ImmeubleController {
     }
 
     @DeleteMapping("/immeubles/{id}")
-    public void deleteImmeuble(@PathVariable long id) {
-        immeubleService.delete(id);
+    public List<Immeuble> deleteImmeuble(@PathVariable long id) {
+        return immeubleService.delete(id);
     }
 }
