@@ -35,6 +35,12 @@ public class RevenuController {
         return revenuService.findOne(id);
     }
 
+    @GetMapping("/revenusByImmeuble/{id}")
+    public List<Revenu> findRevenusByImmeuble(long id) {
+        return revenuService.findRevenusByImmeuble(id);
+    }
+
+
     @DeleteMapping("/revenus/{id}")
     public void deleteRevenu(@PathVariable long id) {
         revenuService.delete(id);

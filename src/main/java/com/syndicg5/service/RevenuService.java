@@ -8,6 +8,7 @@ public interface RevenuService {
     void save(Revenu revenu);
     void update(long id, Revenu revenu);
     List<Revenu> findAll();
+    List<Revenu> findRevenusByImmeuble(long id);
     Revenu findOne(Long id);
     void delete(Long id);
 }

@@ -36,6 +36,11 @@ public class RevenuServiceImpl implements RevenuService {
     }
 
     @Override
+    public List<Revenu> findRevenusByImmeuble(long id) {
+        return revenuRepository.findRevenusByImmeuble(id);
+    }
+
+    @Override
     public Revenu findOne(Long id) {
         return revenuRepository.findById(id).get();
     }
