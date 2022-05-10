@@ -35,6 +35,11 @@ public class AppartementController {
         return appartementService.findOne(id);
     }
 
+    @GetMapping("/appartementByImmeuble/{id}")
+    public List<Appartement> getAppartementByImmeuble(Long id) {
+        return appartementService.getAppartementByImmeuble(id);
+    }
+
     @DeleteMapping("/appartements/{id}")
     public void deleteAppartement(@PathVariable long id) {
         appartementService.delete(id);

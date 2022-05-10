@@ -35,6 +35,11 @@ public class AppartementServiceImpl implements AppartementService {
     }
 
     @Override
+    public List<Appartement> getAppartementByImmeuble(Long id) {
+        return appartementRepository.getAppartementByImmeuble(id);
+    }
+
+    @Override
     public Appartement findOne(Long id) {
         return appartementRepository.findById(id).get();
     }
