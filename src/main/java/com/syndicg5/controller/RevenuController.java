@@ -36,12 +36,12 @@ public class RevenuController {
     }
 
     @GetMapping("/revenusByImmeuble/{id}")
-    public List<Revenu> findRevenusByImmeuble(long id) {
+    public List<Revenu> findRevenusByImmeuble(@PathVariable long id) {
         return revenuService.findRevenusByImmeuble(id);
     }
 
     @GetMapping("/revenusByAppartement/{id}")
-    public List<Revenu> findRevenusByAppartement(long id) {
+    public List<Revenu> findRevenusByAppartement(@PathVariable long id) {
         return revenuService.findRevenusByAppartement(id);
     }
 

@@ -36,7 +36,7 @@ public class AppartementServiceImpl implements AppartementService {
 
     @Override
     public List<Appartement> getAppartementByImmeuble(Long id) {
-        return appartementRepository.getAppartementByImmeuble(id);
+        return appartementRepository.findAppartementByImmeuble(id);
     }
 
     @Override
