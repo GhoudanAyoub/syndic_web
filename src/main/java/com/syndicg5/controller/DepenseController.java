@@ -37,7 +37,7 @@ public class DepenseController {
     }
 
     @GetMapping("/depenseByImmeuble/{id}")
-    public List<Depense> findDepensesByImmeuble(long id) {
+    public List<Depense> findDepensesByImmeuble(@PathVariable long id) {
         return depenseService.findDepensesByImmeuble(id);
     }
 

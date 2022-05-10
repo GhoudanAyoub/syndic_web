@@ -36,7 +36,7 @@ public class AppartementController {
     }
 
     @GetMapping("/appartementByImmeuble/{id}")
-    public List<Appartement> getAppartementByImmeuble(Long id) {
+    public List<Appartement> getAppartementByImmeuble(@PathVariable Long id) {
         return appartementService.getAppartementByImmeuble(id);
     }
 
