@@ -207,13 +207,12 @@ $(document).ready(function() {
             $("#etages").val(immeuble.etages);
             $("#adresse").val(immeuble.adresse);
             $("#ville").val(immeuble.ville);
-            console.log("immeuble.photo 1 : " + immeuble.photo);
             if(immeuble.photo != null) {
                 $("#img").attr("src", immeuble.photo);
                 $("#deleteimg").prop('hidden', false);
                 deleted = false;
+                uploaded = false;
             }
-            console.log("immeuble.photo 1.5 : " + immeuble.photo);
 
             $("#ajouter").prop('value', 'Modifier');
             $("#divannuler").prop('hidden', false);
@@ -236,15 +235,19 @@ $(document).ready(function() {
             $("#ajouter").click(function(e) {
                 if($(this).attr("value") == "Modifier") {
                     e.preventDefault();
-                    console.log("immeuble.photo 2 : " + immeuble.photo);
                     var verif = true;
                     var numero = $("#numero").val();
                     var nom = $("#nom").val();
                     var etages = $("#etages").val();
                     var adresse = $("#adresse").val();
                     var ville = $("#ville").val();
+                    var photo = null;
                     if(uploaded) {
-                        var photo = $("#photo").val();
+                        photo = $("#photo").val();
+                    }
+
+                    if(deleted) {
+                        immeuble.photo = null;
                     }
 
                     if (numero == "") {
@@ -283,7 +286,6 @@ $(document).ready(function() {
                     }
 
                     if (verif) {
-                        console.log("immeuble.photo 3 : " + immeuble.photo);
                         if(photo) {
                             console.log("one");
                             var file = document.querySelector('input[type=file]')['files'][0];
