@@ -32,9 +32,6 @@ public class Immeuble implements Serializable {
     @Column(name = "photo")
     private String photo;
 
-    @OneToMany(mappedBy = "immeuble")
-    private Set<Appartement> appartements = new HashSet<>();
-
     @ManyToOne
     private Syndic syndic;
 
@@ -92,14 +89,6 @@ public class Immeuble implements Serializable {
 
     public void setPhoto(String photo) {
         this.photo = photo;
-    }
-
-    public Set<Appartement> getAppartements() {
-        return appartements;
-    }
-
-    public void setAppartements(Set<Appartement> appartements) {
-        this.appartements = appartements;
     }
 
     public Syndic getSyndic() {

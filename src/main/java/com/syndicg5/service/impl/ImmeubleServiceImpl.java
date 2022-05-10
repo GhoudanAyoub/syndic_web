@@ -30,7 +30,6 @@ public class ImmeubleServiceImpl implements ImmeubleService {
         i.setEtages(immeuble.getEtages());
         i.setPhoto(immeuble.getPhoto());
         i.setSyndic(immeuble.getSyndic());
-        i.setAppartements(immeuble.getAppartements());
         immeubleRepository.save(i);
         return immeubleRepository.findAllBySyndic(i.getSyndic().getId());
     }
