@@ -1,6 +1,7 @@
 package com.syndicg5.controller;
 
 import com.syndicg5.model.Depense;
+import com.syndicg5.model.Revenu;
 import com.syndicg5.service.impl.DepenseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,11 @@ public class DepenseController {
     @GetMapping("/depenses/{id}")
     public Depense getDepense(@PathVariable Long id) {
         return depenseService.findOne(id);
+    }
+
+    @GetMapping("/depenseByImmeuble/{id}")
+    public List<Depense> findDepensesByImmeuble(long id) {
+        return depenseService.findDepensesByImmeuble(id);
     }
 
     @DeleteMapping("/depenses/{id}")

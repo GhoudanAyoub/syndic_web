@@ -35,6 +35,11 @@ public class DepenseServiceImpl implements DepenseService {
     }
 
     @Override
+    public List<Depense> findDepensesByImmeuble(long id) {
+        return depenseRepository.findDepensesByImmeuble(id);
+    }
+
+    @Override
     public Depense findOne(Long id) {
         return depenseRepository.findById(id).get();
     }
