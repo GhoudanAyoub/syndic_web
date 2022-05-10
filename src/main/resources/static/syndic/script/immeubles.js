@@ -202,6 +202,8 @@ $(document).ready(function() {
         $(".btn-update").click(function() {
             var immeuble = $(this).data("immeuble");
 
+            $("#immeubleId").val(immeuble.id);
+            $("#syndicId").val(immeuble.syndic.id);
             $("#numero").val(immeuble.numero);
             $("#nom").val(immeuble.nom);
             $("#etages").val(immeuble.etages);
@@ -219,6 +221,8 @@ $(document).ready(function() {
 
             $("#annuler").click(function() {
                 $("#ajouter").prop('value', 'Ajouter');
+                $("#immeubleId").val("");
+                $("#syndicId").val("");
                 $("#numero").val("");
                 $("#nom").val("");
                 $("#etages").val("");
@@ -236,6 +240,8 @@ $(document).ready(function() {
                 if($(this).attr("value") == "Modifier") {
                     e.preventDefault();
                     var verif = true;
+                    var immeubleId = $("#immeubleId").val();
+                    var syndicId = $("#syndicId").val();
                     var numero = $("#numero").val();
                     var nom = $("#nom").val();
                     var etages = $("#etages").val();
@@ -244,10 +250,6 @@ $(document).ready(function() {
                     var photo = null;
                     if(uploaded) {
                         photo = $("#photo").val();
-                    }
-
-                    if(deleted) {
-                        immeuble.photo = null;
                     }
 
                     if (numero == "") {
@@ -287,14 +289,13 @@ $(document).ready(function() {
 
                     if (verif) {
                         if(photo) {
-                            console.log("one");
                             var file = document.querySelector('input[type=file]')['files'][0];
                             var reader = new FileReader();
                             var baseString;
                             reader.onloadend = function () {
                                 baseString = reader.result;
                                 var json = {
-                                    syndic : {id : immeuble.syndic.id},
+                                    syndic : {id : syndicId},
                                     numero : numero,
                                     nom : nom,
                                     etages : etages,
@@ -304,7 +305,7 @@ $(document).ready(function() {
                                 };
 
                                 $.ajax({
-                                    url : '/api/immeubles/' + immeuble.id,
+                                    url : '/api/immeubles/' + immeubleId,
                                     contentType : 'application/json',
                                     data : JSON.stringify(json),
                                     type : 'PUT',
@@ -313,6 +314,8 @@ $(document).ready(function() {
                                                        textStatus, jqXHR) {
                                         remplir(data);
                                         $("#ajouter").prop('value', 'Ajouter');
+                                        $("#immeubleId").val("");
+                                        $("#syndicId").val("");
                                         $("#numero").val("");
                                         $("#nom").val("");
                                         $("#etages").val("");
@@ -335,9 +338,8 @@ $(document).ready(function() {
                             };
                             reader.readAsDataURL(file);
                         }else {
-                            console.log("two : " + immeuble.photo);
                             var json = {
-                                syndic : {id : immeuble.syndic.id},
+                                syndic : {id : syndicId},
                                 numero : numero,
                                 nom : nom,
                                 etages : etages,
@@ -347,7 +349,7 @@ $(document).ready(function() {
                             };
 
                             $.ajax({
-                                url : '/api/immeubles/' + immeuble.id,
+                                url : '/api/immeubles/' + immeubleId,
                                 contentType : 'application/json',
                                 data : JSON.stringify(json),
                                 type : 'PUT',
@@ -356,6 +358,8 @@ $(document).ready(function() {
                                                    textStatus, jqXHR) {
                                     remplir(data);
                                     $("#ajouter").prop('value', 'Ajouter');
+                                    $("#immeubleId").val("");
+                                    $("#syndicId").val("");
                                     $("#numero").val("");
                                     $("#nom").val("");
                                     $("#etages").val("");
