@@ -40,6 +40,11 @@ public class RevenuController {
         return revenuService.findRevenusByImmeuble(id);
     }
 
+    @GetMapping("/revenusByAppartement/{id}")
+    public List<Revenu> findRevenusByAppartement(long id) {
+        return revenuService.findRevenusByAppartement(id);
+    }
+
 
     @DeleteMapping("/revenus/{id}")
     public void deleteRevenu(@PathVariable long id) {

@@ -9,6 +9,7 @@ public interface RevenuService {
     void update(long id, Revenu revenu);
     List<Revenu> findAll();
     List<Revenu> findRevenusByImmeuble(long id);
+    List<Revenu> findRevenusByAppartement(long id);
     Revenu findOne(Long id);
     void delete(Long id);
 }
