@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    var id;
     var deleted = false;
     var uploaded = false;
     $("#uploadimg").on("click", function(){
@@ -23,9 +22,9 @@ $(document).ready(function() {
         async : false,
         success : function(data,
                            textStatus, jqXHR) {
-            id = data;
+            $("#syndicId").val(data);
             $.ajax({
-                url : '/api/immeubles/syndic/' + id,
+                url : '/api/immeubles/syndic/' + $("#syndicId").val(),
                 type : 'GET',
                 async : false,
                 success : function(data,
@@ -92,7 +91,7 @@ $(document).ready(function() {
                             reader.onloadend = function () {
                                 baseString = reader.result;
                                 var json = {
-                                    syndic : {id : id},
+                                    syndic : {id : $("#syndicId").val()},
                                     numero : numero,
                                     nom : nom,
                                     etages : etages,
@@ -110,6 +109,18 @@ $(document).ready(function() {
                                     success : function(data,
                                                        textStatus, jqXHR) {
                                         remplir(data);
+                                        $("#immeubleId").val("");
+                                        $("#numero").val("");
+                                        $("#nom").val("");
+                                        $("#etages").val("");
+                                        $("#adresse").val("");
+                                        $("#ville").val("");
+                                        $("#photo").val("");
+                                        $("#img").attr("src", "");
+                                        $("#divannuler").prop('hidden', true);
+                                        $("#deleteimg").prop('hidden', true);
+                                        deleted = false;
+                                        uploaded = false;
                                         swal("Succès!", "Ajout de l'immeuble avec succès!", "success");
                                     },
                                     error : function(jqXHR, textStatus,
@@ -122,7 +133,7 @@ $(document).ready(function() {
                             reader.readAsDataURL(file);
                         }else {
                             var json = {
-                                syndic : {id : id},
+                                syndic : {id : $("#syndicId").val()},
                                 numero : numero,
                                 nom : nom,
                                 etages : etages,
@@ -140,6 +151,18 @@ $(document).ready(function() {
                                 success : function(data,
                                                    textStatus, jqXHR) {
                                     remplir(data);
+                                    $("#immeubleId").val("");
+                                    $("#numero").val("");
+                                    $("#nom").val("");
+                                    $("#etages").val("");
+                                    $("#adresse").val("");
+                                    $("#ville").val("");
+                                    $("#photo").val("");
+                                    $("#img").attr("src", "");
+                                    $("#divannuler").prop('hidden', true);
+                                    $("#deleteimg").prop('hidden', true);
+                                    deleted = false;
+                                    uploaded = false;
                                     swal("Succès!", "Ajout de l'immeuble avec succès!", "success");
                                 },
                                 error : function(jqXHR, textStatus,
@@ -203,7 +226,6 @@ $(document).ready(function() {
             var immeuble = $(this).data("immeuble");
 
             $("#immeubleId").val(immeuble.id);
-            $("#syndicId").val(immeuble.syndic.id);
             $("#numero").val(immeuble.numero);
             $("#nom").val(immeuble.nom);
             $("#etages").val(immeuble.etages);
@@ -222,7 +244,6 @@ $(document).ready(function() {
             $("#annuler").click(function() {
                 $("#ajouter").prop('value', 'Ajouter');
                 $("#immeubleId").val("");
-                $("#syndicId").val("");
                 $("#numero").val("");
                 $("#nom").val("");
                 $("#etages").val("");
@@ -241,7 +262,6 @@ $(document).ready(function() {
                     e.preventDefault();
                     var verif = true;
                     var immeubleId = $("#immeubleId").val();
-                    var syndicId = $("#syndicId").val();
                     var numero = $("#numero").val();
                     var nom = $("#nom").val();
                     var etages = $("#etages").val();
@@ -299,7 +319,7 @@ $(document).ready(function() {
                             reader.onloadend = function () {
                                 baseString = reader.result;
                                 var json = {
-                                    syndic : {id : syndicId},
+                                    syndic : {id : $("#syndicId").val()},
                                     numero : numero,
                                     nom : nom,
                                     etages : etages,
@@ -319,7 +339,6 @@ $(document).ready(function() {
                                         remplir(data);
                                         $("#ajouter").prop('value', 'Ajouter');
                                         $("#immeubleId").val("");
-                                        $("#syndicId").val("");
                                         $("#numero").val("");
                                         $("#nom").val("");
                                         $("#etages").val("");
@@ -347,7 +366,7 @@ $(document).ready(function() {
                                 p = $("#img").attr("src");
                             }
                             var json = {
-                                syndic : {id : syndicId},
+                                syndic : {id : $("#syndicId").val()},
                                 numero : numero,
                                 nom : nom,
                                 etages : etages,
@@ -367,7 +386,6 @@ $(document).ready(function() {
                                     remplir(data);
                                     $("#ajouter").prop('value', 'Ajouter');
                                     $("#immeubleId").val("");
-                                    $("#syndicId").val("");
                                     $("#numero").val("");
                                     $("#nom").val("");
                                     $("#etages").val("");
