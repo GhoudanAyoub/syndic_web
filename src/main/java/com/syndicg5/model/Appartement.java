@@ -2,6 +2,7 @@ package com.syndicg5.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +22,10 @@ public class Appartement implements Serializable {
 
     @Column(name = "surface")
     private Double surface;
+    @Column(name = "debut")
+    private Date debut;
+    @Column(name = "fin")
+    private Date fin;
 
     @ManyToOne
     private Resident resident;
@@ -74,5 +79,21 @@ public class Appartement implements Serializable {
 
     public void setImmeuble(Immeuble immeuble) {
         this.immeuble = immeuble;
+    }
+
+    public Date getDebut() {
+        return debut;
+    }
+
+    public void setDebut(Date debut) {
+        this.debut = debut;
+    }
+
+    public Date getFin() {
+        return fin;
+    }
+
+    public void setFin(Date fin) {
+        this.fin = fin;
     }
 }
