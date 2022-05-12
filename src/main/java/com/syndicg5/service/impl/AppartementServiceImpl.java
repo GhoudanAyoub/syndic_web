@@ -2,36 +2,51 @@ package com.syndicg5.service.impl;
 
 import com.syndicg5.model.Appartement;
 import com.syndicg5.repository.AppartementRepository;
+import com.syndicg5.repository.ImmeubleRepository;
 import com.syndicg5.service.AppartementService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Service
 public class AppartementServiceImpl implements AppartementService {
 
     @Autowired
     AppartementRepository appartementRepository;
+    @Autowired
+    ImmeubleRepository immeubleRepository;
 
     @Override
-    public void save(Appartement appartement) {
+    public List<Appartement> save(Appartement appartement) {
+        long syndicId = immeubleRepository.findById(appartement.getImmeuble().getId()).get().getSyndic().getId();
         appartementRepository.save(appartement);
+        return appartementRepository.findAllBySyndic(syndicId);
     }
 
     @Override
-    public void update(long id, Appartement appartement) {
-        Appartement a = appartementRepository.getById(id);
+    public List<Appartement> update(long id, Appartement appartement) {
+        long syndicId = immeubleRepository.findById(appartement.getImmeuble().getId()).get().getSyndic().getId();
+        Appartement a = appartementRepository.findById(id).get();
         a.setNumero(appartement.getNumero());
         a.setEtage(appartement.getEtage());
         a.setImmeuble(appartement.getImmeuble());
         a.setResident(appartement.getResident());
         a.setSurface(appartement.getSurface());
         appartementRepository.save(a);
+        return appartementRepository.findAllBySyndic(syndicId);
     }
 
     @Override
     public List<Appartement> findAll() {
         return appartementRepository.findAll();
+    }
+
+    @Override
+    public List<Appartement> findAllBySyndic(long id) {
+        return appartementRepository.findAllBySyndic(id);
     }
 
     @Override
@@ -45,7 +60,9 @@ public class AppartementServiceImpl implements AppartementService {
     }
 
     @Override
-    public void delete(Long id) {
+    public List<Appartement> delete(Long id) {
+        long syndicId = appartementRepository.findById(id).get().getImmeuble().getSyndic().getId();
         appartementRepository.deleteById(id);
+        return appartementRepository.findAllBySyndic(syndicId);
     }
 }

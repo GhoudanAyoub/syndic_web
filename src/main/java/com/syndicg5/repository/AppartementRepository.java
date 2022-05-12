@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public interface AppartementRepository extends JpaRepository<Appartement, Long> {
 
-    @Query(" select a from Appartement a where a.immeuble.id = ?1")
+    @Query("select a from Appartement a where a.immeuble.id = ?1")
     List<Appartement> findAppartementByImmeuble(long id);
+
+    @Query("select a from Appartement a where a.immeuble.syndic.id = ?1")
+    List<Appartement> findAllBySyndic(long id);
 }

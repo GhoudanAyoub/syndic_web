@@ -16,18 +16,23 @@ public class AppartementController {
     AppartementServiceImpl appartementService;
 
     @PostMapping("/appartements")
-    public void createAppartement(@RequestBody Appartement appartement) {
-        appartementService.save(appartement);
+    public List<Appartement> createAppartement(@RequestBody Appartement appartement) {
+        return appartementService.save(appartement);
     }
 
     @PutMapping("/appartements/{id}")
-    public void updateAppartement(@PathVariable(value = "id") long id, @Valid @RequestBody Appartement appartement) {
-        appartementService.update(id, appartement);
+    public List<Appartement> updateAppartement(@PathVariable(value = "id") long id, @Valid @RequestBody Appartement appartement) {
+        return appartementService.update(id, appartement);
     }
 
     @GetMapping("/appartements")
     public List<Appartement> getAllAppartements() {
         return appartementService.findAll();
+    }
+
+    @GetMapping("/appartements/syndic/{id}")
+    public List<Appartement> getAllAppartementsBySyndic(@PathVariable(value = "id") long id) {
+        return appartementService.findAllBySyndic(id);
     }
 
     @GetMapping("/appartements/{id}")
@@ -41,8 +46,8 @@ public class AppartementController {
     }
 
     @DeleteMapping("/appartements/{id}")
-    public void deleteAppartement(@PathVariable long id) {
-        appartementService.delete(id);
+    public List<Appartement> deleteAppartement(@PathVariable long id) {
+        return appartementService.delete(id);
     }
 }
 

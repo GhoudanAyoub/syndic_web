@@ -123,93 +123,39 @@
             <div class="pd-20 card-box mb-30">
                 <div class="clearfix mb-3">
                     <div class="pull-left">
-                        <h4 class="text-blue h4">Ajouter un résident</h4>
+                        <h4 class="text-blue h4">Ajouter un appartement</h4>
                     </div>
                 </div>
                 <form>
                     <div class="row">
-                        <aside class="col-md-12">
-                            <figure class="text-md-center">
-                                <img style="width:150px;height:100px;" src="" id="img"
-                                     onerror="this.src='images/no-image.png'" class="mb-3">
-                                <figcaption>
-                                    <a class="btn btn-outline-primary btn-sm" id="uploadimg" href="javascript:void(0)">
-                                        <i class="icon-copy dw dw-upload1"></i> Télécharger une image
-                                    </a>
-                                    <input class="form-control" type="file" accept=".png, .jpg, .jpeg"
-                                           placeholder="Photo"
-                                           id="photo" style="display:none;">
-                                    <a class="btn btn-outline-danger btn-sm" id="deleteimg" href="javascript:void(0)"
-                                       hidden>
-                                        <i class="icon-copy dw dw-delete-3"></i> Supprimer une image
-                                    </a>
-                                </figcaption>
-                            </figure>
-                        </aside>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input class="form-control" type="text" id="residentId" hidden>
+                                <input class="form-control" type="text" id="appartementId" hidden>
                                 <input class="form-control" type="text" id="syndicId" hidden>
-                                <label>Nom</label>
-                                <input class="form-control" type="text" placeholder="Nom" id="nom">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Prénom</label>
-                                <input class="form-control" type="text" placeholder="Prénom" id="prenom">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input class="form-control" type="email" placeholder="Email" id="email">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Téléphone</label>
-                                <input class="form-control" type="text" placeholder="Téléphone" id="tel">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Ville</label>
-                                <input class="form-control" type="text" placeholder="Ville" id="ville">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Mot de passe</label>
-                                <input class="form-control" type="text" placeholder="Mot de passe" id="password">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
                                 <label>Immeuble</label>
-                                <select class="custom-select2 form-control" name="immeuble"
+                                <select class="custom-select2 form-control" id="immeuble"
                                         style="width: 100%; height: 38px;">
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Appartements</label>
-                                <select class="selectpicker form-control" data-size="5" data-style="btn-outline-success"
-                                        data-selected-text-format="count" multiple>
-                                    <option>Mustard</option>
-                                    <option>Ketchup</option>
-                                    <option>Relish</option>
-                                    <option>Plain</option>
-                                    <option>Steamed</option>
-                                    <option>Toasted</option>
-                                </select>
+                                <label>Numéro</label>
+                                <input class="form-control" type="text" placeholder="Numéro" id="numero">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Etage</label>
+                                <input class="form-control" type="text" placeholder="Etage" id="etage">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Surface</label>
+                                <input class="form-control" type="text" placeholder="Surface" id="surface">
                             </div>
                         </div>
                     </div>
@@ -227,19 +173,16 @@
                 <!-- Simple Datatable start -->
                 <div class="card-box mb-30">
                     <div class="pd-20">
-                        <h4 class="text-blue h4">Liste des résidents</h4>
+                        <h4 class="text-blue h4">Liste des appartements</h4>
                     </div>
                     <div class="table-responsive pre-scrollable">
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th class="text-center" style="min-width: 150px">Photo</th>
-                                <th class="text-center">Nom</th>
-                                <th class="text-center">Prénom</th>
-                                <th class="text-center">Email</th>
-                                <th class="text-center">Téléphone</th>
-                                <th class="text-center">Ville</th>
-                                <th class="text-center">Mot de passe</th>
+                                <th class="text-center">Immeuble</th>
+                                <th class="text-center">Numéro</th>
+                                <th class="text-center">Etage</th>
+                                <th class="text-center">Surface</th>
                                 <th class="text-center">Action</th>
                             </tr>
                             </thead>
@@ -266,6 +209,6 @@
 <script src="../src/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
 <script src="../vendors/scripts/advanced-components.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="script/residents.js"></script>
+<script src="script/appartements.js"></script>
 </body>
 </html>
