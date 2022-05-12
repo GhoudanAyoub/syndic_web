@@ -17,13 +17,13 @@ public class ResidentServiceImpl implements ResidentService {
     AppartementRepository appartementRepository;
 
     @Override
-    public Resident save(long syndicId, Resident resident) {
+    public Resident save(Resident resident) {
         return residentRepository.save(resident);
         //return residentRepository.findAllBySyndic(syndicId);
     }
 
     @Override
-    public Resident update(long syndicId, long id, Resident resident) {
+    public Resident update(long id, Resident resident) {
         Resident r = residentRepository.findById(id).get();
         r.setNom(resident.getNom());
         r.setPrenom(resident.getPrenom());

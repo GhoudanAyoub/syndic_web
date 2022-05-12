@@ -15,14 +15,14 @@ public class ResidentController {
     @Autowired
     ResidentServiceImpl residentService;
 
-    @PostMapping("/residents/{syndicId}")
-    public Resident createResident(@PathVariable(value = "syndicId") long syndicId, @RequestBody Resident resident) {
-        return residentService.save(syndicId, resident);
+    @PostMapping("/residents")
+    public Resident createResident(@RequestBody Resident resident) {
+        return residentService.save(resident);
     }
 
-    @PutMapping("/residents/{syndicId}/{id}")
-    public Resident updateResident(@PathVariable(value = "syndicId") long syndicId, @PathVariable(value = "id") long id, @Valid @RequestBody Resident resident) {
-        return residentService.update(syndicId, id, resident);
+    @PutMapping("/residents/{id}")
+    public Resident updateResident(@PathVariable(value = "id") long id, @Valid @RequestBody Resident resident) {
+        return residentService.update(id, resident);
     }
 
     @GetMapping("/residents")
