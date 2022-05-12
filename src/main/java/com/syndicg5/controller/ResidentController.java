@@ -16,13 +16,13 @@ public class ResidentController {
     ResidentServiceImpl residentService;
 
     @PostMapping("/residents")
-    public void createResident(@RequestBody Resident resident) {
-        residentService.save(resident);
+    public Resident createResident(@RequestBody Resident resident) {
+        return residentService.save(resident);
     }
 
     @PutMapping("/residents/{id}")
-    public void updateResident(@PathVariable(value = "id") long id, @Valid @RequestBody Resident resident) {
-        residentService.update(id, resident);
+    public Resident updateResident(@PathVariable(value = "id") long id, @Valid @RequestBody Resident resident) {
+        return residentService.update(id, resident);
     }
 
     @GetMapping("/residents")
@@ -30,14 +30,19 @@ public class ResidentController {
         return residentService.findAll();
     }
 
+    @GetMapping("/residents/syndic/{syndicId}")
+    public List<Resident> getAllResidentsBySyndic(@PathVariable(value = "syndicId") long syndicId) {
+        return residentService.findAllBySyndic(syndicId);
+    }
+
     @GetMapping("/residents/{id}")
     public Resident getResident(@PathVariable Long id) {
         return residentService.findOne(id);
     }
 
-    @DeleteMapping("/residents/{id}")
-    public void deleteResident(@PathVariable long id) {
-        residentService.delete(id);
+    @DeleteMapping("/residents/{syndicId}/{id}")
+    public List<Resident> deleteResident(@PathVariable(value = "syndicId") long syndicId, @PathVariable long id) {
+        return residentService.delete(syndicId, id);
     }
 }
 

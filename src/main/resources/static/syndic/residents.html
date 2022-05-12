@@ -19,8 +19,12 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="../vendors/styles/core.css">
     <link rel="stylesheet" type="text/css" href="../vendors/styles/icon-font.min.css">
-    <!--    <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/dataTables.bootstrap4.min.css">
-        <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/responsive.bootstrap4.min.css">-->
+    <!-- switchery css -->
+    <link rel="stylesheet" type="text/css" href="../src/plugins/switchery/switchery.min.css">
+    <!-- bootstrap-tagsinput css -->
+    <link rel="stylesheet" type="text/css" href="../src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css">
+    <!-- bootstrap-touchspin css -->
+    <link rel="stylesheet" type="text/css" href="../src/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.css">
     <link rel="stylesheet" type="text/css" href="../vendors/styles/style.css">
 
 
@@ -119,7 +123,7 @@
             <div class="pd-20 card-box mb-30">
                 <div class="clearfix mb-3">
                     <div class="pull-left">
-                        <h4 class="text-blue h4">Ajouter un immeuble</h4>
+                        <h4 class="text-blue h4">Ajouter un résident</h4>
                     </div>
                 </div>
                 <form>
@@ -135,7 +139,8 @@
                                     <input class="form-control" type="file" accept=".png, .jpg, .jpeg"
                                            placeholder="Photo"
                                            id="photo" style="display:none;">
-                                    <a class="btn btn-outline-danger btn-sm" id="deleteimg" href="javascript:void(0)" hidden>
+                                    <a class="btn btn-outline-danger btn-sm" id="deleteimg" href="javascript:void(0)"
+                                       hidden>
                                         <i class="icon-copy dw dw-delete-3"></i> Supprimer une image
                                     </a>
                                 </figcaption>
@@ -143,30 +148,31 @@
                         </aside>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input class="form-control" type="text" id="immeubleId" hidden>
+                                <input class="form-control" type="text" id="residentId" hidden>
                                 <input class="form-control" type="text" id="syndicId" hidden>
-                                <label>Numéro</label>
-                                <input class="form-control" type="text" placeholder="Numéro" id="numero">
+                                <input class="form-control" type="text" id="appartementId" hidden>
+                                <label>Nom</label>
+                                <input class="form-control" type="text" placeholder="Nom" id="nom">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Nom</label>
-                                <input class="form-control" type="text" placeholder="Nom" id="nom">
+                                <label>Prénom</label>
+                                <input class="form-control" type="text" placeholder="Prénom" id="prenom">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Nombre d'étages</label>
-                                <input class="form-control" type="text" placeholder="Nombre d'étages" id="etages">
+                                <label>Email</label>
+                                <input class="form-control" type="email" placeholder="Email" id="email">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Adresse</label>
-                                <input class="form-control" type="text" placeholder="Adresse" id="adresse">
+                                <label>Téléphone</label>
+                                <input class="form-control" type="text" placeholder="Téléphone" id="tel">
                             </div>
                         </div>
                     </div>
@@ -178,6 +184,40 @@
                             </div>
                         </div>
                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Mot de passe</label>
+                                <input class="form-control" type="text" placeholder="Mot de passe" id="password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Multiple Select</label>
+                                <select class="custom-select2 form-control" multiple="multiple" style="width: 100%;" id="appartement">
+<!--                                    <optgroup label="Alaskan/Hawaiian Time Zone">
+                                        <option value="AK">Alaska</option>
+                                        <option value="HI">Hawaii</option>
+                                    </optgroup>
+                                    <optgroup label="Pacific Time Zone">
+                                        <option value="CA">California</option>
+                                        <option value="NV">Nevada</option>
+                                        <option value="OR">Oregon</option>
+                                        <option value="WA">Washington</option>
+                                    </optgroup>
+                                    <optgroup label="Mountain Time Zone">
+                                        <option value="AZ">Arizona</option>
+                                        <option value="CO">Colorado</option>
+                                        <option value="ID">Idaho</option>
+                                        <option value="MT">Montana</option>
+                                        <option value="NE">Nebraska</option>
+                                        <option value="NM">New Mexico</option>
+                                        <option value="ND">North Dakota</option>
+                                        <option value="UT">Utah</option>
+                                        <option value="WY">Wyoming</option>
+                                    </optgroup>-->
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -194,18 +234,19 @@
                 <!-- Simple Datatable start -->
                 <div class="card-box mb-30">
                     <div class="pd-20">
-                        <h4 class="text-blue h4">Liste des immeubles</h4>
+                        <h4 class="text-blue h4">Liste des résidents</h4>
                     </div>
                     <div class="table-responsive pre-scrollable">
                         <table class="table table-hover">
                             <thead>
                             <tr>
                                 <th class="text-center" style="min-width: 150px">Photo</th>
-                                <th class="text-center">Numero</th>
                                 <th class="text-center">Nom</th>
-                                <th class="text-center">Address</th>
+                                <th class="text-center">Prénom</th>
+                                <th class="text-center">Email</th>
+                                <th class="text-center">Téléphone</th>
                                 <th class="text-center">Ville</th>
-                                <th class="text-center">Nombre d'étages</th>
+                                <th class="text-center">Mot de passe</th>
                                 <th class="text-center">Action</th>
                             </tr>
                             </thead>
@@ -224,7 +265,14 @@
 <script src="../vendors/scripts/script.min.js"></script>
 <script src="../vendors/scripts/process.js"></script>
 <script src="../vendors/scripts/layout-settings.js"></script>
+<!-- switchery js -->
+<script src="../src/plugins/switchery/switchery.min.js"></script>
+<!-- bootstrap-tagsinput js -->
+<script src="../src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+<!-- bootstrap-touchspin js -->
+<script src="../src/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+<script src="../vendors/scripts/advanced-components.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="script/immeubles.js"></script>
+<script src="script/residents.js"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.syndicg5.service.impl;
 
 import com.syndicg5.model.Resident;
+import com.syndicg5.repository.AppartementRepository;
 import com.syndicg5.repository.ResidentRepository;
 import com.syndicg5.service.ResidentService;
 import java.util.List;
@@ -12,15 +13,18 @@ public class ResidentServiceImpl implements ResidentService {
 
     @Autowired
     ResidentRepository residentRepository;
+    @Autowired
+    AppartementRepository appartementRepository;
 
     @Override
-    public void save(Resident resident) {
-        residentRepository.save(resident);
+    public Resident save(Resident resident) {
+        return residentRepository.save(resident);
+        //return residentRepository.findAllBySyndic(syndicId);
     }
 
     @Override
-    public void update(long id, Resident resident) {
-        Resident r = residentRepository.getById(id);
+    public Resident update(long id, Resident resident) {
+        Resident r = residentRepository.findById(id).get();
         r.setNom(resident.getNom());
         r.setPrenom(resident.getPrenom());
         r.setEmail(resident.getEmail());
@@ -28,7 +32,8 @@ public class ResidentServiceImpl implements ResidentService {
         r.setTelephone(resident.getTelephone());
         r.setVille(resident.getVille());
         r.setPhoto(resident.getPhoto());
-        residentRepository.save(r);
+        return residentRepository.save(r);
+        //return residentRepository.findAllBySyndic(syndicId);
     }
 
     @Override
@@ -37,12 +42,19 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
+    public List<Resident> findAllBySyndic(long syndicId) {
+        return residentRepository.findAllBySyndic(syndicId);
+    }
+
+    @Override
     public Resident findOne(Long id) {
         return residentRepository.findById(id).get();
     }
 
     @Override
-    public void delete(Long id) {
+    public List<Resident> delete(long syndicId, long id) {
+        appartementRepository.deleteAppartementResident(id);
         residentRepository.deleteById(id);
+        return residentRepository.findAllBySyndic(syndicId);
     }
 }
