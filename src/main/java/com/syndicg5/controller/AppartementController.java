@@ -25,6 +25,11 @@ public class AppartementController {
         return appartementService.update(id, appartement);
     }
 
+    @PutMapping("/appartements/resident/{residentId}")
+    public void updateAppartement(@PathVariable(value = "residentId") long residentId, @RequestParam(value = "appartementId[]") long[] appartementId) {
+        appartementService.updateAppartementResident(residentId, appartementId);
+    }
+
     @GetMapping("/appartements")
     public List<Appartement> getAllAppartements() {
         return appartementService.findAll();
@@ -40,9 +45,24 @@ public class AppartementController {
         return appartementService.findOne(id);
     }
 
-    @GetMapping("/appartementByImmeuble/{id}")
-    public List<Appartement> getAppartementByImmeuble(@PathVariable Long id) {
-        return appartementService.getAppartementByImmeuble(id);
+    @GetMapping("/appartements/resident/{id}")
+    public List<Appartement> getAllByResident(@PathVariable long id) {
+        return appartementService.findAllByResident(id);
+    }
+
+    @GetMapping("/appartements/syndic/immeuble/{id}")
+    public List<Appartement> getAllByImmeuble(@PathVariable long id) {
+        return appartementService.findAllByImmeuble(id);
+    }
+
+    @GetMapping("/appartements/syndic/resident/immeuble/{syndicId}/{residentId}")
+    public List<Appartement> getAllByImmeubleResident(@PathVariable(value = "syndicId") long syndicId, @PathVariable(value = "residentId") long residentId) {
+        return appartementService.findAllByImmeubleResident(syndicId, residentId);
+    }
+
+    @GetMapping("/appartements/immeuble/{id}")
+    public List<Appartement> getAppartementByImmeuble(@PathVariable long id) {
+        return appartementService.findAppartementByImmeuble(id);
     }
 
     @DeleteMapping("/appartements/{id}")

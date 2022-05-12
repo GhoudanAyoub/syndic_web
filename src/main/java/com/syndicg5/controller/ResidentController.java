@@ -15,14 +15,14 @@ public class ResidentController {
     @Autowired
     ResidentServiceImpl residentService;
 
-    @PostMapping("/residents")
-    public void createResident(@RequestBody Resident resident) {
-        residentService.save(resident);
+    @PostMapping("/residents/{syndicId}")
+    public Resident createResident(@PathVariable(value = "syndicId") long syndicId, @RequestBody Resident resident) {
+        return residentService.save(syndicId, resident);
     }
 
-    @PutMapping("/residents/{id}")
-    public void updateResident(@PathVariable(value = "id") long id, @Valid @RequestBody Resident resident) {
-        residentService.update(id, resident);
+    @PutMapping("/residents/{syndicId}/{id}")
+    public Resident updateResident(@PathVariable(value = "syndicId") long syndicId, @PathVariable(value = "id") long id, @Valid @RequestBody Resident resident) {
+        return residentService.update(syndicId, id, resident);
     }
 
     @GetMapping("/residents")
@@ -30,14 +30,19 @@ public class ResidentController {
         return residentService.findAll();
     }
 
+    @GetMapping("/residents/syndic/{syndicId}")
+    public List<Resident> getAllResidentsBySyndic(@PathVariable(value = "syndicId") long syndicId) {
+        return residentService.findAllBySyndic(syndicId);
+    }
+
     @GetMapping("/residents/{id}")
     public Resident getResident(@PathVariable Long id) {
         return residentService.findOne(id);
     }
 
-    @DeleteMapping("/residents/{id}")
-    public void deleteResident(@PathVariable long id) {
-        residentService.delete(id);
+    @DeleteMapping("/residents/{syndicId}/{id}")
+    public List<Resident> deleteResident(@PathVariable(value = "syndicId") long syndicId, @PathVariable long id) {
+        return residentService.delete(syndicId, id);
     }
 }
 

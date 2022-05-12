@@ -5,10 +5,11 @@ import com.syndicg5.model.Resident;
 import java.util.List;
 
 public interface ResidentService {
-    void save(Resident resident);
-    void update(long id, Resident resident);
+    Resident save(long syndicId, Resident resident);
+    Resident update(long syndicId, long id, Resident resident);
     List<Resident> findAll();
+    List<Resident> findAllBySyndic(long id);
     Resident findOne(Long id);
-    void delete(Long id);
+    List<Resident> delete(long syndicId, long id);
 }
 

@@ -35,8 +35,21 @@ public class AppartementServiceImpl implements AppartementService {
         a.setImmeuble(appartement.getImmeuble());
         a.setResident(appartement.getResident());
         a.setSurface(appartement.getSurface());
+        a.setDebut(appartement.getDebut());
+        a.setFin(appartement.getFin());
         appartementRepository.save(a);
         return appartementRepository.findAllBySyndic(syndicId);
+    }
+
+    @Override
+    public void updateAppartementResident(long residentId, long[] appartementId) {
+        for(int i = 0; i < appartementId.length; i++)
+        appartementRepository.updateAppartementResident(residentId, appartementId[i]);
+    }
+
+    @Override
+    public List<Appartement> findAllByImmeubleResident(long id, long residentId) {
+        return appartementRepository.findAllByImmeubleResident(id, residentId);
     }
 
     @Override
@@ -50,7 +63,17 @@ public class AppartementServiceImpl implements AppartementService {
     }
 
     @Override
-    public List<Appartement> getAppartementByImmeuble(Long id) {
+    public List<Appartement> findAllByResident(long id) {
+        return appartementRepository.findAllByResident(id);
+    }
+
+    @Override
+    public List<Appartement> findAllByImmeuble(long id) {
+        return appartementRepository.findAllByImmeuble(id);
+    }
+
+    @Override
+    public List<Appartement> findAppartementByImmeuble(long id) {
         return appartementRepository.findAppartementByImmeuble(id);
     }
 

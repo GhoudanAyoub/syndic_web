@@ -24,6 +24,19 @@ $(document).ready(function() {
                            textStatus, jqXHR) {
             $("#syndicId").val(data);
             $.ajax({
+                url : '/api/appartements/syndic/immeuble/' + $("#syndicId").val(),
+                type : 'GET',
+                async : false,
+                success : function(data,
+                                   textStatus, jqXHR) {
+                    remplirSelect(data);
+                },
+                error : function(jqXHR, textStatus,
+                                 errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+            $.ajax({
                 url : '/api/residents/syndic/' + $("#syndicId").val(),
                 type : 'GET',
                 async : false,
@@ -48,6 +61,7 @@ $(document).ready(function() {
                     var ville = $("#ville").val();
                     var password = $("#password").val();
                     var photo = $("#photo").val();
+                    var appartements = $("#appartement").val();
 
                     if (nom == "") {
                         $("#nom").css("border", "1px solid red");
@@ -109,28 +123,55 @@ $(document).ready(function() {
                                 };
 
                                 $.ajax({
-                                    url : '/api/residents',
+                                    url : '/api/residents/' + $("#syndicId").val(),
                                     contentType : 'application/json',
                                     data : JSON.stringify(json),
                                     type : 'POST',
                                     async : false,
                                     success : function(data,
                                                        textStatus, jqXHR) {
-                                        remplir(data);
-                                        $("#residentId").val("");
-                                        $("#nom").val("");
-                                        $("#prenom").val("");
-                                        $("#email").val("");
-                                        $("#tel").val("");
-                                        $("#ville").val("");
-                                        $("#password").val("");
-                                        $("#photo").val("");
-                                        $("#img").attr("src", "");
-                                        $("#divannuler").prop('hidden', true);
-                                        $("#deleteimg").prop('hidden', true);
-                                        deleted = false;
-                                        uploaded = false;
-                                        swal("Succès!", "Ajout du résident avec succès!", "success");
+                                        var residentId = data.id;
+                                        $.ajax({
+                                            url : '/api/appartements/resident/' + residentId,
+                                            data : {appartementId : appartements},
+                                            type : 'PUT',
+                                            async : false,
+                                            success : function(textStatus, jqXHR) {
+                                                $.ajax({
+                                                    url : '/api/residents/syndic/' + $("#syndicId").val(),
+                                                    type : 'GET',
+                                                    async : false,
+                                                    success : function(data,
+                                                                       textStatus, jqXHR) {
+                                                        remplir(data);
+                                                    },
+                                                    error : function(jqXHR, textStatus,
+                                                                     errorThrown) {
+                                                        console.log(textStatus, errorThrown);
+                                                    }
+                                                });
+                                                $("#residentId").val("");
+                                                $("#nom").val("");
+                                                $("#prenom").val("");
+                                                $("#email").val("");
+                                                $("#tel").val("");
+                                                $("#ville").val("");
+                                                $("#password").val("");
+                                                $("#photo").val("");
+                                                $("#img").attr("src", "");
+                                                $("#appartement").val("");
+                                                $("#divannuler").prop('hidden', true);
+                                                $("#deleteimg").prop('hidden', true);
+                                                deleted = false;
+                                                uploaded = false;
+                                                swal("Succès!", "Ajout du résident avec succès!", "success");
+                                            },
+                                            error : function(jqXHR, textStatus,
+                                                             errorThrown) {
+                                                console.log(textStatus, errorThrown);
+                                                swal("Echec!", "Echec lors de l'ajout du résident!", "warning");
+                                            }
+                                        });
                                     },
                                     error : function(jqXHR, textStatus,
                                                      errorThrown) {
@@ -152,28 +193,55 @@ $(document).ready(function() {
                             };
 
                             $.ajax({
-                                url : '/api/residents',
+                                url : '/api/residents/' + $("#syndicId").val(),
                                 contentType : 'application/json',
                                 data : JSON.stringify(json),
                                 type : 'POST',
                                 async : false,
                                 success : function(data,
                                                    textStatus, jqXHR) {
-                                    remplir(data);
-                                    $("#residentId").val("");
-                                    $("#nom").val("");
-                                    $("#prenom").val("");
-                                    $("#email").val("");
-                                    $("#tel").val("");
-                                    $("#ville").val("");
-                                    $("#password").val("");
-                                    $("#photo").val("");
-                                    $("#img").attr("src", "");
-                                    $("#divannuler").prop('hidden', true);
-                                    $("#deleteimg").prop('hidden', true);
-                                    deleted = false;
-                                    uploaded = false;
-                                    swal("Succès!", "Ajout du résident avec succès!", "success");
+                                    var residentId = data.id;
+                                    $.ajax({
+                                        url : '/api/appartements/resident/' + residentId,
+                                        data : {appartementId : appartements},
+                                        type : 'PUT',
+                                        async : false,
+                                        success : function(textStatus, jqXHR) {
+                                            $.ajax({
+                                                url : '/api/residents/syndic/' + $("#syndicId").val(),
+                                                type : 'GET',
+                                                async : false,
+                                                success : function(data,
+                                                                   textStatus, jqXHR) {
+                                                    remplir(data);
+                                                },
+                                                error : function(jqXHR, textStatus,
+                                                                 errorThrown) {
+                                                    console.log(textStatus, errorThrown);
+                                                }
+                                            });
+                                            $("#residentId").val("");
+                                            $("#nom").val("");
+                                            $("#prenom").val("");
+                                            $("#email").val("");
+                                            $("#tel").val("");
+                                            $("#ville").val("");
+                                            $("#password").val("");
+                                            $("#photo").val("");
+                                            $("#img").attr("src", "");
+                                            $("#appartement").val("");
+                                            $("#divannuler").prop('hidden', true);
+                                            $("#deleteimg").prop('hidden', true);
+                                            deleted = false;
+                                            uploaded = false;
+                                            swal("Succès!", "Ajout du résident avec succès!", "success");
+                                        },
+                                        error : function(jqXHR, textStatus,
+                                                         errorThrown) {
+                                            console.log(textStatus, errorThrown);
+                                            swal("Echec!", "Echec lors de l'ajout du résident!", "warning");
+                                        }
+                                    });
                                 },
                                 error : function(jqXHR, textStatus,
                                                  errorThrown) {
@@ -193,11 +261,31 @@ $(document).ready(function() {
         }
     });
 
+    function remplirSelect(data) {
+        var ligne = "";
+        if (data.length > 0) {
+            var immeubleId = data[0].immeuble.id;
+            ligne += '<optgroup label="'+ data[0].immeuble.nom +'">';
+            ligne += '<option value="'+ data[0].id +'">'+ data[0].immeuble.nom + ' : appartement '  + data[0].numero +'</option>';
+            for (var i = 1; i < data.length; i++) {
+                if(data[i].immeuble.id == immeubleId) {
+                    ligne += '<option value="'+ data[i].id +'">'+ data[i].immeuble.nom + ' : appartement ' + data[i].numero +'</option>';
+                }else {
+                    ligne += '</optgroup>';
+                    ligne += '<optgroup label="'+ data[i].immeuble.nom +'">';
+                    ligne += '<option value="'+ data[i].id +'">'+ data[i].immeuble.nom + ' : appartement ' + data[i].numero +'</option>';
+                    immeubleId = data[i].immeuble.id;
+                }
+            }
+        }
+        $("#appartement").html(ligne);
+    }
+
     function remplir(data) {
         var ligne = "";
         if (data.length > 0) {
             for (var i = 0; i < data.length; i++) {
-                ligne += '<tr><td class="text-center"><img style="width:150px;height:100px;" src="' + data[i].photo + '" onerror="this.src=\'images/no-image.png\'"></td><td class="text-center">' + data[i].nom + '</td><td class="text-center">' + data[i].prenom + '</td><td class="text-center">' + data[i].email + '</td><td class="text-center">' + data[i].telephone + '</td><td class="text-center">' + data[i].ville + '</td><td class="text-center">' + data[i].mdp + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-update" data-resident=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-delete" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-delete-3"></i> Supprimer</a></div></td></tr>';
+                ligne += '<tr><td class="text-center"><img style="width:150px;height:100px;" src="' + data[i].photo + '" onerror="this.src=\'images/no-image.png\'"></td><td class="text-center">' + data[i].nom + '</td><td class="text-center">' + data[i].prenom + '</td><td class="text-center">' + data[i].email + '</td><td class="text-center">' + data[i].telephone + '</td><td class="text-center">' + data[i].ville + '</td><td class="text-center">' + data[i].mdp + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-update" data-resident=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-delete" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-delete-3"></i> Supprimer</a><a class="dropdown-item btn-appartement" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-house1"></i> Appartements</a></div></td></tr>';
             }
         }
         $("#table").html(ligne);
@@ -213,7 +301,7 @@ $(document).ready(function() {
                     if (isConfirm) {
                         var delid = $(this).data("id");
                         $.ajax({
-                            url : '/api/residents/' + delid,
+                            url : '/api/residents/' + $("#syndicId").val() + '/' + delid,
                             contentType : 'application/json',
                             type : 'DELETE',
                             async : false,
@@ -249,10 +337,55 @@ $(document).ready(function() {
                 uploaded = false;
             }
 
+            $.ajax({
+                url : '/api/appartements/syndic/resident/immeuble/' + $("#syndicId").val() + '/' + $("#residentId").val(),
+                type : 'GET',
+                async : false,
+                success : function(data,
+                                   textStatus, jqXHR) {
+                   remplirSelect(data);
+                },
+                error : function(jqXHR, textStatus,
+                                 errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+
+            $.ajax({
+                url : '/api/appartements/resident/' + $("#residentId").val(),
+                type : 'GET',
+                async : false,
+                success : function(data,
+                                   textStatus, jqXHR) {
+                    var ids = [];
+                    for(var i = 0; i < data.length; i++) {
+                        ids.push(data[i].id);
+                    }
+                    $("#appartement").val(ids);
+                },
+                error : function(jqXHR, textStatus,
+                                 errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+
             $("#ajouter").prop('value', 'Modifier');
             $("#divannuler").prop('hidden', false);
 
             $("#annuler").click(function() {
+                $.ajax({
+                    url : '/api/appartements/syndic/immeuble/' + $("#syndicId").val(),
+                    type : 'GET',
+                    async : false,
+                    success : function(data,
+                                       textStatus, jqXHR) {
+                        remplirSelect(data);
+                    },
+                    error : function(jqXHR, textStatus,
+                                     errorThrown) {
+                        console.log(textStatus, errorThrown);
+                    }
+                });
                 $("#ajouter").prop('value', 'Ajouter');
                 $("#residentId").val("");
                 $("#nom").val("");
@@ -263,6 +396,7 @@ $(document).ready(function() {
                 $("#password").val("");
                 $("#photo").val("");
                 $("#img").attr("src", "");
+                $("#appartement").val("");
                 $("#divannuler").prop('hidden', true);
                 $("#deleteimg").prop('hidden', true);
                 deleted = false;
@@ -349,7 +483,7 @@ $(document).ready(function() {
                                 };
 
                                 $.ajax({
-                                    url : '/api/residents/' + residentId,
+                                    url : '/api/residents/' + $("#syndicId").val() + '/' + residentId,
                                     contentType : 'application/json',
                                     data : JSON.stringify(json),
                                     type : 'PUT',
@@ -357,6 +491,19 @@ $(document).ready(function() {
                                     success : function(data,
                                                        textStatus, jqXHR) {
                                         remplir(data);
+                                        $.ajax({
+                                            url : '/api/appartements/syndic/immeuble/' + $("#syndicId").val(),
+                                            type : 'GET',
+                                            async : false,
+                                            success : function(data,
+                                                               textStatus, jqXHR) {
+                                                remplirSelect(data);
+                                            },
+                                            error : function(jqXHR, textStatus,
+                                                             errorThrown) {
+                                                console.log(textStatus, errorThrown);
+                                            }
+                                        });
                                         $("#ajouter").prop('value', 'Ajouter');
                                         $("#residentId").val("");
                                         $("#nom").val("");
@@ -367,6 +514,7 @@ $(document).ready(function() {
                                         $("#password").val("");
                                         $("#photo").val("");
                                         $("#img").attr("src", "");
+                                        $("#appartement").val("");
                                         $("#divannuler").prop('hidden', true);
                                         $("#deleteimg").prop('hidden', true);
                                         deleted = false;
@@ -397,7 +545,7 @@ $(document).ready(function() {
                             };
 
                             $.ajax({
-                                url : '/api/residents/' + residentId,
+                                url : '/api/residents/' + $("#syndicId").val() + residentId,
                                 contentType : 'application/json',
                                 data : JSON.stringify(json),
                                 type : 'PUT',
@@ -405,6 +553,19 @@ $(document).ready(function() {
                                 success : function(data,
                                                    textStatus, jqXHR) {
                                     remplir(data);
+                                    $.ajax({
+                                        url : '/api/appartements/syndic/immeuble/' + $("#syndicId").val(),
+                                        type : 'GET',
+                                        async : false,
+                                        success : function(data,
+                                                           textStatus, jqXHR) {
+                                            remplirSelect(data);
+                                        },
+                                        error : function(jqXHR, textStatus,
+                                                         errorThrown) {
+                                            console.log(textStatus, errorThrown);
+                                        }
+                                    });
                                     $("#ajouter").prop('value', 'Ajouter');
                                     $("#residentId").val("");
                                     $("#nom").val("");
@@ -415,6 +576,7 @@ $(document).ready(function() {
                                     $("#password").val("");
                                     $("#photo").val("");
                                     $("#img").attr("src", "");
+                                    $("#appartement").val("");
                                     $("#divannuler").prop('hidden', true);
                                     $("#deleteimg").prop('hidden', true);
                                     deleted = false;
