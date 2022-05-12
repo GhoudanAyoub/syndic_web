@@ -29,12 +29,6 @@ public class Appartement implements Serializable {
     @Column(name = "fin")
     private Date fin;
 
-    @Column(name = "debut")
-    private Date debut;
-
-    @Column(name = "fin")
-    private Date fin;
-
     @ManyToOne
     private Resident resident;
 
