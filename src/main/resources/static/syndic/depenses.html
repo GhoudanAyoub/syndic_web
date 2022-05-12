@@ -51,7 +51,7 @@
 							<span class="user-icon">
 								<img src="../vendors/images/mugiwara.png" alt="">
 							</span>
-                    <span class="user-name">Yassine Mestaoui</span>
+                    <span class="user-name">zakar mourad</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                     <a class="dropdown-item" href="profil.html"><i class="dw dw-user1"></i> Profil</a>
@@ -105,6 +105,11 @@
                         <span class="micon dw dw-loss"></span><span class="mtext">Dépenses</span>
                     </a>
                 </li>
+                <li>
+                    <a href="categorie.html" class="dropdown-toggle no-arrow">
+                        <span class="micon dw dw-loss"></span><span class="mtext">Categories</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -119,60 +124,47 @@
             <div class="pd-20 card-box mb-30">
                 <div class="clearfix mb-3">
                     <div class="pull-left">
-                        <h4 class="text-blue h4">Ajouter un immeuble</h4>
+                        <h4 class="text-blue h4">Ajouter un depense</h4>
                     </div>
                 </div>
                 <form>
                     <div class="row">
-                        <aside class="col-md-12">
-                            <figure class="text-md-center">
-                                <img style="width:150px;height:100px;" src="" id="img"
-                                     onerror="this.src='images/no-image.png'" class="mb-3">
-                                <figcaption>
-                                    <a class="btn btn-outline-primary btn-sm" id="uploadimg" href="javascript:void(0)">
-                                        <i class="icon-copy dw dw-upload1"></i> Télécharger une image
-                                    </a>
-                                    <input class="form-control" type="file" accept=".png, .jpg, .jpeg"
-                                           placeholder="Photo"
-                                           id="photo" style="display:none;">
-                                    <a class="btn btn-outline-danger btn-sm" id="deleteimg" href="javascript:void(0)" hidden>
-                                        <i class="icon-copy dw dw-delete-3"></i> Supprimer une image
-                                    </a>
-                                </figcaption>
-                            </figure>
-                        </aside>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Numéro</label>
-                                <input class="form-control" type="text" placeholder="Numéro" id="numero">
+                                <label>montant</label>
+                                <input class="form-control" type="number" placeholder="Montant" id="montant">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Nom</label>
-                                <input class="form-control" type="text" placeholder="Nom" id="nom">
+                                <label>Date</label>
+                                <input class="form-control" type="date" id="date">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Nombre d'étages</label>
-                                <input class="form-control" type="text" placeholder="Nombre d'étages" id="etages">
+                                <label>Description</label>
+                                <input class="form-control" type="text" placeholder="Description" id="description">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Adresse</label>
-                                <input class="form-control" type="text" placeholder="Adresse" id="adresse">
+                                <label>Immeuble</label>
+                                <select class="custom-select2 form-control" id="immeuble" style="width: 100%; height: 38px;">
+
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Ville</label>
-                                <input class="form-control" type="text" placeholder="Ville" id="ville">
+                                <label>Categorie</label>
+                                <select class="custom-select2 form-control" id="categorie" style="width: 100%; height: 38px;">
+
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -190,18 +182,18 @@
                 <!-- Simple Datatable start -->
                 <div class="card-box mb-30">
                     <div class="pd-20">
-                        <h4 class="text-blue h4">Liste des immeubles</h4>
+                        <h4 class="text-blue h4">Liste des depenses</h4>
                     </div>
                     <div class="table-responsive pre-scrollable">
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th class="text-center" style="min-width: 150px">Photo</th>
-                                <th class="text-center">Numero</th>
-                                <th class="text-center">Nom</th>
-                                <th class="text-center">Address</th>
-                                <th class="text-center">Ville</th>
-                                <th class="text-center">Nombre d'étages</th>
+
+                                <th class="text-center">Montant</th>
+                                <th class="text-center">Date</th>
+                                <th class="text-center">Description</th>
+                                <th class="text-center">Immeuble</th>
+                                <th class="text-center">Categorie</th>
                                 <th class="text-center">Action</th>
                             </tr>
                             </thead>
@@ -209,23 +201,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <!--                    <div class="pb-20">
-                                            <table class="data-table table stripe hover nowrap">
-                                                <thead>
-                                                <tr>
-                                                    <th>Photo</th>
-                                                    <th class="table-plus datatable-nosort">Numero</th>
-                                                    <th>Nom</th>
-                                                    <th>Address</th>
-                                                    <th>Ville</th>
-                                                    <th>Nombre d'étages</th>
-                                                    <th class="datatable-nosort">Action</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody id="table">
-                                                </tbody>
-                                            </table>
-                                        </div>-->
+
                 </div>
                 <!-- Simple Datatable End -->
             </div>
@@ -252,6 +228,6 @@
 <!-- Datatable Setting js -->
 <!--<script src="../vendors/scripts/datatable-setting.js"></script>-->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="script/immeubles.js"></script>
+<script src="script/depense.js"></script>
 </body>
 </html>

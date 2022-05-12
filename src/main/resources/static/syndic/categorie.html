@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Basic Page Info -->
+    <meta charset="utf-8">
+    <title>Syndic App</title>
+
+    <!-- Site favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../vendors/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../vendors/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../vendors/images/favicon-16x16.png">
+
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../vendors/styles/core.css">
+    <link rel="stylesheet" type="text/css" href="../vendors/styles/icon-font.min.css">
+    <!--    <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/responsive.bootstrap4.min.css">-->
+    <link rel="stylesheet" type="text/css" href="../vendors/styles/style.css">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-119386393-1');
+    </script>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-left">
+        <div class="menu-icon dw dw-menu"></div>
+    </div>
+    <div class="header-right">
+        <div class="user-info-dropdown">
+            <div class="dropdown">
+                <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+							<span class="user-icon">
+								<img src="../vendors/images/mugiwara.png" alt="">
+							</span>
+                    <span class="user-name">zakar mourad</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                    <a class="dropdown-item" href="profil.html"><i class="dw dw-user1"></i> Profil</a>
+                    <a class="dropdown-item" href="index.html"><i class="dw dw-logout"></i> Se déconnecter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="left-side-bar">
+    <div class="brand-logo">
+        <a href="index.html">
+            <img src="../vendors/images/deskapp-logo.svg" alt="" class="dark-logo">
+            <img src="../vendors/images/deskapp-logo-white.svg" alt="" class="light-logo">
+        </a>
+        <div class="close-sidebar" data-toggle="left-sidebar-close">
+            <i class="ion-close-round"></i>
+        </div>
+    </div>
+    <div class="menu-block customscroll">
+        <div class="sidebar-menu">
+            <ul id="accordion-menu">
+                <li>
+                    <a href="home.html" class="dropdown-toggle no-arrow">
+                        <span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="immeubles.html" class="dropdown-toggle no-arrow">
+                        <span class="micon dw dw-building"></span><span class="mtext">Immeubles</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="appartements.html" class="dropdown-toggle no-arrow">
+                        <span class="micon dw dw-door"></span><span class="mtext">Appartements</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="residents.html" class="dropdown-toggle no-arrow">
+                        <span class="micon dw dw-user-3"></span><span class="mtext">Résidents</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="revenus.html" class="dropdown-toggle no-arrow">
+                        <span class="micon dw dw-profits"></span><span class="mtext">Revenus</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="depenses.html" class="dropdown-toggle no-arrow">
+                        <span class="micon dw dw-loss"></span><span class="mtext">Dépenses</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="categorie.html" class="dropdown-toggle no-arrow">
+                        <span class="micon dw dw-loss"></span><span class="mtext">Categories</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="mobile-menu-overlay"></div>
+
+<div class="main-container">
+    <div class="pd-ltr-20 xs-pd-20-10">
+        <div class="min-height-200px">
+            <!-- Default Basic Forms Start -->
+            <div class="pd-20 card-box mb-30">
+                <div class="clearfix mb-3">
+                    <div class="pull-left">
+                        <h4 class="text-blue h4">Ajouter une Categorie</h4>
+                    </div>
+                </div>
+                <form>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>libelle</label>
+                                <input class="form-control" type="text" placeholder="libelle" id="libelle">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-sm-3 col-md-2 mb-3" id="divannuler" hidden>
+                            <input class="btn btn-secondary btn-sm btn-block" type="button" value="Annuler"
+                                   id="annuler">
+                        </div>
+                        <div class="col-sm-3 col-md-2 mb-3">
+                            <input class="btn btn-primary btn-sm btn-block" type="submit" value="Ajouter" id="ajouter">
+                        </div>
+                    </div>
+                </form>
+                <!-- Default Basic Forms End -->
+                <!-- Simple Datatable start -->
+                <div class="card-box mb-30">
+                    <div class="pd-20">
+                        <h4 class="text-blue h4">Liste des Categorie</h4>
+                    </div>
+                    <div class="table-responsive pre-scrollable">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th class="text-center">libelle</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="table">
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--                    <div class="pb-20">
+                                            <table class="data-table table stripe hover nowrap">
+                                                <thead>
+                                                <tr>
+                                                    <th>Photo</th>
+                                                    <th class="table-plus datatable-nosort">Numero</th>
+                                                    <th>Nom</th>
+                                                    <th>Address</th>
+                                                    <th>Ville</th>
+                                                    <th>Nombre d'étages</th>
+                                                    <th class="datatable-nosort">Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="table">
+                                                </tbody>
+                                            </table>
+                                        </div>-->
+                </div>
+                <!-- Simple Datatable End -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- js -->
+<script src="../vendors/scripts/core.js"></script>
+<script src="../vendors/scripts/script.min.js"></script>
+<script src="../vendors/scripts/process.js"></script>
+<script src="../vendors/scripts/layout-settings.js"></script>
+<!--<script src="../src/plugins/datatables/js/jquery.dataTables.min.js"></script>-->
+<!--<script src="../src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="../src/plugins/datatables/js/dataTables.responsive.min.js"></script>-->
+<!--<script src="../src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>-->
+<!-- buttons for Export datatable -->
+<!--<script src="../src/plugins/datatables/js/dataTables.buttons.min.js"></script>
+<script src="../src/plugins/datatables/js/buttons.bootstrap4.min.js"></script>
+<script src="../src/plugins/datatables/js/buttons.print.min.js"></script>
+<script src="../src/plugins/datatables/js/buttons.html5.min.js"></script>
+<script src="../src/plugins/datatables/js/buttons.flash.min.js"></script>
+<script src="../src/plugins/datatables/js/pdfmake.min.js"></script>
+<script src="../src/plugins/datatables/js/vfs_fonts.js"></script>-->
+<!-- Datatable Setting js -->
+<!--<script src="../vendors/scripts/datatable-setting.js"></script>-->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="script/categorie.js"></script>
+</body>
+</html>
