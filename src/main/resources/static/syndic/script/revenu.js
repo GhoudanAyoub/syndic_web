@@ -62,7 +62,7 @@ $(document).ready(function() {
                             date: date,
                             description: description,
                             immeuble : {id : immeuble} ,
-                            appartement:{id :1},
+                            appartement:{id :appartement},
                         };
 
                         $.ajax({
@@ -89,10 +89,8 @@ $(document).ready(function() {
                     }
                 }
             });
-            $("#immeuble").onchange(function (e){
 
-                combappartement($("#immeuble").val());
-            });
+
         },
         error : function(jqXHR, textStatus,
                          errorThrown) {
@@ -135,7 +133,7 @@ $(document).ready(function() {
 
         if (data.length > 0) {
             for (var i = 0; i < data.length; i++) {
-                ligne += '<tr><td class="text-center">' + data[i].montant + '</td><td class="text-center">' + data[i].date + '</td><td class="text-center">' + data[i].description + '</td><td class="text-center">' + data[i].immeuble.nom + '</td><td class="text-center">' + data[i].appartement.numero + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-update" data-revenu=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-delete" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-delete-3"></i> Supprimer</a></div></td></tr>';
+                ligne += '<tr><td class="text-center">' + data[i].montant + '</td><td class="text-center">' + moment(data[i].date).format('YYYY-MM-DD') + '</td><td class="text-center">' + data[i].description + '</td><td class="text-center">' + data[i].immeuble.nom + '</td><td class="text-center">' + data[i].appartement.numero + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-update" data-revenu=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-delete" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-delete-3"></i> Supprimer</a></div></td></tr>';
             }
         }
         if(datim.length>0){
@@ -226,7 +224,7 @@ $(document).ready(function() {
             });
 
             $("#ajouter").click(function(e) {
-                if($(this).attr("value") == "Modifier") {
+                if($(this).attr("value") =="Modifier") {
                     e.preventDefault();
                     var verif = true;
                     var montant = $("#montant").val();
@@ -237,7 +235,7 @@ $(document).ready(function() {
 
 
 
-                    if (montant == "") {
+                    if (montant =="") {
                         $("#montant").css("border", "1px solid red");
                         verif = false;
                     } else {
@@ -298,9 +296,10 @@ $(document).ready(function() {
 
         });
     }
-    function combappartement(idappa) {
+    function combappartement() {
+        var idappa = $("#immeuble").val();
         var data;
-        console.log('khedama')
+        console.log('khedama');
         $.ajax({
             url : '/api/appartementByImmeuble/'+idappa,
             type : 'GET',
