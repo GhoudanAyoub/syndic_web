@@ -15,7 +15,7 @@ public interface AppartementRepository extends JpaRepository<Appartement, Long> 
     @Query("select a from Appartement a where a.immeuble.id = ?1")
     List<Appartement> findAppartementByImmeuble(long id);
 
-    @Query("select a from Appartement a where a.immeuble.syndic.id = ?1 and a.resident is null order by a.immeuble.id, a.numero")
+    @Query("select a from Appartement a where a.immeuble.id = ?1  order by  a.numero")
     List<Appartement> findAllByImmeuble(long id);
 
     @Query("select a from Appartement a where a.immeuble.syndic.id = ?1 and a.resident.id = ?2 or a.resident is null order by a.immeuble.id, a.numero")
