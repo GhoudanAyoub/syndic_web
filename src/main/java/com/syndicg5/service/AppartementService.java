@@ -14,6 +14,7 @@ public interface AppartementService {
     List<Appartement> findAllByResident(long id);
     List<Appartement> findAllByImmeuble(long id);
     List<Appartement> findAppartementByImmeuble(long id);
+    List<Appartement> getAppartementByImmeuble(Long id);
     Appartement findOne(Long id);
     List<Appartement> delete(Long id);
 }

@@ -62,7 +62,7 @@ $(document).ready(function() {
                             date: date,
                             description: description,
                             immeuble : {id : immeuble} ,
-                            appartement:{id :appartement},
+                            appartement:{id :1},
                         };
 
                         $.ajax({
@@ -89,8 +89,10 @@ $(document).ready(function() {
                     }
                 }
             });
+            $("#immeuble").onchange(function (e){
 
-
+                combappartement($("#immeuble").val());
+            });
         },
         error : function(jqXHR, textStatus,
                          errorThrown) {
@@ -224,7 +226,7 @@ $(document).ready(function() {
             });
 
             $("#ajouter").click(function(e) {
-                if($(this).attr("value") =="Modifier") {
+                if($(this).attr("value") == "Modifier") {
                     e.preventDefault();
                     var verif = true;
                     var montant = $("#montant").val();
@@ -235,7 +237,7 @@ $(document).ready(function() {
 
 
 
-                    if (montant =="") {
+                    if (montant == "") {
                         $("#montant").css("border", "1px solid red");
                         verif = false;
                     } else {
@@ -296,10 +298,9 @@ $(document).ready(function() {
 
         });
     }
-    function combappartement() {
-        var idappa = $("#immeuble").val();
+    function combappartement(idappa) {
         var data;
-        console.log('khedama');
+        console.log('khedama')
         $.ajax({
             url : '/api/appartementByImmeuble/'+idappa,
             type : 'GET',

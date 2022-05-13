@@ -29,6 +29,10 @@ public class AppartementController {
     public void updateAppartement(@PathVariable(value = "residentId") long residentId, @RequestParam(value = "appartementId[]") long[] appartementId) {
         appartementService.updateAppartementResident(residentId, appartementId);
     }
+    @GetMapping("/appartementByImmeuble/{id}")
+    public List<Appartement> getAppartementByImmeuble(@PathVariable Long id) {
+        return appartementService.getAppartementByImmeuble(id);
+    }
 
     @GetMapping("/appartements")
     public List<Appartement> getAllAppartements() {
