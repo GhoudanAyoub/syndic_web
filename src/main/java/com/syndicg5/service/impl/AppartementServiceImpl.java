@@ -25,6 +25,10 @@ public class AppartementServiceImpl implements AppartementService {
         appartementRepository.save(appartement);
         return appartementRepository.findAllBySyndic(syndicId);
     }
+    @Override
+    public List<Appartement> getAppartementByImmeuble(Long id) {
+        return appartementRepository.findAppartementByImmeuble(id);
+    }
 
     @Override
     public List<Appartement> update(long id, Appartement appartement) {
