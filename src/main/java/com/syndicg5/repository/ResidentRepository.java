@@ -15,4 +15,12 @@ public interface ResidentRepository extends JpaRepository<Resident, Long> {
     @Query(" select distinct r from Resident r " +
             " where r.syndic.id = ?1")
     List<Resident> findAllBySyndic(long id);
+
+    @Query(" select distinct r from Resident r " +
+            " where r.syndic.id = ?1 and r.nom like %?2%")
+    List<Resident> findAllByNom(long syndicId, String nom);
+
+    @Query(" select s from Resident s " +
+            " where s.email = ?1")
+    Resident findByEmail(String email);
 }

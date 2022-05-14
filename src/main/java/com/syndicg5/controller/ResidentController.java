@@ -35,6 +35,17 @@ public class ResidentController {
         return residentService.findAllBySyndic(syndicId);
     }
 
+    //Todo : Don't Touch this One
+    @GetMapping("/residentByEmail/{email}")
+    public Resident findOneByEmail(@PathVariable String email) {
+        return residentService.findOneByEmail(email);
+    }
+
+    @GetMapping("/residents/syndic/nom/{syndicId}/{nom}")
+    public List<Resident> getAllResidentsByNom(@PathVariable(value = "syndicId") long syndicId, @PathVariable(value = "nom") String nom) {
+        return residentService.findAllByNom(syndicId, nom);
+    }
+
     @GetMapping("/residents/{id}")
     public Resident getResident(@PathVariable Long id) {
         return residentService.findOne(id);
