@@ -9,6 +9,7 @@ public interface ImmeubleService {
     void update(long id, Immeuble immeuble);
     List<Immeuble> findAll();
     List<Immeuble> findAllBySyndic(long id);
+    List<Immeuble> findAllByNom(long syndicId, String nom);
     Immeuble findOne(Long id);
     void delete(Long id);
 }

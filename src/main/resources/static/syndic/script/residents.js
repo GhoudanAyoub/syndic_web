@@ -289,6 +289,42 @@ $(document).ready(function () {
         }
     });
 
+    $("#search").click(function() {
+        if($("#residentRech").val() != "") {
+            $.ajax({
+                url : '/api/residents/syndic/nom/' + $("#syndicId").val() + '/' +$("#residentRech").val(),
+                type : 'GET',
+                async : false,
+                success : function(data,
+                                   textStatus, jqXHR) {
+                    remplir(data);
+                },
+                error : function(jqXHR, textStatus,
+                                 errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+    });
+
+    $("#annulerRech").click(function() {
+        $("#residentRech").val("");
+        $.ajax({
+            url : '/api/residents/syndic/' + $("#syndicId").val(),
+            type : 'GET',
+            async : false,
+            success : function(data,
+                               textStatus, jqXHR) {
+                remplir(data);
+            },
+            error : function(jqXHR, textStatus,
+                             errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        });
+    });
+
+
     $("#ajouterU").click(function (e) {
         if ($(this).attr("value") == "Ajouter") {
             e.preventDefault();
@@ -377,6 +413,8 @@ $(document).ready(function () {
             for (var i = 0; i < data.length; i++) {
                 ligne += '<tr><td class="text-center"><img style="width:150px;height:100px;" src="' + data[i].photo + '" onerror="this.src=\'images/no-image.png\'"></td><td class="text-center">' + data[i].nom + '</td><td class="text-center">' + data[i].prenom + '</td><td class="text-center">' + data[i].email + '</td><td class="text-center">' + data[i].telephone + '</td><td class="text-center">' + data[i].ville + '</td><td class="text-center">' + data[i].mdp + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-update" data-resident=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-delete" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-delete-3"></i> Supprimer</a><a class="dropdown-item btn-appartement" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-house1"></i> Appartements</a></div></td></tr>';
             }
+        }else {
+            ligne = '<td colspan="8" align="center"><p class="fs-2">Pas de résidents !<p></td></tr>';
         }
         $("#table").html(ligne);
 
@@ -690,6 +728,8 @@ $(document).ready(function () {
             for (var i = 0; i < data.length; i++) {
                 ligne += '<tr><td class="text-center">' + data[i].immeuble.nom + '</td><td class="text-center">' + data[i].numero + '</td><td class="text-center">' + data[i].etage + '</td><td class="text-center">' + data[i].surface + '</td><td class="text-center">' + moment(data[i].debut).format("YYYY-MM-DD") + '</td><td class="text-center">' + moment(data[i].fin).format("YYYY-MM-DD") + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-updateU" data-appartement=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-deleteU" data-appartement=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw dw-logout1"></i> Sortir</a></div></td></tr>';
             }
+        }else {
+            ligne = '<td colspan="7" align="center"><p class="fs-2">Pas d\'appartements !<p></td></tr>';
         }
         $("#tableU").html(ligne);
 

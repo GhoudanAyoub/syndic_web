@@ -52,6 +52,11 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
+    public List<Resident> findAllByNom(long syndicId, String nom) {
+        return residentRepository.findAllByNom(syndicId, nom);
+    }
+
+    @Override
     public Resident findOne(Long id) {
         return residentRepository.findById(id).get();
     }

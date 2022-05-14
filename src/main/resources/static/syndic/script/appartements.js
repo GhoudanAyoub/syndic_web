@@ -1,41 +1,41 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $.ajax({
-        url : '/api/sessions',
-        type : 'GET',
-        async : false,
-        success : function(data,
+        url: '/api/sessions',
+        type: 'GET',
+        async: false,
+        success: function (data,
                            textStatus, jqXHR) {
             $("#syndicId").val(data);
             $.ajax({
-                url : '/api/immeubles/syndic/' + $("#syndicId").val(),
-                type : 'GET',
-                async : false,
-                success : function(data,
+                url: '/api/immeubles/syndic/' + $("#syndicId").val(),
+                type: 'GET',
+                async: false,
+                success: function (data,
                                    textStatus, jqXHR) {
                     remplirSelect(data);
                 },
-                error : function(jqXHR, textStatus,
+                error: function (jqXHR, textStatus,
                                  errorThrown) {
                     console.log(textStatus, errorThrown);
                 }
             });
 
             $.ajax({
-                url : '/api/appartements/syndic/' + $("#syndicId").val(),
-                type : 'GET',
-                async : false,
-                success : function(data,
+                url: '/api/appartements/syndic/' + $("#syndicId").val(),
+                type: 'GET',
+                async: false,
+                success: function (data,
                                    textStatus, jqXHR) {
                     remplir(data);
                 },
-                error : function(jqXHR, textStatus,
+                error: function (jqXHR, textStatus,
                                  errorThrown) {
                     console.log(textStatus, errorThrown);
                 }
             });
 
-            $("#ajouter").click(function(e) {
-                if($(this).attr("value") == "Ajouter") {
+            $("#ajouter").click(function (e) {
+                if ($(this).attr("value") == "Ajouter") {
                     e.preventDefault();
                     var verif = true;
                     var immeubleId = $("#immeuble").val();
@@ -66,26 +66,26 @@ $(document).ready(function() {
 
                     if (verif) {
                         var json = {
-                            immeuble : {id: immeubleId},
-                            numero : numero,
-                            etage : etage,
-                            surface : surface,
-                            resident : null
+                            immeuble: {id: immeubleId},
+                            numero: numero,
+                            etage: etage,
+                            surface: surface,
+                            resident: null
                         };
 
                         $.ajax({
-                            url : '/api/appartements',
-                            contentType : 'application/json',
-                            data : JSON.stringify(json),
-                            type : 'POST',
-                            async : false,
-                            success : function(data,
+                            url: '/api/appartements',
+                            contentType: 'application/json',
+                            data: JSON.stringify(json),
+                            type: 'POST',
+                            async: false,
+                            success: function (data,
                                                textStatus, jqXHR) {
                                 $.ajax({
-                                    url : '/api/appartements/syndic/' + $("#syndicId").val(),
-                                    type : 'GET',
-                                    async : false,
-                                    success : function(data,
+                                    url: '/api/appartements/syndic/' + $("#syndicId").val(),
+                                    type: 'GET',
+                                    async: false,
+                                    success: function (data,
                                                        textStatus, jqXHR) {
                                         remplir(data);
                                         $("#appartementId").val("");
@@ -94,13 +94,13 @@ $(document).ready(function() {
                                         $("#surface").val("");
                                         swal("Succès!", "Ajout de l'appartement avec succès!", "success");
                                     },
-                                    error : function(jqXHR, textStatus,
+                                    error: function (jqXHR, textStatus,
                                                      errorThrown) {
                                         console.log(textStatus, errorThrown);
                                     }
                                 });
                             },
-                            error : function(jqXHR, textStatus,
+                            error: function (jqXHR, textStatus,
                                              errorThrown) {
                                 console.log(textStatus, errorThrown);
                                 swal("Echec!", "Echec lors de l'ajout de l'appartement!", "warning");
@@ -110,11 +110,43 @@ $(document).ready(function() {
                 }
             });
         },
-        error : function(jqXHR, textStatus,
+        error: function (jqXHR, textStatus,
                          errorThrown) {
             console.log(textStatus, errorThrown);
             swal("Echec!", "Erreur session!", "warning");
         }
+    });
+
+    $("#search").click(function () {
+        $.ajax({
+            url: '/api/appartements/immeuble/' + $("#immeubleRech").val(),
+            type: 'GET',
+            async: false,
+            success: function (data,
+                               textStatus, jqXHR) {
+                remplir(data);
+            },
+            error: function (jqXHR, textStatus,
+                             errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        });
+    });
+
+    $("#annulerRech").click(function() {
+        $.ajax({
+            url : '/api/appartements/syndic/' + $("#syndicId").val(),
+            type : 'GET',
+            async : false,
+            success : function(data,
+                               textStatus, jqXHR) {
+                remplir(data);
+            },
+            error : function(jqXHR, textStatus,
+                             errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        });
     });
 
     function remplirSelect(data) {
@@ -125,6 +157,7 @@ $(document).ready(function() {
             }
         }
         $("#immeuble").html(ligne);
+        $("#immeubleRech").html(ligne);
     }
 
     function remplir(data) {
@@ -133,10 +166,12 @@ $(document).ready(function() {
             for (var i = 0; i < data.length; i++) {
                 ligne += '<tr><td class="text-center">' + data[i].immeuble.nom + '</td><td class="text-center">' + data[i].numero + '</td><td class="text-center">' + data[i].etage + '</td><td class="text-center">' + data[i].surface + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-update" data-appartement=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-delete" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-delete-3"></i> Supprimer</a></div></td></tr>';
             }
+        }else {
+            ligne = '<td colspan="5" align="center"><p class="fs-2">Pas d\'appartements !<p></td></tr>';
         }
         $("#table").html(ligne);
 
-        $(".btn-delete").click(function() {
+        $(".btn-delete").click(function () {
             swal({
                 title: "Voulez-vous supprimer cet appartement?",
                 icon: "info",
@@ -147,28 +182,28 @@ $(document).ready(function() {
                     if (isConfirm) {
                         var delid = $(this).data("id");
                         $.ajax({
-                            url : '/api/appartements/' + delid,
-                            contentType : 'application/json',
-                            type : 'DELETE',
-                            async : false,
-                            success : function(data,
+                            url: '/api/appartements/' + delid,
+                            contentType: 'application/json',
+                            type: 'DELETE',
+                            async: false,
+                            success: function (data,
                                                textStatus, jqXHR) {
                                 $.ajax({
-                                    url : '/api/appartements/syndic/' + $("#syndicId").val(),
-                                    type : 'GET',
-                                    async : false,
-                                    success : function(data,
+                                    url: '/api/appartements/syndic/' + $("#syndicId").val(),
+                                    type: 'GET',
+                                    async: false,
+                                    success: function (data,
                                                        textStatus, jqXHR) {
                                         remplir(data);
                                         swal("Succès!", "Suppression de l'appartement avec succès!", "success");
                                     },
-                                    error : function(jqXHR, textStatus,
+                                    error: function (jqXHR, textStatus,
                                                      errorThrown) {
                                         console.log(textStatus, errorThrown);
                                     }
                                 });
                             },
-                            error : function(jqXHR, textStatus,
+                            error: function (jqXHR, textStatus,
                                              errorThrown) {
                                 console.log(textStatus, errorThrown);
                                 swal("Echec!", "Echec lors de la suppression de l'appartement!", "warning");
@@ -178,7 +213,7 @@ $(document).ready(function() {
                 });
         });
 
-        $(".btn-update").click(function() {
+        $(".btn-update").click(function () {
             var appartement = $(this).data("appartement");
 
             $("#appartementId").val(appartement.id);
@@ -191,7 +226,7 @@ $(document).ready(function() {
             $("#ajouter").prop('value', 'Modifier');
             $("#divannuler").prop('hidden', false);
 
-            $("#annuler").click(function() {
+            $("#annuler").click(function () {
                 $("#ajouter").prop('value', 'Ajouter');
                 $("#appartementId").val("");
                 $("#numero").val("");
@@ -199,8 +234,8 @@ $(document).ready(function() {
                 $("#surface").val("");
             });
 
-            $("#ajouter").click(function(e) {
-                if($(this).attr("value") == "Modifier") {
+            $("#ajouter").click(function (e) {
+                if ($(this).attr("value") == "Modifier") {
                     e.preventDefault();
                     var verif = true;
                     var appartementId = $("#appartementId").val();
@@ -232,26 +267,26 @@ $(document).ready(function() {
 
                     if (verif) {
                         var json = {
-                            immeuble : {id: immeubleId},
-                            numero : numero,
-                            etage : etage,
-                            surface : surface,
-                            resident : null
+                            immeuble: {id: immeubleId},
+                            numero: numero,
+                            etage: etage,
+                            surface: surface,
+                            resident: null
                         };
 
                         $.ajax({
-                            url : '/api/appartements/' + appartementId,
-                            contentType : 'application/json',
-                            data : JSON.stringify(json),
-                            type : 'PUT',
-                            async : false,
-                            success : function(data,
+                            url: '/api/appartements/' + appartementId,
+                            contentType: 'application/json',
+                            data: JSON.stringify(json),
+                            type: 'PUT',
+                            async: false,
+                            success: function (data,
                                                textStatus, jqXHR) {
                                 $.ajax({
-                                    url : '/api/appartements/syndic/' + $("#syndicId").val(),
-                                    type : 'GET',
-                                    async : false,
-                                    success : function(data,
+                                    url: '/api/appartements/syndic/' + $("#syndicId").val(),
+                                    type: 'GET',
+                                    async: false,
+                                    success: function (data,
                                                        textStatus, jqXHR) {
                                         remplir(data);
                                         $("#ajouter").prop('value', 'Ajouter');
@@ -261,13 +296,13 @@ $(document).ready(function() {
                                         $("#surface").val("");
                                         swal("Succès!", "Modification de l'appartement avec succès!", "success");
                                     },
-                                    error : function(jqXHR, textStatus,
+                                    error: function (jqXHR, textStatus,
                                                      errorThrown) {
                                         console.log(textStatus, errorThrown);
                                     }
                                 });
                             },
-                            error : function(jqXHR, textStatus,
+                            error: function (jqXHR, textStatus,
                                              errorThrown) {
                                 console.log(textStatus, errorThrown);
                                 swal("Echec!", "Echec lors de la modification de l'appartement!", "warning");

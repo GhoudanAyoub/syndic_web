@@ -10,6 +10,7 @@ public interface CategorieService {
     void update(long id, Categorie categorie);
     List<Categorie> findAll();
     List<Categorie> findAllBySyndic(long id);
+    List<Categorie> findAllByLibelle(long syndicId, String libelle);
     Categorie findOne(Long id);
     void delete(Long id);
 }

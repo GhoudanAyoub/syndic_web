@@ -81,12 +81,49 @@ $(document).ready(function() {
         }
     });
 
+    $("#search").click(function() {
+        if($("#categorieRech").val() != "") {
+            $.ajax({
+                url : '/api/categories/syndic/libelle/' + $("#syndicId").val() + '/' +$("#categorieRech").val(),
+                type : 'GET',
+                async : false,
+                success : function(data,
+                                   textStatus, jqXHR) {
+                    remplir(data);
+                },
+                error : function(jqXHR, textStatus,
+                                 errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+    });
+
+    $("#annulerRech").click(function() {
+        $("#categorieRech").val("");
+        $.ajax({
+            url : '/api/categories/syndic/' + $("#syndicId").val(),
+            type : 'GET',
+            async : false,
+            success : function(data,
+                               textStatus, jqXHR) {
+                remplir(data);
+            },
+            error : function(jqXHR, textStatus,
+                             errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        });
+    });
+
     function remplir(data) {
         var ligne = "";
         if (data.length > 0) {
             for (var i = 0; i < data.length; i++) {
                 ligne += '<tr><td class="text-center">' + data[i].libelle + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-update" data-categorie=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-delete" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-delete-3"></i> Supprimer</a></div></td></tr>';
             }
+        }else {
+            ligne = '<td colspan="2" align="center"><p class="fs-2">Pas de catégories !<p></td></tr>';
         }
         $("#table").html(ligne);
 

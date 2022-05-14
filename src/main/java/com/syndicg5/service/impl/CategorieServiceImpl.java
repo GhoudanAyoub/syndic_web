@@ -36,6 +36,11 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
+    public List<Categorie> findAllByLibelle(long syndicId, String libelle) {
+        return categorieRepository.findAllByLibelle(syndicId, libelle);
+    }
+
+    @Override
     public Categorie findOne(Long id) {
         return categorieRepository.findById(id).get();
     }

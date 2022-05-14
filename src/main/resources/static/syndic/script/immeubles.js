@@ -207,12 +207,49 @@ $(document).ready(function() {
         }
     });
 
+    $("#search").click(function() {
+        if($("#immeubleRech").val() != "") {
+            $.ajax({
+                url : '/api/immeubles/syndic/nom/' + $("#syndicId").val() + '/' +$("#immeubleRech").val(),
+                type : 'GET',
+                async : false,
+                success : function(data,
+                                   textStatus, jqXHR) {
+                    remplir(data);
+                },
+                error : function(jqXHR, textStatus,
+                                 errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+    });
+
+    $("#annulerRech").click(function() {
+        $("#immeubleRech").val("");
+        $.ajax({
+            url : '/api/immeubles/syndic/' + $("#syndicId").val(),
+            type : 'GET',
+            async : false,
+            success : function(data,
+                               textStatus, jqXHR) {
+                remplir(data);
+            },
+            error : function(jqXHR, textStatus,
+                             errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        });
+    });
+
     function remplir(data) {
         var ligne = "";
         if (data.length > 0) {
             for (var i = 0; i < data.length; i++) {
                 ligne += '<tr><td class="text-center"><img style="width:150px;height:100px;" src="' + data[i].photo + '" onerror="this.src=\'images/no-image.png\'"></td><td class="text-center">' + data[i].numero + '</td><td class="text-center">' + data[i].nom + '</td><td class="text-center">' + data[i].adresse + '</td><td class="text-center">' + data[i].ville + '</td><td class="text-center">' + data[i].etages + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-update" data-immeuble=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-delete" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-delete-3"></i> Supprimer</a></div></td></tr>';
             }
+        }else {
+            ligne = '<td colspan="7" align="center"><p class="fs-2">Pas d\'immeubles !<p></td></tr>';
         }
         $("#table").html(ligne);
 

@@ -35,6 +35,11 @@ public class CategorieController {
         return categorieService.findAllBySyndic(syndicId);
     }
 
+    @GetMapping("/categories/syndic/libelle/{syndicId}/{libelle}")
+    public List<Categorie> getAllCategoriesBySyndic(@PathVariable(value = "syndicId") long syndicId, @PathVariable(value = "libelle") String libelle) {
+        return categorieService.findAllByLibelle(syndicId, libelle);
+    }
+
     @GetMapping("/categories/{id}")
     public Categorie getCategorie(@PathVariable Long id) {
         return categorieService.findOne(id);

@@ -1,7 +1,6 @@
 package com.syndicg5.controller;
 
 import com.syndicg5.model.Resident;
-import com.syndicg5.model.Syndic;
 import com.syndicg5.service.impl.ResidentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,12 +33,6 @@ public class ResidentController {
     @GetMapping("/residents/syndic/{syndicId}")
     public List<Resident> getAllResidentsBySyndic(@PathVariable(value = "syndicId") long syndicId) {
         return residentService.findAllBySyndic(syndicId);
-    }
-
-    //Todo : Don't Touch this One
-    @GetMapping("/residentByEmail/{email}")
-    public Resident findOneByEmail(@PathVariable String email) {
-        return residentService.findOneByEmail(email);
     }
 
     @GetMapping("/residents/{id}")
