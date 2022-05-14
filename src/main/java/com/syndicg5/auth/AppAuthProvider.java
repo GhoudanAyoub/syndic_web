@@ -22,7 +22,7 @@ public class AppAuthProvider extends DaoAuthenticationProvider {
         UserDetails user = syndicService.loadUserByUsername(name);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if (user == null) {
-            throw new BadCredentialsException("Email/Password does not match for " + auth.getPrincipal());
+            throw new BadCredentialsException("Email/Password does  not match for " + auth.getPrincipal());
         }
         if(encoder.matches(password, user.getPassword()))
             return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());

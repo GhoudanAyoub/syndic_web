@@ -35,6 +35,12 @@ public class SyndicController {
         return syndicService.findOne(id);
     }
 
+    //Todo : Don't Touch this One
+    @GetMapping("/syndicsByEmail/{email}")
+    public Syndic findOneByEmail(@PathVariable String email) {
+        return syndicService.findOneByEmail(email);
+    }
+
     @DeleteMapping("/syndics/{id}")
     public void deleteSyndic(@PathVariable long id) {
         syndicService.delete(id);
