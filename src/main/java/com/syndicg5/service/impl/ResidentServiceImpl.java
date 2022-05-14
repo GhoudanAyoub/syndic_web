@@ -53,7 +53,7 @@ public class ResidentServiceImpl implements ResidentService {
 
     @Override
     public List<Resident> delete(long syndicId, long id) {
-        appartementRepository.deleteAppartementResident(id);
+        appartementRepository.deleteAllAppartementResident(id);
         residentRepository.deleteById(id);
         return residentRepository.findAllBySyndic(syndicId);
     }

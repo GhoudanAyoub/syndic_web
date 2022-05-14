@@ -193,29 +193,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Multiple Select</label>
-                                <select class="custom-select2 form-control" multiple="multiple" style="width: 100%;" id="appartement">
-<!--                                    <optgroup label="Alaskan/Hawaiian Time Zone">
-                                        <option value="AK">Alaska</option>
-                                        <option value="HI">Hawaii</option>
-                                    </optgroup>
-                                    <optgroup label="Pacific Time Zone">
-                                        <option value="CA">California</option>
-                                        <option value="NV">Nevada</option>
-                                        <option value="OR">Oregon</option>
-                                        <option value="WA">Washington</option>
-                                    </optgroup>
-                                    <optgroup label="Mountain Time Zone">
-                                        <option value="AZ">Arizona</option>
-                                        <option value="CO">Colorado</option>
-                                        <option value="ID">Idaho</option>
-                                        <option value="MT">Montana</option>
-                                        <option value="NE">Nebraska</option>
-                                        <option value="NM">New Mexico</option>
-                                        <option value="ND">North Dakota</option>
-                                        <option value="UT">Utah</option>
-                                        <option value="WY">Wyoming</option>
-                                    </optgroup>-->
+                                <label>Appartements</label>
+                                <select class="custom-select2 form-control" multiple="multiple" style="width: 100%;"
+                                        id="appartement">
                                 </select>
                             </div>
                         </div>
@@ -256,6 +236,81 @@
                     </div>
                 </div>
                 <!-- Simple Datatable End -->
+                <div class="modal fade none-border" id="appart-modal">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">
+                                    <strong>Appartements</strong>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" id="appartementIdU" hidden>
+                                                <input class="form-control" type="text" id="residentIdU" hidden>
+                                                <label>Appartements</label>
+                                                <select class="custom-select2 form-control" style="width: 100%;"
+                                                        id="appartementU">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Date début</label>
+                                                <input class="form-control" type="date" id="debut">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Date fin</label>
+                                                <input class="form-control" type="date" id="fin">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3 col-md-2 mb-3" id="divannulerU" hidden>
+                                            <input class="btn btn-secondary btn-sm btn-block" type="button"
+                                                   value="Annuler"
+                                                   id="annulerU">
+                                        </div>
+                                        <div class="col-sm-3 col-md-2 mb-3">
+                                            <input class="btn btn-primary btn-sm btn-block" type="submit"
+                                                   value="Ajouter"
+                                                   id="ajouterU">
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="table-responsive pre-scrollable">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">Immeuble</th>
+                                            <th class="text-center">Numéro</th>
+                                            <th class="text-center">Etage</th>
+                                            <th class="text-center">Surface</th>
+                                            <th class="text-center">Date début</th>
+                                            <th class="text-center">Date fin</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="tableU">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default waves-effect"
+                                        data-dismiss="modal">Annuler
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -273,6 +328,7 @@
 <script src="../src/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
 <script src="../vendors/scripts/advanced-components.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
 <script src="script/residents.js"></script>
 </body>
 </html>

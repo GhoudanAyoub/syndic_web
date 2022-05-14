@@ -19,6 +19,9 @@ public interface AppartementRepository extends JpaRepository<Appartement, Long> 
     @Query("select a from Appartement a where a.immeuble.id = ?1  order by  a.numero")
     List<Appartement> findAllByImmeuble(long id);
 
+    @Query("select a from Appartement a where a.immeuble.syndic.id = ?1 and a.resident is null order by a.immeuble.id, a.numero")
+    List<Appartement> findAllEmptyByImmeuble(long id);
+
     @Query("select a from Appartement a where a.immeuble.syndic.id = ?1 and a.resident.id = ?2 or a.resident is null order by a.immeuble.id, a.numero")
     List<Appartement> findAllByImmeubleResident(long id, long residentId);
 
@@ -35,6 +38,11 @@ public interface AppartementRepository extends JpaRepository<Appartement, Long> 
 
     @Modifying(clearAutomatically = true)
     @Transactional
-    @Query("update Appartement a set a.resident.id = null where a.resident.id = ?1")
-    void deleteAppartementResident(long residentId);
+    @Query("update Appartement a set a.resident.id = null, a.debut = null, a.fin = null where a.id = ?1")
+    void deleteAppartementResident(long appartementId);
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query("update Appartement a set a.resident.id = null, a.debut = null, a.fin = null where a.resident.id = ?1")
+    void deleteAllAppartementResident(long residentId);
 }

@@ -25,10 +25,26 @@ public class AppartementController {
         return appartementService.update(id, appartement);
     }
 
-    @PutMapping("/appartements/resident/{residentId}")
-    public void updateAppartement(@PathVariable(value = "residentId") long residentId, @RequestParam(value = "appartementId[]") long[] appartementId) {
-        appartementService.updateAppartementResident(residentId, appartementId);
+    @PutMapping("/appartements/partial/{id}")
+    public void updatePartialAppartement(@PathVariable(value = "id") long id, @Valid @RequestBody Appartement appartement) {
+        appartementService.updatePartial(id, appartement);
     }
+
+    @PutMapping("/appartements/resident/{residentId}/{appartementId}")
+    public void updateAppartementResident(@PathVariable(value = "residentId") long residentId, @PathVariable(value = "appartementId") long appartementId, @Valid @RequestBody Appartement appartement) {
+        appartementService.updateAppartementResident(residentId, appartementId, appartement);
+    }
+
+    @PutMapping("/appartements/resident/{residentId}")
+    public void updateAppartementsResident(@PathVariable(value = "residentId") long residentId, @RequestParam(value = "appartementId[]") long[] appartementId) {
+        appartementService.updateAppartementsResident(residentId, appartementId);
+    }
+
+    @PutMapping("/appartements/del/resident/{appartementId}")
+    public void deleteAppartementResident(@PathVariable(value = "appartementId") long appartementId) {
+        appartementService.deleteAppartementResident(appartementId);
+    }
+
     @GetMapping("/appartementByImmeuble/{id}")
     public List<Appartement> getAppartementByImmeuble(@PathVariable Long id) {
         return appartementService.getAppartementByImmeuble(id);
@@ -57,6 +73,11 @@ public class AppartementController {
     @GetMapping("/appartements/syndic/immeuble/{id}")
     public List<Appartement> getAllByImmeuble(@PathVariable long id) {
         return appartementService.findAllByImmeuble(id);
+    }
+
+    @GetMapping("/appartements/empty/immeuble/{id}")
+    public List<Appartement> getAllEmptyByImmeuble(@PathVariable long id) {
+        return appartementService.findAllEmptyByImmeuble(id);
     }
 
     @GetMapping("/appartements/syndic/resident/immeuble/{syndicId}/{residentId}")

@@ -46,9 +46,31 @@ public class AppartementServiceImpl implements AppartementService {
     }
 
     @Override
-    public void updateAppartementResident(long residentId, long[] appartementId) {
+    public void updatePartial(long id, Appartement appartement) {
+        Appartement a = appartementRepository.findById(id).get();
+        a.setDebut(appartement.getDebut());
+        a.setFin(appartement.getFin());
+        appartementRepository.save(a);
+    }
+
+    @Override
+    public void updateAppartementResident(long residentId, long appartementId, Appartement appartement) {
+        Appartement a = appartementRepository.findById(appartementId).get();
+        a.setDebut(appartement.getDebut());
+        a.setFin(appartement.getFin());
+        appartementRepository.save(a);
+        appartementRepository.updateAppartementResident(residentId, appartementId);
+    }
+
+    @Override
+    public void updateAppartementsResident(long residentId, long[] appartementId) {
         for(int i = 0; i < appartementId.length; i++)
         appartementRepository.updateAppartementResident(residentId, appartementId[i]);
+    }
+
+    @Override
+    public void deleteAppartementResident(long appartementId) {
+        appartementRepository.deleteAppartementResident(appartementId);
     }
 
     @Override
@@ -74,6 +96,11 @@ public class AppartementServiceImpl implements AppartementService {
     @Override
     public List<Appartement> findAllByImmeuble(long id) {
         return appartementRepository.findAllByImmeuble(id);
+    }
+
+    @Override
+    public List<Appartement> findAllEmptyByImmeuble(long id) {
+        return appartementRepository.findAllEmptyByImmeuble(id);
     }
 
     @Override
