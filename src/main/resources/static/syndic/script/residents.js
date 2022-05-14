@@ -416,15 +416,27 @@ $(document).ready(function () {
                             async: false,
                             success: function (data,
                                                textStatus, jqXHR) {
-                                remplir(data);
                                 $.ajax({
-                                    url: '/api/appartements/empty/immeuble/' + $("#syndicId").val(),
+                                    url: '/api/residents/syndic/' + $("#syndicId").val(),
                                     type: 'GET',
                                     async: false,
                                     success: function (data,
                                                        textStatus, jqXHR) {
-                                        remplirSelect(data);
-                                        swal("Succès!", "Suppression du résident avec succès!", "success");
+                                        remplir(data);
+                                        $.ajax({
+                                            url: '/api/appartements/empty/immeuble/' + $("#syndicId").val(),
+                                            type: 'GET',
+                                            async: false,
+                                            success: function (data,
+                                                               textStatus, jqXHR) {
+                                                remplirSelect(data);
+                                                swal("Succès!", "Suppression du résident avec succès!", "success");
+                                            },
+                                            error: function (jqXHR, textStatus,
+                                                             errorThrown) {
+                                                console.log(textStatus, errorThrown);
+                                            }
+                                        });
                                     },
                                     error: function (jqXHR, textStatus,
                                                      errorThrown) {

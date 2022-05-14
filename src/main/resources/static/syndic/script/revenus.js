@@ -92,11 +92,23 @@ $(document).ready(function() {
                             async : false,
                             success : function(data,
                                                textStatus, jqXHR) {
-                                remplir(data);
-                                $("#revenuId").val("");
-                                $("#montant").val("");
-                                $("#description").val("");
-                                swal("Succès!", "Ajout du revenu avec succès!", "success");
+                                $.ajax({
+                                    url : '/api/revenus/syndic/' + $("#syndicId").val(),
+                                    type : 'GET',
+                                    async : false,
+                                    success : function(data,
+                                                       textStatus, jqXHR) {
+                                        remplir(data);
+                                        $("#revenuId").val("");
+                                        $("#montant").val("");
+                                        $("#description").val("");
+                                        swal("Succès!", "Ajout du revenu avec succès!", "success");
+                                    },
+                                    error : function(jqXHR, textStatus,
+                                                     errorThrown) {
+                                        console.log(textStatus, errorThrown);
+                                    }
+                                });
                             },
                             error : function(jqXHR, textStatus,
                                              errorThrown) {
@@ -161,8 +173,20 @@ $(document).ready(function() {
                             async : false,
                             success : function(data,
                                                textStatus, jqXHR) {
-                                remplir(data);
-                                swal("Succès!", "Suppression du revenu avec succès!", "success");
+                                $.ajax({
+                                    url : '/api/revenus/syndic/' + $("#syndicId").val(),
+                                    type : 'GET',
+                                    async : false,
+                                    success : function(data,
+                                                       textStatus, jqXHR) {
+                                        remplir(data);
+                                        swal("Succès!", "Suppression du revenu avec succès!", "success");
+                                    },
+                                    error : function(jqXHR, textStatus,
+                                                     errorThrown) {
+                                        console.log(textStatus, errorThrown);
+                                    }
+                                });
                             },
                             error : function(jqXHR, textStatus,
                                              errorThrown) {
@@ -238,12 +262,24 @@ $(document).ready(function() {
                             async : false,
                             success : function(data,
                                                textStatus, jqXHR) {
-                                remplir(data);
-                                $("#ajouter").prop('value', 'Ajouter');
-                                $("#revenuId").val("");
-                                $("#montant").val("");
-                                $("#description").val("");;
-                                swal("Succès!", "Modification du revenu avec succès!", "success");
+                                $.ajax({
+                                    url : '/api/revenus/syndic/' + $("#syndicId").val(),
+                                    type : 'GET',
+                                    async : false,
+                                    success : function(data,
+                                                       textStatus, jqXHR) {
+                                        remplir(data);
+                                        $("#ajouter").prop('value', 'Ajouter');
+                                        $("#revenuId").val("");
+                                        $("#montant").val("");
+                                        $("#description").val("");;
+                                        swal("Succès!", "Modification du revenu avec succès!", "success");
+                                    },
+                                    error : function(jqXHR, textStatus,
+                                                     errorThrown) {
+                                        console.log(textStatus, errorThrown);
+                                    }
+                                });
                             },
                             error : function(jqXHR, textStatus,
                                              errorThrown) {

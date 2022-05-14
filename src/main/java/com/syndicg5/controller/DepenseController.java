@@ -17,13 +17,13 @@ public class DepenseController {
     DepenseServiceImpl depenseService;
 
     @PostMapping("/depenses")
-    public List<Depense> createDepense(@RequestBody Depense depense) {
-        return depenseService.save(depense);
+    public void createDepense(@RequestBody Depense depense) {
+        depenseService.save(depense);
     }
 
     @PutMapping("/depenses/{id}")
-    public List<Depense> updateDepense(@PathVariable(value = "id") long id, @Valid @RequestBody Depense depense) {
-        return depenseService.update(id, depense);
+    public void updateDepense(@PathVariable(value = "id") long id, @Valid @RequestBody Depense depense) {
+        depenseService.update(id, depense);
     }
 
     @GetMapping("/depenses")
@@ -47,8 +47,8 @@ public class DepenseController {
     }
 
     @DeleteMapping("/depenses/{id}")
-    public List<Depense> deleteDepense(@PathVariable long id) {
-        return depenseService.delete(id);
+    public void deleteDepense(@PathVariable long id) {
+        depenseService.delete(id);
     }
 }
 

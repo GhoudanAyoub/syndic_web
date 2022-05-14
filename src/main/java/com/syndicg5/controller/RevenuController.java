@@ -16,13 +16,13 @@ public class RevenuController {
     RevenuServiceImpl revenuService;
 
     @PostMapping("/revenus")
-    public List<Revenu> createRevenu(@RequestBody Revenu revenu) {
-        return revenuService.save(revenu);
+    public void createRevenu(@RequestBody Revenu revenu) {
+        revenuService.save(revenu);
     }
 
     @PutMapping("/revenus/{id}")
-    public List<Revenu> updateRevenu(@PathVariable(value = "id") long id, @Valid @RequestBody Revenu revenu) {
-        return revenuService.update(id, revenu);
+    public void updateRevenu(@PathVariable(value = "id") long id, @Valid @RequestBody Revenu revenu) {
+        revenuService.update(id, revenu);
     }
 
     @GetMapping("/revenus")
@@ -52,8 +52,8 @@ public class RevenuController {
 
 
     @DeleteMapping("/revenus/{id}")
-    public List<Revenu> deleteRevenu(@PathVariable long id) {
-        return revenuService.delete(id);
+    public void deleteRevenu(@PathVariable long id) {
+        revenuService.delete(id);
     }
 }
 

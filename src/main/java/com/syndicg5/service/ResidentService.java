@@ -10,6 +10,6 @@ public interface ResidentService {
     List<Resident> findAll();
     List<Resident> findAllBySyndic(long id);
     Resident findOne(Long id);
-    List<Resident> delete(long id);
+    void delete(long id);
 }
 

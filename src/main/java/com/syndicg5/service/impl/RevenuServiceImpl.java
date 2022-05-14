@@ -18,15 +18,12 @@ public class RevenuServiceImpl implements RevenuService {
     ImmeubleRepository immeubleRepository;
 
     @Override
-    public List<Revenu> save(Revenu revenu) {
-        long syndicId = immeubleRepository.findById(revenu.getImmeuble().getId()).get().getSyndic().getId();
+    public void save(Revenu revenu) {
         revenuRepository.save(revenu);
-        return revenuRepository.findRevenusBySyndic(syndicId);
     }
 
     @Override
-    public List<Revenu> update(long id, Revenu revenu) {
-        long syndicId = immeubleRepository.findById(revenu.getImmeuble().getId()).get().getSyndic().getId();
+    public void update(long id, Revenu revenu) {
         Revenu r = revenuRepository.findById(id).get();
         r.setDescription(revenu.getDescription());
         r.setDate(revenu.getDate());
@@ -34,7 +31,6 @@ public class RevenuServiceImpl implements RevenuService {
         r.setAppartement(revenu.getAppartement());
         r.setMontant(revenu.getMontant());
         revenuRepository.save(r);
-        return revenuRepository.findRevenusBySyndic(syndicId);
     }
 
     @Override
@@ -63,10 +59,8 @@ public class RevenuServiceImpl implements RevenuService {
     }
 
     @Override
-    public List<Revenu> delete(Long id) {
-        long syndicId = revenuRepository.findById(id).get().getImmeuble().getSyndic().getId();
+    public void delete(Long id) {
         revenuRepository.deleteById(id);
-        return revenuRepository.findRevenusBySyndic(syndicId);
     }
 }
 

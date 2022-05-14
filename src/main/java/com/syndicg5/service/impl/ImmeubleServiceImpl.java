@@ -15,13 +15,12 @@ public class ImmeubleServiceImpl implements ImmeubleService {
     ImmeubleRepository immeubleRepository;
 
     @Override
-    public List<Immeuble> save(Immeuble immeuble) {
+    public void save(Immeuble immeuble) {
         immeubleRepository.save(immeuble);
-        return immeubleRepository.findAllBySyndic(immeuble.getSyndic().getId());
     }
 
     @Override
-    public List<Immeuble> update(long id, Immeuble immeuble) {
+    public void update(long id, Immeuble immeuble) {
         Immeuble i = immeubleRepository.findById(id).get();
         i.setNom(immeuble.getNom());
         i.setNumero(immeuble.getNumero());
@@ -31,7 +30,6 @@ public class ImmeubleServiceImpl implements ImmeubleService {
         i.setPhoto(immeuble.getPhoto());
         i.setSyndic(immeuble.getSyndic());
         immeubleRepository.save(i);
-        return immeubleRepository.findAllBySyndic(i.getSyndic().getId());
     }
 
     @Override
@@ -50,9 +48,7 @@ public class ImmeubleServiceImpl implements ImmeubleService {
     }
 
     @Override
-    public List<Immeuble> delete(Long id) {
-        long syndicId = immeubleRepository.findById(id).get().getSyndic().getId();
+    public void delete(Long id) {
         immeubleRepository.deleteById(id);
-        return immeubleRepository.findAllBySyndic(syndicId);
     }
 }

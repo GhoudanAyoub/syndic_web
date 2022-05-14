@@ -108,20 +108,32 @@ $(document).ready(function() {
                                     async : false,
                                     success : function(data,
                                                        textStatus, jqXHR) {
-                                        remplir(data);
-                                        $("#immeubleId").val("");
-                                        $("#numero").val("");
-                                        $("#nom").val("");
-                                        $("#etages").val("");
-                                        $("#adresse").val("");
-                                        $("#ville").val("");
-                                        $("#photo").val("");
-                                        $("#img").attr("src", "");
-                                        $("#divannuler").prop('hidden', true);
-                                        $("#deleteimg").prop('hidden', true);
-                                        deleted = false;
-                                        uploaded = false;
-                                        swal("Succès!", "Ajout de l'immeuble avec succès!", "success");
+                                        $.ajax({
+                                            url : '/api/immeubles/syndic/' + $("#syndicId").val(),
+                                            type : 'GET',
+                                            async : false,
+                                            success : function(data,
+                                                               textStatus, jqXHR) {
+                                                remplir(data);
+                                                $("#immeubleId").val("");
+                                                $("#numero").val("");
+                                                $("#nom").val("");
+                                                $("#etages").val("");
+                                                $("#adresse").val("");
+                                                $("#ville").val("");
+                                                $("#photo").val("");
+                                                $("#img").attr("src", "");
+                                                $("#divannuler").prop('hidden', true);
+                                                $("#deleteimg").prop('hidden', true);
+                                                deleted = false;
+                                                uploaded = false;
+                                                swal("Succès!", "Ajout de l'immeuble avec succès!", "success");
+                                            },
+                                            error : function(jqXHR, textStatus,
+                                                             errorThrown) {
+                                                console.log(textStatus, errorThrown);
+                                            }
+                                        });
                                     },
                                     error : function(jqXHR, textStatus,
                                                      errorThrown) {
@@ -150,20 +162,32 @@ $(document).ready(function() {
                                 async : false,
                                 success : function(data,
                                                    textStatus, jqXHR) {
-                                    remplir(data);
-                                    $("#immeubleId").val("");
-                                    $("#numero").val("");
-                                    $("#nom").val("");
-                                    $("#etages").val("");
-                                    $("#adresse").val("");
-                                    $("#ville").val("");
-                                    $("#photo").val("");
-                                    $("#img").attr("src", "");
-                                    $("#divannuler").prop('hidden', true);
-                                    $("#deleteimg").prop('hidden', true);
-                                    deleted = false;
-                                    uploaded = false;
-                                    swal("Succès!", "Ajout de l'immeuble avec succès!", "success");
+                                    $.ajax({
+                                        url : '/api/immeubles/syndic/' + $("#syndicId").val(),
+                                        type : 'GET',
+                                        async : false,
+                                        success : function(data,
+                                                           textStatus, jqXHR) {
+                                            remplir(data);
+                                            $("#immeubleId").val("");
+                                            $("#numero").val("");
+                                            $("#nom").val("");
+                                            $("#etages").val("");
+                                            $("#adresse").val("");
+                                            $("#ville").val("");
+                                            $("#photo").val("");
+                                            $("#img").attr("src", "");
+                                            $("#divannuler").prop('hidden', true);
+                                            $("#deleteimg").prop('hidden', true);
+                                            deleted = false;
+                                            uploaded = false;
+                                            swal("Succès!", "Ajout de l'immeuble avec succès!", "success");
+                                        },
+                                        error : function(jqXHR, textStatus,
+                                                         errorThrown) {
+                                            console.log(textStatus, errorThrown);
+                                        }
+                                    });
                                 },
                                 error : function(jqXHR, textStatus,
                                                  errorThrown) {
@@ -209,8 +233,20 @@ $(document).ready(function() {
                             async : false,
                             success : function(data,
                                                textStatus, jqXHR) {
-                                remplir(data);
-                                swal("Succès!", "Suppression de l'immeuble avec succès!", "success");
+                                $.ajax({
+                                    url : '/api/immeubles/syndic/' + $("#syndicId").val(),
+                                    type : 'GET',
+                                    async : false,
+                                    success : function(data,
+                                                       textStatus, jqXHR) {
+                                        remplir(data);
+                                        swal("Succès!", "Suppression de l'immeuble avec succès!", "success");
+                                    },
+                                    error : function(jqXHR, textStatus,
+                                                     errorThrown) {
+                                        console.log(textStatus, errorThrown);
+                                    }
+                                });
                             },
                             error : function(jqXHR, textStatus,
                                              errorThrown) {
@@ -336,21 +372,33 @@ $(document).ready(function() {
                                     async : false,
                                     success : function(data,
                                                        textStatus, jqXHR) {
-                                        remplir(data);
-                                        $("#ajouter").prop('value', 'Ajouter');
-                                        $("#immeubleId").val("");
-                                        $("#numero").val("");
-                                        $("#nom").val("");
-                                        $("#etages").val("");
-                                        $("#adresse").val("");
-                                        $("#ville").val("");
-                                        $("#photo").val("");
-                                        $("#img").attr("src", "");
-                                        $("#divannuler").prop('hidden', true);
-                                        $("#deleteimg").prop('hidden', true);
-                                        deleted = false;
-                                        uploaded = false;
-                                        swal("Succès!", "Modification de l'immeuble avec succès!", "success");
+                                        $.ajax({
+                                            url : '/api/immeubles/syndic/' + $("#syndicId").val(),
+                                            type : 'GET',
+                                            async : false,
+                                            success : function(data,
+                                                               textStatus, jqXHR) {
+                                                remplir(data);
+                                                $("#ajouter").prop('value', 'Ajouter');
+                                                $("#immeubleId").val("");
+                                                $("#numero").val("");
+                                                $("#nom").val("");
+                                                $("#etages").val("");
+                                                $("#adresse").val("");
+                                                $("#ville").val("");
+                                                $("#photo").val("");
+                                                $("#img").attr("src", "");
+                                                $("#divannuler").prop('hidden', true);
+                                                $("#deleteimg").prop('hidden', true);
+                                                deleted = false;
+                                                uploaded = false;
+                                                swal("Succès!", "Modification de l'immeuble avec succès!", "success");
+                                            },
+                                            error : function(jqXHR, textStatus,
+                                                             errorThrown) {
+                                                console.log(textStatus, errorThrown);
+                                            }
+                                        });
                                     },
                                     error : function(jqXHR, textStatus,
                                                      errorThrown) {
@@ -383,21 +431,33 @@ $(document).ready(function() {
                                 async : false,
                                 success : function(data,
                                                    textStatus, jqXHR) {
-                                    remplir(data);
-                                    $("#ajouter").prop('value', 'Ajouter');
-                                    $("#immeubleId").val("");
-                                    $("#numero").val("");
-                                    $("#nom").val("");
-                                    $("#etages").val("");
-                                    $("#adresse").val("");
-                                    $("#ville").val("");
-                                    $("#photo").val("");
-                                    $("#img").attr("src", "");
-                                    $("#divannuler").prop('hidden', true);
-                                    $("#deleteimg").prop('hidden', true);
-                                    deleted = false;
-                                    uploaded = false;
-                                    swal("Succès!", "Modification de l'immeuble avec succès!", "success");
+                                    $.ajax({
+                                        url : '/api/immeubles/syndic/' + $("#syndicId").val(),
+                                        type : 'GET',
+                                        async : false,
+                                        success : function(data,
+                                                           textStatus, jqXHR) {
+                                            remplir(data);
+                                            $("#ajouter").prop('value', 'Ajouter');
+                                            $("#immeubleId").val("");
+                                            $("#numero").val("");
+                                            $("#nom").val("");
+                                            $("#etages").val("");
+                                            $("#adresse").val("");
+                                            $("#ville").val("");
+                                            $("#photo").val("");
+                                            $("#img").attr("src", "");
+                                            $("#divannuler").prop('hidden', true);
+                                            $("#deleteimg").prop('hidden', true);
+                                            deleted = false;
+                                            uploaded = false;
+                                            swal("Succès!", "Modification de l'immeuble avec succès!", "success");
+                                        },
+                                        error : function(jqXHR, textStatus,
+                                                         errorThrown) {
+                                            console.log(textStatus, errorThrown);
+                                        }
+                                    });
                                 },
                                 error : function(jqXHR, textStatus,
                                                  errorThrown) {

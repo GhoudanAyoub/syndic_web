@@ -18,15 +18,12 @@ public class DepenseServiceImpl implements DepenseService {
     ImmeubleRepository immeubleRepository;
 
     @Override
-    public List<Depense> save(Depense depense) {
-        long syndicId = immeubleRepository.findById(depense.getImmeuble().getId()).get().getSyndic().getId();
+    public void save(Depense depense) {
         depenseRepository.save(depense);
-        return depenseRepository.findDepensesBySyndic(syndicId);
     }
 
     @Override
-    public List<Depense> update(long id, Depense depense) {
-        long syndicId = immeubleRepository.findById(depense.getImmeuble().getId()).get().getSyndic().getId();
+    public void update(long id, Depense depense) {
         Depense d = depenseRepository.findById(id).get();
         d.setDescription(depense.getDescription());
         d.setCategorie(depense.getCategorie());
@@ -34,7 +31,6 @@ public class DepenseServiceImpl implements DepenseService {
         d.setImmeuble(depense.getImmeuble());
         d.setMontant(depense.getMontant());
         depenseRepository.save(d);
-        return depenseRepository.findDepensesBySyndic(syndicId);
     }
 
     @Override
@@ -58,9 +54,7 @@ public class DepenseServiceImpl implements DepenseService {
     }
 
     @Override
-    public List<Depense> delete(Long id) {
-        long syndicId = depenseRepository.findById(id).get().getImmeuble().getSyndic().getId();
+    public void delete(Long id) {
         depenseRepository.deleteById(id);
-        return depenseRepository.findDepensesBySyndic(id);
     }
 }

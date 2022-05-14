@@ -47,10 +47,22 @@ $(document).ready(function() {
                             async : false,
                             success : function(data,
                                                textStatus, jqXHR) {
-                                remplir(data);
-                                $("#categorieId").val("");
-                                $("#libelle").val("");
-                                swal("Succès!", "Ajout de la catégorie avec succès!", "success");
+                                $.ajax({
+                                    url : '/api/categories/syndic/' + $("#syndicId").val(),
+                                    type : 'GET',
+                                    async : false,
+                                    success : function(data,
+                                                       textStatus, jqXHR) {
+                                        remplir(data);
+                                        $("#categorieId").val("");
+                                        $("#libelle").val("");
+                                        swal("Succès!", "Ajout de la catégorie avec succès!", "success");
+                                    },
+                                    error : function(jqXHR, textStatus,
+                                                     errorThrown) {
+                                        console.log(textStatus, errorThrown);
+                                    }
+                                });
                             },
                             error : function(jqXHR, textStatus,
                                              errorThrown) {
@@ -95,8 +107,20 @@ $(document).ready(function() {
                             async : false,
                             success : function(data,
                                                textStatus, jqXHR) {
-                                remplir(data);
-                                swal("Succès!", "Suppression de la catégorie avec succès!", "success");
+                                $.ajax({
+                                    url : '/api/categories/syndic/' + $("#syndicId").val(),
+                                    type : 'GET',
+                                    async : false,
+                                    success : function(data,
+                                                       textStatus, jqXHR) {
+                                        remplir(data);
+                                        swal("Succès!", "Suppression de la catégorie avec succès!", "success");
+                                    },
+                                    error : function(jqXHR, textStatus,
+                                                     errorThrown) {
+                                        console.log(textStatus, errorThrown);
+                                    }
+                                });
                             },
                             error : function(jqXHR, textStatus,
                                              errorThrown) {
@@ -151,12 +175,24 @@ $(document).ready(function() {
                             async : false,
                             success : function(data,
                                                textStatus, jqXHR) {
-                                remplir(data);
-                                $("#ajouter").prop('value', 'Ajouter');
-                                $("#categorieId").val("");
-                                $("#libelle").val("");
-                                $("#divannuler").prop('hidden', true);
-                                swal("Succès!", "Modification de la catégorie avec succès!", "success");
+                                $.ajax({
+                                    url : '/api/categories/syndic/' + $("#syndicId").val(),
+                                    type : 'GET',
+                                    async : false,
+                                    success : function(data,
+                                                       textStatus, jqXHR) {
+                                        remplir(data);
+                                        $("#ajouter").prop('value', 'Ajouter');
+                                        $("#categorieId").val("");
+                                        $("#libelle").val("");
+                                        $("#divannuler").prop('hidden', true);
+                                        swal("Succès!", "Modification de la catégorie avec succès!", "success");
+                                    },
+                                    error : function(jqXHR, textStatus,
+                                                     errorThrown) {
+                                        console.log(textStatus, errorThrown);
+                                    }
+                                });
                             },
                             error : function(jqXHR, textStatus,
                                              errorThrown) {

@@ -6,11 +6,11 @@ import com.syndicg5.model.Revenu;
 import java.util.List;
 
 public interface DepenseService {
-    List<Depense> save(Depense depense);
-    List<Depense> update(long id, Depense depense);
+    void save(Depense depense);
+    void update(long id, Depense depense);
     List<Depense> findAll();
     List<Depense> findDepensesByImmeuble(long id);
     List<Depense> findDepensesBySyndic(long id);
     Depense findOne(Long id);
-    List<Depense> delete(Long id);
+    void delete(Long id);
 }

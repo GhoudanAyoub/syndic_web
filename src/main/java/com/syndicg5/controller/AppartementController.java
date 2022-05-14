@@ -16,13 +16,13 @@ public class AppartementController {
     AppartementServiceImpl appartementService;
 
     @PostMapping("/appartements")
-    public List<Appartement> createAppartement(@RequestBody Appartement appartement) {
-        return appartementService.save(appartement);
+    public void createAppartement(@RequestBody Appartement appartement) {
+        appartementService.save(appartement);
     }
 
     @PutMapping("/appartements/{id}")
-    public List<Appartement> updateAppartement(@PathVariable(value = "id") long id, @Valid @RequestBody Appartement appartement) {
-        return appartementService.update(id, appartement);
+    public void updateAppartement(@PathVariable(value = "id") long id, @Valid @RequestBody Appartement appartement) {
+        appartementService.update(id, appartement);
     }
 
     @PutMapping("/appartements/partial/{id}")
@@ -91,8 +91,8 @@ public class AppartementController {
     }
 
     @DeleteMapping("/appartements/{id}")
-    public List<Appartement> deleteAppartement(@PathVariable long id) {
-        return appartementService.delete(id);
+    public void deleteAppartement(@PathVariable long id) {
+        appartementService.delete(id);
     }
 }
 

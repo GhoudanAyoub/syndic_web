@@ -5,8 +5,8 @@ import com.syndicg5.model.Appartement;
 import java.util.List;
 
 public interface AppartementService {
-    List<Appartement> save(Appartement appartement);
-    List<Appartement> update(long id, Appartement appartement);
+    void save(Appartement appartement);
+    void update(long id, Appartement appartement);
     void updatePartial(long id, Appartement appartement);
     void updateAppartementResident(long residentId, long appartementId, Appartement appartement);
     void updateAppartementsResident(long residentId, long[] appartementId);
@@ -20,5 +20,5 @@ public interface AppartementService {
     List<Appartement> findAppartementByImmeuble(long id);
     List<Appartement> getAppartementByImmeuble(Long id);
     Appartement findOne(Long id);
-    List<Appartement> delete(Long id);
+    void delete(Long id);
 }

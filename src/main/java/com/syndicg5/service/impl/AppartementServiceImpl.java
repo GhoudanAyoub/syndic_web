@@ -20,10 +20,8 @@ public class AppartementServiceImpl implements AppartementService {
     ImmeubleRepository immeubleRepository;
 
     @Override
-    public List<Appartement> save(Appartement appartement) {
-        long syndicId = immeubleRepository.findById(appartement.getImmeuble().getId()).get().getSyndic().getId();
+    public void save(Appartement appartement) {
         appartementRepository.save(appartement);
-        return appartementRepository.findAllBySyndic(syndicId);
     }
     @Override
     public List<Appartement> getAppartementByImmeuble(Long id) {
@@ -31,8 +29,7 @@ public class AppartementServiceImpl implements AppartementService {
     }
 
     @Override
-    public List<Appartement> update(long id, Appartement appartement) {
-        long syndicId = immeubleRepository.findById(appartement.getImmeuble().getId()).get().getSyndic().getId();
+    public void update(long id, Appartement appartement) {
         Appartement a = appartementRepository.findById(id).get();
         a.setNumero(appartement.getNumero());
         a.setEtage(appartement.getEtage());
@@ -42,7 +39,6 @@ public class AppartementServiceImpl implements AppartementService {
         a.setDebut(appartement.getDebut());
         a.setFin(appartement.getFin());
         appartementRepository.save(a);
-        return appartementRepository.findAllBySyndic(syndicId);
     }
 
     @Override
@@ -114,9 +110,7 @@ public class AppartementServiceImpl implements AppartementService {
     }
 
     @Override
-    public List<Appartement> delete(Long id) {
-        long syndicId = appartementRepository.findById(id).get().getImmeuble().getSyndic().getId();
+    public void delete(Long id) {
         appartementRepository.deleteById(id);
-        return appartementRepository.findAllBySyndic(syndicId);
     }
 }

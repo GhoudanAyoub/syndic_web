@@ -41,8 +41,8 @@ public class ResidentController {
     }
 
     @DeleteMapping("/residents/{id}")
-    public List<Resident> deleteResident(@PathVariable long id) {
-        return residentService.delete(id);
+    public void deleteResident(@PathVariable long id) {
+        residentService.delete(id);
     }
 }
 

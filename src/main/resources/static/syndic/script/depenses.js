@@ -89,11 +89,23 @@ $(document).ready(function() {
                             async : false,
                             success : function(data,
                                                textStatus, jqXHR) {
-                                remplir(data);
-                                $("#depenseId").val("");
-                                $("#montant").val("");
-                                $("#description").val("");
-                                swal("Succès!", "Ajout de la dépense avec succès!", "success");
+                                $.ajax({
+                                    url : '/api/depenses/syndic/' + $("#syndicId").val(),
+                                    type : 'GET',
+                                    async : false,
+                                    success : function(data,
+                                                       textStatus, jqXHR) {
+                                        remplir(data);
+                                        $("#depenseId").val("");
+                                        $("#montant").val("");
+                                        $("#description").val("");
+                                        swal("Succès!", "Ajout de la dépense avec succès!", "success");
+                                    },
+                                    error : function(jqXHR, textStatus,
+                                                     errorThrown) {
+                                        console.log(textStatus, errorThrown);
+                                    }
+                                });
                             },
                             error : function(jqXHR, textStatus,
                                              errorThrown) {
@@ -158,8 +170,20 @@ $(document).ready(function() {
                             async : false,
                             success : function(data,
                                                textStatus, jqXHR) {
-                                remplir(data);
-                                swal("Succès!", "Suppression de la dépense avec succès!", "success");
+                                $.ajax({
+                                    url : '/api/depenses/syndic/' + $("#syndicId").val(),
+                                    type : 'GET',
+                                    async : false,
+                                    success : function(data,
+                                                       textStatus, jqXHR) {
+                                        remplir(data);
+                                        swal("Succès!", "Suppression de la dépense avec succès!", "success");
+                                    },
+                                    error : function(jqXHR, textStatus,
+                                                     errorThrown) {
+                                        console.log(textStatus, errorThrown);
+                                    }
+                                });
                             },
                             error : function(jqXHR, textStatus,
                                              errorThrown) {
@@ -235,12 +259,24 @@ $(document).ready(function() {
                             async : false,
                             success : function(data,
                                                textStatus, jqXHR) {
-                                remplir(data);
-                                $("#ajouter").prop('value', 'Ajouter');
-                                $("#depenseId").val("");
-                                $("#montant").val("");
-                                $("#description").val("");;
-                                swal("Succès!", "Modification de la dépense avec succès!", "success");
+                                $.ajax({
+                                    url : '/api/depenses/syndic/' + $("#syndicId").val(),
+                                    type : 'GET',
+                                    async : false,
+                                    success : function(data,
+                                                       textStatus, jqXHR) {
+                                        remplir(data);
+                                        $("#ajouter").prop('value', 'Ajouter');
+                                        $("#depenseId").val("");
+                                        $("#montant").val("");
+                                        $("#description").val("");;
+                                        swal("Succès!", "Modification de la dépense avec succès!", "success");
+                                    },
+                                    error : function(jqXHR, textStatus,
+                                                     errorThrown) {
+                                        console.log(textStatus, errorThrown);
+                                    }
+                                });
                             },
                             error : function(jqXHR, textStatus,
                                              errorThrown) {

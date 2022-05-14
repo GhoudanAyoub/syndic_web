@@ -81,13 +81,24 @@ $(document).ready(function() {
                             async : false,
                             success : function(data,
                                                textStatus, jqXHR) {
-                                console.log(data);
-                                remplir(data);
-                                $("#appartementId").val("");
-                                $("#numero").val("");
-                                $("#etage").val("");
-                                $("#surface").val("");
-                                swal("Succès!", "Ajout de l'appartement avec succès!", "success");
+                                $.ajax({
+                                    url : '/api/appartements/syndic/' + $("#syndicId").val(),
+                                    type : 'GET',
+                                    async : false,
+                                    success : function(data,
+                                                       textStatus, jqXHR) {
+                                        remplir(data);
+                                        $("#appartementId").val("");
+                                        $("#numero").val("");
+                                        $("#etage").val("");
+                                        $("#surface").val("");
+                                        swal("Succès!", "Ajout de l'appartement avec succès!", "success");
+                                    },
+                                    error : function(jqXHR, textStatus,
+                                                     errorThrown) {
+                                        console.log(textStatus, errorThrown);
+                                    }
+                                });
                             },
                             error : function(jqXHR, textStatus,
                                              errorThrown) {
@@ -120,7 +131,7 @@ $(document).ready(function() {
         var ligne = "";
         if (data.length > 0) {
             for (var i = 0; i < data.length; i++) {
-                ligne += '<tr><td class="text-center">' + data[i].immeuble.id + '</td><td class="text-center">' + data[i].numero + '</td><td class="text-center">' + data[i].etage + '</td><td class="text-center">' + data[i].surface + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-update" data-appartement=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-delete" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-delete-3"></i> Supprimer</a></div></td></tr>';
+                ligne += '<tr><td class="text-center">' + data[i].immeuble.nom + '</td><td class="text-center">' + data[i].numero + '</td><td class="text-center">' + data[i].etage + '</td><td class="text-center">' + data[i].surface + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-update" data-appartement=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-delete" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-delete-3"></i> Supprimer</a></div></td></tr>';
             }
         }
         $("#table").html(ligne);
@@ -142,8 +153,20 @@ $(document).ready(function() {
                             async : false,
                             success : function(data,
                                                textStatus, jqXHR) {
-                                remplir(data);
-                                swal("Succès!", "Suppression de l'appartement avec succès!", "success");
+                                $.ajax({
+                                    url : '/api/appartements/syndic/' + $("#syndicId").val(),
+                                    type : 'GET',
+                                    async : false,
+                                    success : function(data,
+                                                       textStatus, jqXHR) {
+                                        remplir(data);
+                                        swal("Succès!", "Suppression de l'appartement avec succès!", "success");
+                                    },
+                                    error : function(jqXHR, textStatus,
+                                                     errorThrown) {
+                                        console.log(textStatus, errorThrown);
+                                    }
+                                });
                             },
                             error : function(jqXHR, textStatus,
                                              errorThrown) {
@@ -224,13 +247,25 @@ $(document).ready(function() {
                             async : false,
                             success : function(data,
                                                textStatus, jqXHR) {
-                                remplir(data);
-                                $("#ajouter").prop('value', 'Ajouter');
-                                $("#appartementId").val("");
-                                $("#numero").val("");
-                                $("#etage").val("");
-                                $("#surface").val("");
-                                swal("Succès!", "Modification de l'appartement avec succès!", "success");
+                                $.ajax({
+                                    url : '/api/appartements/syndic/' + $("#syndicId").val(),
+                                    type : 'GET',
+                                    async : false,
+                                    success : function(data,
+                                                       textStatus, jqXHR) {
+                                        remplir(data);
+                                        $("#ajouter").prop('value', 'Ajouter');
+                                        $("#appartementId").val("");
+                                        $("#numero").val("");
+                                        $("#etage").val("");
+                                        $("#surface").val("");
+                                        swal("Succès!", "Modification de l'appartement avec succès!", "success");
+                                    },
+                                    error : function(jqXHR, textStatus,
+                                                     errorThrown) {
+                                        console.log(textStatus, errorThrown);
+                                    }
+                                });
                             },
                             error : function(jqXHR, textStatus,
                                              errorThrown) {

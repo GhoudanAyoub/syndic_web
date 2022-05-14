@@ -19,7 +19,6 @@ public class ResidentServiceImpl implements ResidentService {
     @Override
     public Resident save(Resident resident) {
         return residentRepository.save(resident);
-        //return residentRepository.findAllBySyndic(syndicId);
     }
 
     @Override
@@ -33,7 +32,6 @@ public class ResidentServiceImpl implements ResidentService {
         r.setVille(resident.getVille());
         r.setPhoto(resident.getPhoto());
         return residentRepository.save(r);
-        //return residentRepository.findAllBySyndic(syndicId);
     }
 
     @Override
@@ -52,10 +50,8 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public List<Resident> delete(long id) {
-        long syndicId = residentRepository.findById(id).get().getSyndic().getId();
+    public void delete(long id) {
         appartementRepository.deleteAllAppartementResident(id);
         residentRepository.deleteById(id);
-        return residentRepository.findAllBySyndic(syndicId);
     }
 }
