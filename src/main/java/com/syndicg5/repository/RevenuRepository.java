@@ -16,4 +16,7 @@ public interface RevenuRepository extends JpaRepository<Revenu, Long> {
 
     @Query(" select r from Revenu r where r.appartement.id = ?1")
     List<Revenu> findRevenusByAppartement(long id);
+
+    @Query(" select r from Revenu r where r.immeuble.syndic.id = ?1")
+    List<Revenu> findRevenusBySyndic(long id);
 }

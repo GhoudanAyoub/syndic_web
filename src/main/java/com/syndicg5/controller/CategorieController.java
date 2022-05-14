@@ -16,18 +16,23 @@ public class CategorieController {
     CategorieServiceImpl categorieService;
 
     @PostMapping("/categories")
-    public void createCategorie(@RequestBody Categorie categorie) {
-        categorieService.save(categorie);
+    public List<Categorie> createCategorie(@RequestBody Categorie categorie) {
+        return categorieService.save(categorie);
     }
 
     @PutMapping("/categories/{id}")
-    public void updateCategorie(@PathVariable(value = "id") long id, @Valid @RequestBody Categorie categorie) {
-        categorieService.update(id, categorie);
+    public List<Categorie> updateCategorie(@PathVariable(value = "id") long id, @Valid @RequestBody Categorie categorie) {
+        return categorieService.update(id, categorie);
     }
 
     @GetMapping("/categories")
     public List<Categorie> getAllCategories() {
         return categorieService.findAll();
+    }
+
+    @GetMapping("/categories/syndic/{syndicId}")
+    public List<Categorie> getAllCategoriesBySyndic(@PathVariable(value = "syndicId") long syndicId) {
+        return categorieService.findAllBySyndic(syndicId);
     }
 
     @GetMapping("/categories/{id}")
@@ -36,8 +41,8 @@ public class CategorieController {
     }
 
     @DeleteMapping("/categories/{id}")
-    public void deleteCategorie(@PathVariable long id) {
-        categorieService.delete(id);
+    public List<Categorie> deleteCategorie(@PathVariable long id) {
+        return categorieService.delete(id);
     }
 }
 

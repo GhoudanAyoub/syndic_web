@@ -40,9 +40,9 @@ public class ResidentController {
         return residentService.findOne(id);
     }
 
-    @DeleteMapping("/residents/{syndicId}/{id}")
-    public List<Resident> deleteResident(@PathVariable(value = "syndicId") long syndicId, @PathVariable long id) {
-        return residentService.delete(syndicId, id);
+    @DeleteMapping("/residents/{id}")
+    public List<Resident> deleteResident(@PathVariable long id) {
+        return residentService.delete(id);
     }
 }
 

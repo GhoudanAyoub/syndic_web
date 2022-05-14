@@ -1,15 +1,15 @@
-$(document).ready(function() {
+$(document).ready(function () {
     var deleted = false;
     var uploaded = false;
-    $("#uploadimg").on("click", function(){
+    $("#uploadimg").on("click", function () {
         $("#photo").trigger("click");
     });
-    $("#photo").on("change", function(){
+    $("#photo").on("change", function () {
         readIMG(this);
         deleted = false;
         uploaded = true;
     });
-    $("#deleteimg").on("click", function() {
+    $("#deleteimg").on("click", function () {
         $("#img").prop("src", "");
         $("#photo").val("");
         $(this).prop('hidden', true);
@@ -17,41 +17,41 @@ $(document).ready(function() {
         uploaded = false;
     });
     $.ajax({
-        url : '/api/sessions',
-        type : 'GET',
-        async : false,
-        success : function(data,
+        url: '/api/sessions',
+        type: 'GET',
+        async: false,
+        success: function (data,
                            textStatus, jqXHR) {
             $("#syndicId").val(data);
             $.ajax({
-                url : '/api/appartements/empty/immeuble/' + $("#syndicId").val(),
-                type : 'GET',
-                async : false,
-                success : function(data,
+                url: '/api/appartements/empty/immeuble/' + $("#syndicId").val(),
+                type: 'GET',
+                async: false,
+                success: function (data,
                                    textStatus, jqXHR) {
                     remplirSelect(data);
                 },
-                error : function(jqXHR, textStatus,
+                error: function (jqXHR, textStatus,
                                  errorThrown) {
                     console.log(textStatus, errorThrown);
                 }
             });
             $.ajax({
-                url : '/api/residents/syndic/' + $("#syndicId").val(),
-                type : 'GET',
-                async : false,
-                success : function(data,
+                url: '/api/residents/syndic/' + $("#syndicId").val(),
+                type: 'GET',
+                async: false,
+                success: function (data,
                                    textStatus, jqXHR) {
                     remplir(data);
                 },
-                error : function(jqXHR, textStatus,
+                error: function (jqXHR, textStatus,
                                  errorThrown) {
                     console.log(textStatus, errorThrown);
                 }
             });
 
-            $("#ajouter").click(function(e) {
-                if($(this).attr("value") == "Ajouter") {
+            $("#ajouter").click(function (e) {
+                if ($(this).attr("value") == "Ajouter") {
                     e.preventDefault();
                     var verif = true;
                     var nom = $("#nom").val();
@@ -106,49 +106,50 @@ $(document).ready(function() {
                     }
 
                     if (verif) {
-                        if(photo) {
+                        if (photo) {
                             var file = document.querySelector('input[type=file]')['files'][0];
                             var reader = new FileReader();
                             var baseString;
                             reader.onloadend = function () {
                                 baseString = reader.result;
                                 var json = {
-                                    nom : nom,
-                                    prenom : prenom,
-                                    email : email,
-                                    telephone : tel,
-                                    ville : ville,
-                                    mdp : password,
-                                    photo : baseString
+                                    nom: nom,
+                                    prenom: prenom,
+                                    email: email,
+                                    telephone: tel,
+                                    ville: ville,
+                                    mdp: password,
+                                    photo: baseString,
+                                    syndic : {id : $("#syndicId").val()}
                                 };
 
                                 $.ajax({
-                                    url : '/api/residents',
-                                    contentType : 'application/json',
-                                    data : JSON.stringify(json),
-                                    type : 'POST',
-                                    async : false,
-                                    success : function(data,
+                                    url: '/api/residents',
+                                    contentType: 'application/json',
+                                    data: JSON.stringify(json),
+                                    type: 'POST',
+                                    async: false,
+                                    success: function (data,
                                                        textStatus, jqXHR) {
                                         var residentId = data.id;
                                         $.ajax({
-                                            url : '/api/appartements/resident/' + residentId,
-                                            data : {appartementId : appartements},
-                                            type : 'PUT',
-                                            async : false,
-                                            success : function(textStatus, jqXHR) {
+                                            url: '/api/appartements/resident/' + residentId,
+                                            data: {appartementId: appartements},
+                                            type: 'PUT',
+                                            async: false,
+                                            success: function (textStatus, jqXHR) {
                                                 $.ajax({
-                                                    url : '/api/residents/syndic/' + $("#syndicId").val(),
-                                                    type : 'GET',
-                                                    async : false,
-                                                    success : function(data,
+                                                    url: '/api/residents/syndic/' + $("#syndicId").val(),
+                                                    type: 'GET',
+                                                    async: false,
+                                                    success: function (data,
                                                                        textStatus, jqXHR) {
                                                         remplir(data);
                                                         $.ajax({
-                                                            url : '/api/appartements/empty/immeuble/' + $("#syndicId").val(),
-                                                            type : 'GET',
-                                                            async : false,
-                                                            success : function(data,
+                                                            url: '/api/appartements/empty/immeuble/' + $("#syndicId").val(),
+                                                            type: 'GET',
+                                                            async: false,
+                                                            success: function (data,
                                                                                textStatus, jqXHR) {
                                                                 remplirSelect(data);
                                                                 $("#residentId").val("");
@@ -167,26 +168,26 @@ $(document).ready(function() {
                                                                 uploaded = false;
                                                                 swal("Succès!", "Ajout du résident avec succès!", "success");
                                                             },
-                                                            error : function(jqXHR, textStatus,
+                                                            error: function (jqXHR, textStatus,
                                                                              errorThrown) {
                                                                 console.log(textStatus, errorThrown);
                                                             }
                                                         });
                                                     },
-                                                    error : function(jqXHR, textStatus,
+                                                    error: function (jqXHR, textStatus,
                                                                      errorThrown) {
                                                         console.log(textStatus, errorThrown);
                                                     }
                                                 });
                                             },
-                                            error : function(jqXHR, textStatus,
+                                            error: function (jqXHR, textStatus,
                                                              errorThrown) {
                                                 console.log(textStatus, errorThrown);
                                                 swal("Echec!", "Echec lors de l'ajout du résident!", "warning");
                                             }
                                         });
                                     },
-                                    error : function(jqXHR, textStatus,
+                                    error: function (jqXHR, textStatus,
                                                      errorThrown) {
                                         console.log(textStatus, errorThrown);
                                         swal("Echec!", "Echec lors de l'ajout du résident!", "warning");
@@ -194,44 +195,45 @@ $(document).ready(function() {
                                 });
                             };
                             reader.readAsDataURL(file);
-                        }else {
+                        } else {
                             var json = {
-                                nom : nom,
-                                prenom : prenom,
-                                email : email,
-                                telephone : tel,
-                                ville : ville,
-                                mdp : password,
-                                photo : null
+                                nom: nom,
+                                prenom: prenom,
+                                email: email,
+                                telephone: tel,
+                                ville: ville,
+                                mdp: password,
+                                photo: null,
+                                syndic : {id : $("#syndicId").val()}
                             };
 
                             $.ajax({
-                                url : '/api/residents',
-                                contentType : 'application/json',
-                                data : JSON.stringify(json),
-                                type : 'POST',
-                                async : false,
-                                success : function(data,
+                                url: '/api/residents',
+                                contentType: 'application/json',
+                                data: JSON.stringify(json),
+                                type: 'POST',
+                                async: false,
+                                success: function (data,
                                                    textStatus, jqXHR) {
                                     var residentId = data.id;
                                     $.ajax({
-                                        url : '/api/appartements/resident/' + residentId,
-                                        data : {appartementId : appartements},
-                                        type : 'PUT',
-                                        async : false,
-                                        success : function(textStatus, jqXHR) {
+                                        url: '/api/appartements/resident/' + residentId,
+                                        data: {appartementId: appartements},
+                                        type: 'PUT',
+                                        async: false,
+                                        success: function (textStatus, jqXHR) {
                                             $.ajax({
-                                                url : '/api/residents/syndic/' + $("#syndicId").val(),
-                                                type : 'GET',
-                                                async : false,
-                                                success : function(data,
+                                                url: '/api/residents/syndic/' + $("#syndicId").val(),
+                                                type: 'GET',
+                                                async: false,
+                                                success: function (data,
                                                                    textStatus, jqXHR) {
                                                     remplir(data);
                                                     $.ajax({
-                                                        url : '/api/appartements/empty/immeuble/' + $("#syndicId").val(),
-                                                        type : 'GET',
-                                                        async : false,
-                                                        success : function(data,
+                                                        url: '/api/appartements/empty/immeuble/' + $("#syndicId").val(),
+                                                        type: 'GET',
+                                                        async: false,
+                                                        success: function (data,
                                                                            textStatus, jqXHR) {
                                                             remplirSelect(data);
                                                             $("#residentId").val("");
@@ -250,26 +252,26 @@ $(document).ready(function() {
                                                             uploaded = false;
                                                             swal("Succès!", "Ajout du résident avec succès!", "success");
                                                         },
-                                                        error : function(jqXHR, textStatus,
+                                                        error: function (jqXHR, textStatus,
                                                                          errorThrown) {
                                                             console.log(textStatus, errorThrown);
                                                         }
                                                     });
                                                 },
-                                                error : function(jqXHR, textStatus,
+                                                error: function (jqXHR, textStatus,
                                                                  errorThrown) {
                                                     console.log(textStatus, errorThrown);
                                                 }
                                             });
                                         },
-                                        error : function(jqXHR, textStatus,
+                                        error: function (jqXHR, textStatus,
                                                          errorThrown) {
                                             console.log(textStatus, errorThrown);
                                             swal("Echec!", "Echec lors de l'ajout du résident!", "warning");
                                         }
                                     });
                                 },
-                                error : function(jqXHR, textStatus,
+                                error: function (jqXHR, textStatus,
                                                  errorThrown) {
                                     console.log(textStatus, errorThrown);
                                     swal("Echec!", "Echec lors de l'ajout du résident!", "warning");
@@ -280,10 +282,71 @@ $(document).ready(function() {
                 }
             });
         },
-        error : function(jqXHR, textStatus,
+        error: function (jqXHR, textStatus,
                          errorThrown) {
             console.log(textStatus, errorThrown);
             swal("Echec!", "Erreur session!", "warning");
+        }
+    });
+
+    $("#ajouterU").click(function (e) {
+        if ($(this).attr("value") == "Ajouter") {
+            e.preventDefault();
+            var debut = $("#debut").val();
+            var fin = $("#fin").val();
+            console.log($("#appartementU").val());
+
+            var json = {
+                debut: debut,
+                fin: fin
+            };
+            console.log($("#appartementU").val());
+            $.ajax({
+                url: '/api/appartements/resident/' + $("#residentIdU").val() + '/' + $("#appartementU").val(),
+                contentType: 'application/json',
+                data: JSON.stringify(json),
+                type: 'PUT',
+                async: false,
+                success: function (data,
+                                   textStatus, jqXHR) {
+                    $.ajax({
+                        url: '/api/appartements/resident/' + $("#residentIdU").val(),
+                        type: 'GET',
+                        async: false,
+                        success: function (data,
+                                           textStatus, jqXHR) {
+                            remplirAppart(data);
+                            $.ajax({
+                                url: '/api/appartements/empty/immeuble/' + $("#syndicId").val(),
+                                type: 'GET',
+                                async: false,
+                                success: function (data,
+                                                   textStatus, jqXHR) {
+                                    remplirSelect(data);
+                                    $("#ajouterU").prop('value', 'Ajouter');
+                                    $("#appartementU").val("");
+                                    $("#debut").val("");
+                                    $("#fin").val("");
+                                    swal("Succès!", "Affectation de l'appartement au résident avec succès!", "success");
+                                },
+                                error: function (jqXHR, textStatus,
+                                                 errorThrown) {
+                                    console.log(textStatus, errorThrown);
+                                }
+                            });
+                        },
+                        error: function (jqXHR, textStatus,
+                                         errorThrown) {
+                            console.log(textStatus, errorThrown);
+                        }
+                    });
+                },
+                error: function (jqXHR, textStatus,
+                                 errorThrown) {
+                    console.log(textStatus, errorThrown);
+                    swal("Echec!", "Echec lors de l'affectaion de l'appartement au résident!", "warning");
+                }
+            });
         }
     });
 
@@ -291,15 +354,15 @@ $(document).ready(function() {
         var ligne = "";
         if (data.length > 0) {
             var immeubleId = data[0].immeuble.id;
-            ligne += '<optgroup label="'+ data[0].immeuble.nom +'">';
-            ligne += '<option value="'+ data[0].id +'">'+ data[0].immeuble.nom + ' : appartement '  + data[0].numero +'</option>';
+            ligne += '<optgroup label="' + data[0].immeuble.nom + '">';
+            ligne += '<option value="' + data[0].id + '">' + data[0].immeuble.nom + ' : appartement ' + data[0].numero + '</option>';
             for (var i = 1; i < data.length; i++) {
-                if(data[i].immeuble.id == immeubleId) {
-                    ligne += '<option value="'+ data[i].id +'">'+ data[i].immeuble.nom + ' : appartement ' + data[i].numero +'</option>';
-                }else {
+                if (data[i].immeuble.id == immeubleId) {
+                    ligne += '<option value="' + data[i].id + '">' + data[i].immeuble.nom + ' : appartement ' + data[i].numero + '</option>';
+                } else {
                     ligne += '</optgroup>';
-                    ligne += '<optgroup label="'+ data[i].immeuble.nom +'">';
-                    ligne += '<option value="'+ data[i].id +'">'+ data[i].immeuble.nom + ' : appartement ' + data[i].numero +'</option>';
+                    ligne += '<optgroup label="' + data[i].immeuble.nom + '">';
+                    ligne += '<option value="' + data[i].id + '">' + data[i].immeuble.nom + ' : appartement ' + data[i].numero + '</option>';
                     immeubleId = data[i].immeuble.id;
                 }
             }
@@ -317,18 +380,18 @@ $(document).ready(function() {
         }
         $("#table").html(ligne);
 
-        $(".btn-appartement").click(function() {
+        $(".btn-appartement").click(function () {
             var resid = $(this).data("id");
             $("#residentIdU").val(resid);
             $.ajax({
-                url : '/api/appartements/resident/' + $("#residentIdU").val(),
-                type : 'GET',
-                async : false,
-                success : function(data,
+                url: '/api/appartements/resident/' + $("#residentIdU").val(),
+                type: 'GET',
+                async: false,
+                success: function (data,
                                    textStatus, jqXHR) {
                     remplirAppart(data);
                 },
-                error : function(jqXHR, textStatus,
+                error: function (jqXHR, textStatus,
                                  errorThrown) {
                     console.log(textStatus, errorThrown);
                 }
@@ -336,7 +399,7 @@ $(document).ready(function() {
             $('#appart-modal').modal('show');
         });
 
-        $(".btn-delete").click(function() {
+        $(".btn-delete").click(function () {
             swal({
                 title: "Voulez-vous supprimer ce résident?",
                 icon: "info",
@@ -347,29 +410,29 @@ $(document).ready(function() {
                     if (isConfirm) {
                         var delid = $(this).data("id");
                         $.ajax({
-                            url : '/api/residents/' + $("#syndicId").val() + '/' + delid,
-                            contentType : 'application/json',
-                            type : 'DELETE',
-                            async : false,
-                            success : function(data,
+                            url: '/api/residents/' + delid,
+                            contentType: 'application/json',
+                            type: 'DELETE',
+                            async: false,
+                            success: function (data,
                                                textStatus, jqXHR) {
                                 remplir(data);
                                 $.ajax({
-                                    url : '/api/appartements/empty/immeuble/' + $("#syndicId").val(),
-                                    type : 'GET',
-                                    async : false,
-                                    success : function(data,
+                                    url: '/api/appartements/empty/immeuble/' + $("#syndicId").val(),
+                                    type: 'GET',
+                                    async: false,
+                                    success: function (data,
                                                        textStatus, jqXHR) {
                                         remplirSelect(data);
                                         swal("Succès!", "Suppression du résident avec succès!", "success");
                                     },
-                                    error : function(jqXHR, textStatus,
+                                    error: function (jqXHR, textStatus,
                                                      errorThrown) {
                                         console.log(textStatus, errorThrown);
                                     }
                                 });
                             },
-                            error : function(jqXHR, textStatus,
+                            error: function (jqXHR, textStatus,
                                              errorThrown) {
                                 console.log(textStatus, errorThrown);
                                 swal("Echec!", "Echec lors de la suppression du résident!", "warning");
@@ -379,7 +442,7 @@ $(document).ready(function() {
                 });
         });
 
-        $(".btn-update").click(function() {
+        $(".btn-update").click(function () {
             var resident = $(this).data("resident");
 
             $("#residentId").val(resident.id);
@@ -389,7 +452,7 @@ $(document).ready(function() {
             $("#tel").val(resident.telephone);
             $("#ville").val(resident.ville);
             $("#password").val(resident.mdp);
-            if(resident.photo != null) {
+            if (resident.photo != null) {
                 $("#img").attr("src", resident.photo);
                 $("#deleteimg").prop('hidden', false);
                 deleted = false;
@@ -399,7 +462,7 @@ $(document).ready(function() {
             $("#ajouter").prop('value', 'Modifier');
             $("#divannuler").prop('hidden', false);
 
-            $("#annuler").click(function() {
+            $("#annuler").click(function () {
                 $("#ajouter").prop('value', 'Ajouter');
                 $("#residentId").val("");
                 $("#nom").val("");
@@ -417,8 +480,8 @@ $(document).ready(function() {
                 uploaded = false;
             });
 
-            $("#ajouter").click(function(e) {
-                if($(this).attr("value") == "Modifier") {
+            $("#ajouter").click(function (e) {
+                if ($(this).attr("value") == "Modifier") {
                     e.preventDefault();
                     var verif = true;
                     var residentId = $("#residentId").val();
@@ -429,11 +492,11 @@ $(document).ready(function() {
                     var ville = $("#ville").val();
                     var password = $("#password").val();
                     var photo = null;
-                    if(uploaded) {
+                    if (uploaded) {
                         photo = $("#photo").val();
                     }
 
-                    if(deleted) {
+                    if (deleted) {
                         $("#img").attr("src", "");
                     }
 
@@ -480,35 +543,35 @@ $(document).ready(function() {
                     }
 
                     if (verif) {
-                        if(photo) {
+                        if (photo) {
                             var file = document.querySelector('input[type=file]')['files'][0];
                             var reader = new FileReader();
                             var baseString;
                             reader.onloadend = function () {
                                 baseString = reader.result;
                                 var json = {
-                                    nom : nom,
-                                    prenom : prenom,
-                                    email : email,
-                                    telephone : tel,
-                                    ville : ville,
-                                    mdp : password,
-                                    photo : baseString
+                                    nom: nom,
+                                    prenom: prenom,
+                                    email: email,
+                                    telephone: tel,
+                                    ville: ville,
+                                    mdp: password,
+                                    photo: baseString
                                 };
 
                                 $.ajax({
-                                    url : '/api/residents/' + residentId,
-                                    contentType : 'application/json',
-                                    data : JSON.stringify(json),
-                                    type : 'PUT',
-                                    async : false,
-                                    success : function(data,
+                                    url: '/api/residents/' + residentId,
+                                    contentType: 'application/json',
+                                    data: JSON.stringify(json),
+                                    type: 'PUT',
+                                    async: false,
+                                    success: function (data,
                                                        textStatus, jqXHR) {
                                         $.ajax({
-                                            url : '/api/residents/syndic/' + $("#syndicId").val(),
-                                            type : 'GET',
-                                            async : false,
-                                            success : function(data,
+                                            url: '/api/residents/syndic/' + $("#syndicId").val(),
+                                            type: 'GET',
+                                            async: false,
+                                            success: function (data,
                                                                textStatus, jqXHR) {
                                                 remplir(data);
                                                 $("#ajouter").prop('value', 'Ajouter');
@@ -528,13 +591,13 @@ $(document).ready(function() {
                                                 uploaded = false;
                                                 swal("Succès!", "Modification du résident avec succès!", "success");
                                             },
-                                            error : function(jqXHR, textStatus,
+                                            error: function (jqXHR, textStatus,
                                                              errorThrown) {
                                                 console.log(textStatus, errorThrown);
                                             }
                                         });
                                     },
-                                    error : function(jqXHR, textStatus,
+                                    error: function (jqXHR, textStatus,
                                                      errorThrown) {
                                         console.log(textStatus, errorThrown);
                                         swal("Echec!", "Echec lors de la modification du résident!", "warning");
@@ -542,34 +605,34 @@ $(document).ready(function() {
                                 });
                             };
                             reader.readAsDataURL(file);
-                        }else {
+                        } else {
                             var p = null;
-                            if($("#img").attr("src") != "" && $("#img").attr("src") != "images/no-image.png") {
+                            if ($("#img").attr("src") != "" && $("#img").attr("src") != "images/no-image.png") {
                                 p = $("#img").attr("src");
                             }
                             var json = {
-                                nom : nom,
-                                prenom : prenom,
-                                email : email,
-                                telephone : tel,
-                                ville : ville,
-                                mdp : password,
-                                photo : p
+                                nom: nom,
+                                prenom: prenom,
+                                email: email,
+                                telephone: tel,
+                                ville: ville,
+                                mdp: password,
+                                photo: p
                             };
 
                             $.ajax({
-                                url : '/api/residents/' + residentId,
-                                contentType : 'application/json',
-                                data : JSON.stringify(json),
-                                type : 'PUT',
-                                async : false,
-                                success : function(data,
+                                url: '/api/residents/' + residentId,
+                                contentType: 'application/json',
+                                data: JSON.stringify(json),
+                                type: 'PUT',
+                                async: false,
+                                success: function (data,
                                                    textStatus, jqXHR) {
                                     $.ajax({
-                                        url : '/api/residents/syndic/' + $("#syndicId").val(),
-                                        type : 'GET',
-                                        async : false,
-                                        success : function(data,
+                                        url: '/api/residents/syndic/' + $("#syndicId").val(),
+                                        type: 'GET',
+                                        async: false,
+                                        success: function (data,
                                                            textStatus, jqXHR) {
                                             remplir(data);
                                             $("#ajouter").prop('value', 'Ajouter');
@@ -589,13 +652,13 @@ $(document).ready(function() {
                                             uploaded = false;
                                             swal("Succès!", "Modification du résident avec succès!", "success");
                                         },
-                                        error : function(jqXHR, textStatus,
+                                        error: function (jqXHR, textStatus,
                                                          errorThrown) {
                                             console.log(textStatus, errorThrown);
                                         }
                                     });
                                 },
-                                error : function(jqXHR, textStatus,
+                                error: function (jqXHR, textStatus,
                                                  errorThrown) {
                                     console.log(textStatus, errorThrown);
                                     swal("Echec!", "Echec lors de la modification du résident!", "warning");
@@ -613,64 +676,12 @@ $(document).ready(function() {
         var ligne = "";
         if (data.length > 0) {
             for (var i = 0; i < data.length; i++) {
-                ligne += '<tr><td class="text-center">' + data[i].immeuble.id + '</td><td class="text-center">' + data[i].numero + '</td><td class="text-center">' + data[i].etage + '</td><td class="text-center">' + data[i].surface + '</td><td class="text-center">' + moment(data[i].debut).format("YYYY-MM-DD") + '</td><td class="text-center">' + moment(data[i].fin).format("YYYY-MM-DD") + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-updateU" data-appartement=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-deleteU" data-appartement=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-delete-3"></i> Supprimer</a></div></td></tr>';
+                ligne += '<tr><td class="text-center">' + data[i].immeuble.id + '</td><td class="text-center">' + data[i].numero + '</td><td class="text-center">' + data[i].etage + '</td><td class="text-center">' + data[i].surface + '</td><td class="text-center">' + moment(data[i].debut).format("YYYY-MM-DD") + '</td><td class="text-center">' + moment(data[i].fin).format("YYYY-MM-DD") + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-updateU" data-appartement=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-deleteU" data-appartement=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw dw-logout1"></i> Sortir</a></div></td></tr>';
             }
         }
         $("#tableU").html(ligne);
 
-        $("#ajouterU").click(function(e) {
-            e.preventDefault();
-            if($(this).attr("value") == "Ajouter") {
-                e.preventDefault();
-                var verif = true;
-                var appartementId = $("#appartementU").val();
-                var debut = $("#debut").val();
-                var fin = $("#fin").val();
-
-
-                if (verif) {
-                    var json = {
-                        debut : debut,
-                        fin : fin
-                    };
-                    $.ajax({
-                        url : '/api/appartements/resident/' + $("#residentIdU").val() + '/' + appartementId,
-                        contentType : 'application/json',
-                        data : JSON.stringify(json),
-                        type : 'PUT',
-                        async : false,
-                        success : function(data,
-                                           textStatus, jqXHR) {
-                            $.ajax({
-                                url : '/api/appartements/resident/' + $("#residentIdU").val(),
-                                type : 'GET',
-                                async : false,
-                                success : function(data,
-                                                   textStatus, jqXHR) {
-                                    remplirAppart(data);
-                                    $("#ajouterU").prop('value', 'Ajouter');
-                                    $("#appartementU").val("");
-                                    $("#debut").val("");
-                                    $("#fin").val("");
-                                    swal("Succès!", "Affectation de l'appartement au résident avec succès!", "success");
-                                },
-                                error : function(jqXHR, textStatus,
-                                                 errorThrown) {
-                                    console.log(textStatus, errorThrown);
-                                }
-                            });
-                        },
-                        error : function(jqXHR, textStatus,
-                                         errorThrown) {
-                            console.log(textStatus, errorThrown);
-                            swal("Echec!", "Echec lors de l'affectaion de l'appartement au résident!", "warning");
-                        }
-                    });
-                }
-            }
-        });
-
-        $(".btn-deleteU").click(function() {
+        $(".btn-deleteU").click(function () {
             swal({
                 title: "Voulez-vous sortir le résident de cet appartement?",
                 icon: "info",
@@ -681,24 +692,24 @@ $(document).ready(function() {
                     if (isConfirm) {
                         var appartement = $(this).data("appartement");
                         $.ajax({
-                            url : '/api/appartements/del/resident/' + appartement.id,
-                            contentType : 'application/json',
-                            type : 'PUT',
-                            async : false,
-                            success : function(data,
+                            url: '/api/appartements/del/resident/' + appartement.id,
+                            contentType: 'application/json',
+                            type: 'PUT',
+                            async: false,
+                            success: function (data,
                                                textStatus, jqXHR) {
                                 $.ajax({
-                                    url : '/api/appartements/empty/immeuble/' + $("#syndicId").val(),
-                                    type : 'GET',
-                                    async : false,
-                                    success : function(data,
+                                    url: '/api/appartements/empty/immeuble/' + $("#syndicId").val(),
+                                    type: 'GET',
+                                    async: false,
+                                    success: function (data,
                                                        textStatus, jqXHR) {
                                         remplirSelect(data);
                                         $.ajax({
-                                            url : '/api/appartements/resident/' + $("#residentIdU").val(),
-                                            type : 'GET',
-                                            async : false,
-                                            success : function(data,
+                                            url: '/api/appartements/resident/' + $("#residentIdU").val(),
+                                            type: 'GET',
+                                            async: false,
+                                            success: function (data,
                                                                textStatus, jqXHR) {
                                                 remplirAppart(data);
                                                 $("#ajouterU").prop('value', 'Ajouter');
@@ -707,19 +718,19 @@ $(document).ready(function() {
                                                 $("#fin").val("");
                                                 swal("Succès!", "Opération réussie!", "success");
                                             },
-                                            error : function(jqXHR, textStatus,
+                                            error: function (jqXHR, textStatus,
                                                              errorThrown) {
                                                 console.log(textStatus, errorThrown);
                                             }
                                         });
                                     },
-                                    error : function(jqXHR, textStatus,
+                                    error: function (jqXHR, textStatus,
                                                      errorThrown) {
                                         console.log(textStatus, errorThrown);
                                     }
                                 });
                             },
-                            error : function(jqXHR, textStatus,
+                            error: function (jqXHR, textStatus,
                                              errorThrown) {
                                 console.log(textStatus, errorThrown);
                                 swal("Echec!", "Echec de l'opération!", "warning");
@@ -729,7 +740,7 @@ $(document).ready(function() {
                 });
         });
 
-        $(".btn-updateU").click(function() {
+        $(".btn-updateU").click(function () {
             var appartement = $(this).data("appartement");
 
             $("#appartementIdU").val(appartement.id);
@@ -739,7 +750,7 @@ $(document).ready(function() {
             $("#ajouterU").prop('value', 'Modifier');
             $("#divannulerU").prop('hidden', false);
 
-            $("#annulerU").click(function() {
+            $("#annulerU").click(function () {
                 $("#ajouterU").prop('value', 'Ajouter');
                 $("#appartementU").val("");
                 $("#debut").val("");
@@ -747,59 +758,55 @@ $(document).ready(function() {
                 $("#divannulerU").prop('hidden', true);
             });
 
-            $("#ajouterU").click(function(e) {
-                if($(this).attr("value") == "Modifier") {
+            $("#ajouterU").click(function (e) {
+                if ($(this).attr("value") == "Modifier") {
                     e.preventDefault();
-                    var verif = true;
                     var debut = $("#debut").val();
                     var fin = $("#fin").val();
 
-
-                    if (verif) {
-                        var json = {
-                            debut : debut,
-                            fin : fin
-                        };
-                        $.ajax({
-                            url : '/api/appartements/partial/' + $("#appartementIdU").val(),
-                            contentType : 'application/json',
-                            data : JSON.stringify(json),
-                            type : 'PUT',
-                            async : false,
-                            success : function(data,
-                                               textStatus, jqXHR) {
-                                $.ajax({
-                                    url : '/api/appartements/resident/' + $("#residentIdU").val(),
-                                    type : 'GET',
-                                    async : false,
-                                    success : function(data,
-                                                       textStatus, jqXHR) {
-                                        remplirAppart(data);
-                                        $("#ajouterU").prop('value', 'Ajouter');
-                                        $("#appartementU").val("");
-                                        $("#debut").val("");
-                                        $("#fin").val("");
-                                        $("#divannulerU").prop('hidden', true);
-                                        swal("Succès!", "Modification de l'appartement avec succès!", "success");
-                                    },
-                                    error : function(jqXHR, textStatus,
-                                                     errorThrown) {
-                                        console.log(textStatus, errorThrown);
-                                    }
-                                });
-                            },
-                            error : function(jqXHR, textStatus,
-                                             errorThrown) {
-                                console.log(textStatus, errorThrown);
-                                swal("Echec!", "Echec lors de la modification de l'appartement!", "warning");
-                            }
-                        });
-                    }
+                    var json = {
+                        debut: debut,
+                        fin: fin
+                    };
+                    $.ajax({
+                        url: '/api/appartements/partial/' + $("#appartementIdU").val(),
+                        contentType: 'application/json',
+                        data: JSON.stringify(json),
+                        type: 'PUT',
+                        async: false,
+                        success: function (data,
+                                           textStatus, jqXHR) {
+                            $.ajax({
+                                url: '/api/appartements/resident/' + $("#residentIdU").val(),
+                                type: 'GET',
+                                async: false,
+                                success: function (data,
+                                                   textStatus, jqXHR) {
+                                    remplirAppart(data);
+                                    $("#ajouterU").prop('value', 'Ajouter');
+                                    $("#appartementU").val("");
+                                    $("#debut").val("");
+                                    $("#fin").val("");
+                                    $("#divannulerU").prop('hidden', true);
+                                    swal("Succès!", "Modification de l'appartement avec succès!", "success");
+                                },
+                                error: function (jqXHR, textStatus,
+                                                 errorThrown) {
+                                    console.log(textStatus, errorThrown);
+                                }
+                            });
+                        },
+                        error: function (jqXHR, textStatus,
+                                         errorThrown) {
+                            console.log(textStatus, errorThrown);
+                            swal("Echec!", "Echec lors de la modification de l'appartement!", "warning");
+                        }
+                    });
                 }
             });
 
         });
-        $('#appart-modal').on('hidden.bs.modal', function() {
+        $('#appart-modal').on('hidden.bs.modal', function () {
             $("#ajouterU").prop('value', 'Ajouter');
             $("#appartementU").val("");
             $("#debut").val("");
@@ -810,9 +817,9 @@ $(document).ready(function() {
 });
 
 function readIMG(input) {
-    if(input.files && input.files[0]) {
+    if (input.files && input.files[0]) {
         var reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             $("#img").attr("src", e.target.result);
         }
         reader.readAsDataURL(input.files[0]);

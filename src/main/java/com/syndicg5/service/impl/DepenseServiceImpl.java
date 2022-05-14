@@ -1,7 +1,9 @@
 package com.syndicg5.service.impl;
 
 import com.syndicg5.model.Depense;
+import com.syndicg5.repository.CategorieRepository;
 import com.syndicg5.repository.DepenseRepository;
+import com.syndicg5.repository.ImmeubleRepository;
 import com.syndicg5.service.DepenseService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,21 +14,27 @@ public class DepenseServiceImpl implements DepenseService {
 
     @Autowired
     DepenseRepository depenseRepository;
+    @Autowired
+    ImmeubleRepository immeubleRepository;
 
     @Override
-    public void save(Depense depense) {
+    public List<Depense> save(Depense depense) {
+        long syndicId = immeubleRepository.findById(depense.getImmeuble().getId()).get().getSyndic().getId();
         depenseRepository.save(depense);
+        return depenseRepository.findDepensesBySyndic(syndicId);
     }
 
     @Override
-    public void update(long id, Depense depense) {
-        Depense d = depenseRepository.getById(id);
+    public List<Depense> update(long id, Depense depense) {
+        long syndicId = immeubleRepository.findById(depense.getImmeuble().getId()).get().getSyndic().getId();
+        Depense d = depenseRepository.findById(id).get();
         d.setDescription(depense.getDescription());
         d.setCategorie(depense.getCategorie());
         d.setDate(depense.getDate());
-        d.setImmeuble(d.getImmeuble());
-        d.setMontant(d.getMontant());
+        d.setImmeuble(depense.getImmeuble());
+        d.setMontant(depense.getMontant());
         depenseRepository.save(d);
+        return depenseRepository.findDepensesBySyndic(syndicId);
     }
 
     @Override
@@ -40,12 +48,19 @@ public class DepenseServiceImpl implements DepenseService {
     }
 
     @Override
+    public List<Depense> findDepensesBySyndic(long id) {
+        return depenseRepository.findDepensesBySyndic(id);
+    }
+
+    @Override
     public Depense findOne(Long id) {
         return depenseRepository.findById(id).get();
     }
 
     @Override
-    public void delete(Long id) {
+    public List<Depense> delete(Long id) {
+        long syndicId = depenseRepository.findById(id).get().getImmeuble().getSyndic().getId();
         depenseRepository.deleteById(id);
+        return depenseRepository.findDepensesBySyndic(id);
     }
 }

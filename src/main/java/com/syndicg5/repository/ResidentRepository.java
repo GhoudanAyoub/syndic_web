@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface ResidentRepository extends JpaRepository<Resident, Long> {
-    @Query(" select distinct r from Resident r, Appartement a " +
-            " where r.id = a.resident.id and a.immeuble.syndic.id = ?1")
+    @Query(" select distinct r from Resident r " +
+            " where r.syndic.id = ?1")
     List<Resident> findAllBySyndic(long id);
 }

@@ -36,6 +36,9 @@ public class Resident implements Serializable {
     @Column(name = "photo")
     private String photo;
 
+    @ManyToOne
+    private Syndic syndic;
+
     public Long getId() {
         return id;
     }
@@ -98,5 +101,13 @@ public class Resident implements Serializable {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public Syndic getSyndic() {
+        return syndic;
+    }
+
+    public void setSyndic(Syndic syndic) {
+        this.syndic = syndic;
     }
 }

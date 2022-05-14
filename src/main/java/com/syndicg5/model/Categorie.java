@@ -14,6 +14,9 @@ public class Categorie implements Serializable {
     @Column(name = "libelle")
     private String libelle;
 
+    @ManyToOne
+    private Syndic syndic;
+
     public Long getId() {
         return id;
     }
@@ -28,5 +31,13 @@ public class Categorie implements Serializable {
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
+    }
+
+    public Syndic getSyndic() {
+        return syndic;
+    }
+
+    public void setSyndic(Syndic syndic) {
+        this.syndic = syndic;
     }
 }

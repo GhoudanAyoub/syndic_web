@@ -19,8 +19,12 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="../vendors/styles/core.css">
     <link rel="stylesheet" type="text/css" href="../vendors/styles/icon-font.min.css">
-    <!--    <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/dataTables.bootstrap4.min.css">
-        <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/responsive.bootstrap4.min.css">-->
+    <!-- switchery css -->
+    <link rel="stylesheet" type="text/css" href="../src/plugins/switchery/switchery.min.css">
+    <!-- bootstrap-tagsinput css -->
+    <link rel="stylesheet" type="text/css" href="../src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css">
+    <!-- bootstrap-touchspin css -->
+    <link rel="stylesheet" type="text/css" href="../src/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.css">
     <link rel="stylesheet" type="text/css" href="../vendors/styles/style.css">
 
 
@@ -51,7 +55,7 @@
 							<span class="user-icon">
 								<img src="../vendors/images/mugiwara.png" alt="">
 							</span>
-                    <span class="user-name">zakar mourad</span>
+                    <span class="user-name">Yassine Mestaoui</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                     <a class="dropdown-item" href="profil.html"><i class="dw dw-user1"></i> Profil</a>
@@ -106,8 +110,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="categorie.html" class="dropdown-toggle no-arrow">
-                        <span class="micon dw dw-loss"></span><span class="mtext">Categories</span>
+                    <a href="categories.html" class="dropdown-toggle no-arrow">
+                        <span class="micon dw dw-loss"></span><span class="mtext">Catégories</span>
                     </a>
                 </li>
             </ul>
@@ -124,20 +128,21 @@
             <div class="pd-20 card-box mb-30">
                 <div class="clearfix mb-3">
                     <div class="pull-left">
-                        <h4 class="text-blue h4">Ajouter une Categorie</h4>
+                        <h4 class="text-blue h4">Ajouter une catégorie</h4>
                     </div>
                 </div>
                 <form>
-
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
-                                <label>libelle</label>
-                                <input class="form-control" type="text" placeholder="libelle" id="libelle">
+                                <input class="form-control" type="text" id="categorieId" hidden>
+                                <input class="form-control" type="text" id="syndicId" hidden>
+                                <label>Libelle</label>
+                                <input class="form-control" type="text" placeholder="Libelle" id="libelle">
                             </div>
                         </div>
-                        <div class="col-md-6">
-                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-3 col-md-2 mb-3" id="divannuler" hidden>
                             <input class="btn btn-secondary btn-sm btn-block" type="button" value="Annuler"
                                    id="annuler">
@@ -151,13 +156,13 @@
                 <!-- Simple Datatable start -->
                 <div class="card-box mb-30">
                     <div class="pd-20">
-                        <h4 class="text-blue h4">Liste des Categorie</h4>
+                        <h4 class="text-blue h4">Liste des catégories</h4>
                     </div>
                     <div class="table-responsive pre-scrollable">
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th class="text-center">libelle</th>
+                                <th class="text-center">Libelle</th>
                                 <th class="text-center">Action</th>
                             </tr>
                             </thead>
@@ -165,23 +170,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <!--                    <div class="pb-20">
-                                            <table class="data-table table stripe hover nowrap">
-                                                <thead>
-                                                <tr>
-                                                    <th>Photo</th>
-                                                    <th class="table-plus datatable-nosort">Numero</th>
-                                                    <th>Nom</th>
-                                                    <th>Address</th>
-                                                    <th>Ville</th>
-                                                    <th>Nombre d'étages</th>
-                                                    <th class="datatable-nosort">Action</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody id="table">
-                                                </tbody>
-                                            </table>
-                                        </div>-->
                 </div>
                 <!-- Simple Datatable End -->
             </div>
@@ -193,21 +181,14 @@
 <script src="../vendors/scripts/script.min.js"></script>
 <script src="../vendors/scripts/process.js"></script>
 <script src="../vendors/scripts/layout-settings.js"></script>
-<!--<script src="../src/plugins/datatables/js/jquery.dataTables.min.js"></script>-->
-<!--<script src="../src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
-<script src="../src/plugins/datatables/js/dataTables.responsive.min.js"></script>-->
-<!--<script src="../src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>-->
-<!-- buttons for Export datatable -->
-<!--<script src="../src/plugins/datatables/js/dataTables.buttons.min.js"></script>
-<script src="../src/plugins/datatables/js/buttons.bootstrap4.min.js"></script>
-<script src="../src/plugins/datatables/js/buttons.print.min.js"></script>
-<script src="../src/plugins/datatables/js/buttons.html5.min.js"></script>
-<script src="../src/plugins/datatables/js/buttons.flash.min.js"></script>
-<script src="../src/plugins/datatables/js/pdfmake.min.js"></script>
-<script src="../src/plugins/datatables/js/vfs_fonts.js"></script>-->
-<!-- Datatable Setting js -->
-<!--<script src="../vendors/scripts/datatable-setting.js"></script>-->
+<!-- switchery js -->
+<script src="../src/plugins/switchery/switchery.min.js"></script>
+<!-- bootstrap-tagsinput js -->
+<script src="../src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+<!-- bootstrap-touchspin js -->
+<script src="../src/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+<script src="../vendors/scripts/advanced-components.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="script/categorie.js"></script>
+<script src="script/categories.js"></script>
 </body>
 </html>

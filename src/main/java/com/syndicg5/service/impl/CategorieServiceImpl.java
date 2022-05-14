@@ -14,15 +14,19 @@ public class CategorieServiceImpl implements CategorieService {
     CategorieRepository categorieRepository;
 
     @Override
-    public void save(Categorie categorie) {
+    public List<Categorie> save(Categorie categorie) {
+        long syndicId = categorie.getSyndic().getId();
         categorieRepository.save(categorie);
+        return categorieRepository.findAllBySyndic(syndicId);
     }
 
     @Override
-    public void update(long id, Categorie categorie) {
-        Categorie c = categorieRepository.getById(id);
+    public List<Categorie> update(long id, Categorie categorie) {
+        long syndicId = categorieRepository.findById(id).get().getSyndic().getId();
+        Categorie c = categorieRepository.findById(id).get();
         c.setLibelle(categorie.getLibelle());
         categorieRepository.save(c);
+        return categorieRepository.findAllBySyndic(syndicId);
     }
 
     @Override
@@ -31,12 +35,19 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
+    public List<Categorie> findAllBySyndic(long id) {
+        return categorieRepository.findAllBySyndic(id);
+    }
+
+    @Override
     public Categorie findOne(Long id) {
         return categorieRepository.findById(id).get();
     }
 
     @Override
-    public void delete(Long id) {
+    public List<Categorie> delete(Long id) {
+        long syndicId = categorieRepository.findById(id).get().getSyndic().getId();
         categorieRepository.deleteById(id);
+        return categorieRepository.findAllBySyndic(syndicId);
     }
 }

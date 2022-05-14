@@ -1,24 +1,18 @@
 $(document).ready(function() {
-    var id;
-    var deleted = false;
-    var uploaded = false;
-
-
-
     $.ajax({
         url : '/api/sessions',
         type : 'GET',
         async : false,
         success : function(data,
                            textStatus, jqXHR) {
-            id = data;
+            $("#syndicId").val(data);
             $.ajax({
-                url : '/api/categories/',
+                url : '/api/categories/syndic/' + $("#syndicId").val(),
                 type : 'GET',
                 async : false,
                 success : function(data,
                                    textStatus, jqXHR) {
-                    remplir();
+                    remplir(data);
                 },
                 error : function(jqXHR, textStatus,
                                  errorThrown) {
@@ -32,17 +26,17 @@ $(document).ready(function() {
                     var verif = true;
                     var libelle = $("#libelle").val();
 
-
                     if (libelle == "") {
                         $("#libelle").css("border", "1px solid red");
                         verif = false;
                     } else {
                         $("#libelle").css("border", "1px solid #d4d4d4");
                     }
+
                     if (verif) {
                         var json = {
                             libelle : libelle,
-
+                            syndic : {id : $("#syndicId").val()}
                         };
 
                         $.ajax({
@@ -53,16 +47,17 @@ $(document).ready(function() {
                             async : false,
                             success : function(data,
                                                textStatus, jqXHR) {
-                                remplir();
-                                swal("Succès!", "Ajout du categorie avec succès!", "success");
+                                remplir(data);
+                                $("#categorieId").val("");
+                                $("#libelle").val("");
+                                swal("Succès!", "Ajout de la catégorie avec succès!", "success");
                             },
                             error : function(jqXHR, textStatus,
                                              errorThrown) {
                                 console.log(textStatus, errorThrown);
-                                swal("Echec!", "Echec lors de l'ajout de la categorie!", "warning");
+                                swal("Echec!", "Echec lors de l'ajout de la catégorie!", "warning");
                             }
                         });
-
                     }
                 }
             });
@@ -74,21 +69,7 @@ $(document).ready(function() {
         }
     });
 
-    function remplir() {
-        var data;
-        $.ajax({
-            url : '/api/categories/',
-            type : 'GET',
-            async : false,
-            success : function(datas,
-                               textStatus, jqXHR) {
-                data=datas;
-            },
-            error : function(jqXHR, textStatus,
-                             errorThrown) {
-                console.log(textStatus, errorThrown);
-            }
-        });
+    function remplir(data) {
         var ligne = "";
         if (data.length > 0) {
             for (var i = 0; i < data.length; i++) {
@@ -99,7 +80,7 @@ $(document).ready(function() {
 
         $(".btn-delete").click(function() {
             swal({
-                title: "Voulez-vous supprimer cet categorie?",
+                title: "Voulez-vous supprimer cette catégorie?",
                 icon: "info",
                 buttons: true,
                 showcancelbutton: true,
@@ -114,13 +95,13 @@ $(document).ready(function() {
                             async : false,
                             success : function(data,
                                                textStatus, jqXHR) {
-                                remplir();
-                                swal("Succès!", "Suppression de la categorie avec succès!", "success");
+                                remplir(data);
+                                swal("Succès!", "Suppression de la catégorie avec succès!", "success");
                             },
                             error : function(jqXHR, textStatus,
                                              errorThrown) {
                                 console.log(textStatus, errorThrown);
-                                swal("Echec!", "Echec lors de la suppression de la categorie!", "warning");
+                                swal("Echec!", "Echec lors de la suppression de la catégorie!", "warning");
                             }
                         });
                     }
@@ -130,28 +111,25 @@ $(document).ready(function() {
         $(".btn-update").click(function() {
             var categorie = $(this).data("categorie");
 
+            $("#categorieId").val(categorie.id);
             $("#libelle").val(categorie.libelle);
-
 
             $("#ajouter").prop('value', 'Modifier');
             $("#divannuler").prop('hidden', false);
 
             $("#annuler").click(function() {
                 $("#ajouter").prop('value', 'Ajouter');
+                $("#categorieId").val("");
                 $("#libelle").val("");
-
                 $("#divannuler").prop('hidden', true);
-                deleted = false;
-                uploaded = false;
             });
 
             $("#ajouter").click(function(e) {
                 if($(this).attr("value") == "Modifier") {
                     e.preventDefault();
                     var verif = true;
+                    var categorieId = $("#categorieId").val();
                     var libelle = $("#libelle").val();
-
-
 
                     if (libelle == "") {
                         $("#libelle").css("border", "1px solid red");
@@ -161,35 +139,31 @@ $(document).ready(function() {
                     }
 
                     if (verif) {
-
                         var json = {
-                            libelle : libelle,
-
+                            libelle : libelle
                         };
 
                         $.ajax({
-                            url : '/api/categories/' + categorie.id,
+                            url : '/api/categories/' + categorieId,
                             contentType : 'application/json',
                             data : JSON.stringify(json),
                             type : 'PUT',
                             async : false,
                             success : function(data,
                                                textStatus, jqXHR) {
-                                remplir();
+                                remplir(data);
                                 $("#ajouter").prop('value', 'Ajouter');
+                                $("#categorieId").val("");
                                 $("#libelle").val("");
                                 $("#divannuler").prop('hidden', true);
-                                deleted = false;
-                                uploaded = false;
-                                swal("Succès!", "Modification de la categorie avec succès!", "success");
+                                swal("Succès!", "Modification de la catégorie avec succès!", "success");
                             },
                             error : function(jqXHR, textStatus,
                                              errorThrown) {
                                 console.log(textStatus, errorThrown);
-                                swal("Echec!", "Echec lors de la modification de la categorie!", "warning");
+                                swal("Echec!", "Echec lors de la modification de la catégorie!", "warning");
                             }
                         });
-
                     }
                 }
             });
@@ -197,3 +171,4 @@ $(document).ready(function() {
         });
     }
 });
+
