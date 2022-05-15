@@ -24,6 +24,9 @@
     <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="../vendors/styles/style.css">
 <!-- Charts test  -->
+
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxjhyE096B2k7ZBe4mrIvPHXDOYAcPeBY&callback=initMap">
+    </script>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -43,7 +46,7 @@
    
    
     
-
+<div height="400" width="400" id="map"></div>
     <div class="header">
         <div class="header-left">
             <div class="menu-icon dw dw-menu"></div>
@@ -281,11 +284,11 @@
         <div class="pd-ltr-20">
             <div class="card-box pd-20 height-100-p mb-30">
                 <div class="row align-items-center">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                      
                         <img src="../vendors/images/OurLogo.png" alt="">
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         <h4 class="font-20 weight-500 mb-10 text-capitalize">
                        
                      <div class="weight-600 font-30 text-blue">La Copropriété En Ligne</div>  
@@ -342,10 +345,13 @@
                     </div>
                 </div>
             </div>
-        
+       
         </div>
+
+
     </div>
     <!-- js -->
+    
     <script src="../vendors/scripts/core.js"></script>
     <script src="../vendors/scripts/script.min.js"></script>
     <script src="../vendors/scripts/process.js"></script>
@@ -486,6 +492,25 @@
 
 
             nombreResident();
+
+
+//Map 
+            function initMap() {
+                    // The location of Uluru
+                    const uluru = { lat: -25.344, lng: 131.031 };
+                    // The map, centered at Uluru
+                    const map = new google.maps.Map(document.getElementById("map"), {
+                        zoom: 4,
+                        center: uluru,
+                    });
+                    // The marker, positioned at Uluru
+                    const marker = new google.maps.Marker({
+                        position: uluru,
+                        map: map,
+                    });
+                }
+    initMap();
+                window.initMap = initMap;
     </script>
 </body>
 
