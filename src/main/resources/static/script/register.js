@@ -131,7 +131,7 @@ $(document).ready(function() {
                                        textStatus, jqXHR) {
                         console.log('syndic done');
                         swal("Succès!", "Inscription avec succès!", "success").then(() => {
-                            location.href = "index.html";
+                            location.href = "dash.html";
                         });
                     },
                     error : function(jqXHR, textStatus,

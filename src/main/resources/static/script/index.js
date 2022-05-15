@@ -35,7 +35,7 @@ $(document).ready(function () {
                         success: function (data,
                                            textStatus, jqXHR) {
                             console.log("session done : ", data);
-                            location.href = "/syndic/home.html";
+                            location.href = "/syndic/dash.html";
                         },
                         error: function (jqXHR, textStatus,
                                          errorThrown) {
