@@ -3,6 +3,7 @@ package com.syndicg5.controller;
 import com.syndicg5.model.Syndic;
 import com.syndicg5.service.impl.SyndicServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,6 +45,21 @@ public class SyndicController {
     @DeleteMapping("/syndics/{id}")
     public void deleteSyndic(@PathVariable long id) {
         syndicService.delete(id);
+    }
+
+    @GetMapping("/syndics/ancientpassword/{id}/{password}")
+    public int verifyAncientPassword(@PathVariable Long id, @PathVariable String password) {
+        Syndic syndic = syndicService.findOne(id);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if(encoder.matches(password, syndic.getPassword())) {
+            return 1;
+        }
+        return 0;
+    }
+
+    @PutMapping("/syndics/password/{id}")
+    public void updateSyndicPassword(@PathVariable(value = "id") long id, @Valid @RequestBody Syndic syndic) {
+        syndicService.updatePassword(id, syndic);
     }
 }
 

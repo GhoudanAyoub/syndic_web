@@ -7,6 +7,22 @@ $(document).ready(function() {
                            textStatus, jqXHR) {
             $("#syndicId").val(data);
             $.ajax({
+                url: '/api/syndics/' + $("#syndicId").val(),
+                type: 'GET',
+                async: false,
+                success: function (data,
+                                   textStatus, jqXHR) {
+                    $("#headername").text(data.nom + " " + data.prenom);
+                    if (data.photo != null) {
+                        $("#headerimg").attr("src", data.photo);
+                    }
+                },
+                error: function (jqXHR, textStatus,
+                                 errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+            $.ajax({
                 url : '/api/categories/syndic/' + $("#syndicId").val(),
                 type : 'GET',
                 async : false,
