@@ -75,7 +75,6 @@ $(document).ready(function () {
                     var email = $("#email").val();
                     var tel = $("#tel").val();
                     var ville = $("#ville").val();
-                    var password = $("#password").val();
                     var photo = $("#photo").val();
                     var appartements = $("#appartement").val();
 
@@ -114,13 +113,6 @@ $(document).ready(function () {
                         $("#ville").css("border", "1px solid #d4d4d4");
                     }
 
-                    if (password == "") {
-                        $("#password").css("border", "1px solid red");
-                        verif = false;
-                    } else {
-                        $("#password").css("border", "1px solid #d4d4d4");
-                    }
-
                     if (verif) {
                         if (photo) {
                             var file = document.querySelector('input[type=file]')['files'][0];
@@ -134,7 +126,7 @@ $(document).ready(function () {
                                     email: email,
                                     telephone: tel,
                                     ville: ville,
-                                    mdp: password,
+                                    mdp: email,
                                     photo: baseString,
                                     syndic : {id : $("#syndicId").val()}
                                 };
@@ -174,7 +166,6 @@ $(document).ready(function () {
                                                                 $("#email").val("");
                                                                 $("#tel").val("");
                                                                 $("#ville").val("");
-                                                                $("#password").val("");
                                                                 $("#photo").val("");
                                                                 $("#img").attr("src", "");
                                                                 $("#appartement").val("");
@@ -218,7 +209,7 @@ $(document).ready(function () {
                                 email: email,
                                 telephone: tel,
                                 ville: ville,
-                                mdp: password,
+                                mdp: email,
                                 photo: null,
                                 syndic : {id : $("#syndicId").val()}
                             };
@@ -258,7 +249,6 @@ $(document).ready(function () {
                                                             $("#email").val("");
                                                             $("#tel").val("");
                                                             $("#ville").val("");
-                                                            $("#password").val("");
                                                             $("#photo").val("");
                                                             $("#img").attr("src", "");
                                                             $("#appartement").val("");
@@ -427,10 +417,10 @@ $(document).ready(function () {
         var ligne = "";
         if (data.length > 0) {
             for (var i = 0; i < data.length; i++) {
-                ligne += '<tr><td class="text-center"><img style="width:150px;height:100px;" src="' + data[i].photo + '" onerror="this.src=\'images/no-image.png\'"></td><td class="text-center">' + data[i].nom + '</td><td class="text-center">' + data[i].prenom + '</td><td class="text-center">' + data[i].email + '</td><td class="text-center">' + data[i].telephone + '</td><td class="text-center">' + data[i].ville + '</td><td class="text-center">' + data[i].mdp + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-update" data-resident=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-delete" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-delete-3"></i> Supprimer</a><a class="dropdown-item btn-appartement" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-house1"></i> Appartements</a></div></td></tr>';
+                ligne += '<tr><td class="text-center"><img style="width:150px;height:100px;" src="' + data[i].photo + '" onerror="this.src=\'images/no-image.png\'"></td><td class="text-center">' + data[i].nom + '</td><td class="text-center">' + data[i].prenom + '</td><td class="text-center">' + data[i].email + '</td><td class="text-center">' + data[i].telephone + '</td><td class="text-center">' + data[i].ville + '</td><td class="text-center"><div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"><a class="dropdown-item btn-update" data-resident=\'' + JSON.stringify(data[i]) + '\' href="javascript:void(0)"><i class="dw dw-edit2"></i> Modifier</a><a class="dropdown-item btn-delete" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-delete-3"></i> Supprimer</a><a class="dropdown-item btn-appartement" data-id="' + data[i].id + '" href="javascript:void(0)"><i class="dw dw-house1"></i> Appartements</a></div></td></tr>';
             }
         }else {
-            ligne = '<td colspan="8" align="center"><p class="fs-2">Pas de résidents !<p></td></tr>';
+            ligne = '<td colspan="7" align="center"><p class="fs-2">Pas de résidents !<p></td></tr>';
         }
         $("#table").html(ligne);
 
@@ -517,7 +507,6 @@ $(document).ready(function () {
             $("#email").val(resident.email);
             $("#tel").val(resident.telephone);
             $("#ville").val(resident.ville);
-            $("#password").val(resident.mdp);
             if (resident.photo != null) {
                 $("#img").attr("src", resident.photo);
                 $("#deleteimg").prop('hidden', false);
@@ -536,7 +525,6 @@ $(document).ready(function () {
                 $("#email").val("");
                 $("#tel").val("");
                 $("#ville").val("");
-                $("#password").val("");
                 $("#photo").val("");
                 $("#img").attr("src", "");
                 $("#appartement").val("");
@@ -556,7 +544,6 @@ $(document).ready(function () {
                     var email = $("#email").val();
                     var tel = $("#tel").val();
                     var ville = $("#ville").val();
-                    var password = $("#password").val();
                     var photo = null;
                     if (uploaded) {
                         photo = $("#photo").val();
@@ -601,13 +588,6 @@ $(document).ready(function () {
                         $("#ville").css("border", "1px solid #d4d4d4");
                     }
 
-                    if (password == "") {
-                        $("#password").css("border", "1px solid red");
-                        verif = false;
-                    } else {
-                        $("#password").css("border", "1px solid #d4d4d4");
-                    }
-
                     if (verif) {
                         if (photo) {
                             var file = document.querySelector('input[type=file]')['files'][0];
@@ -621,7 +601,6 @@ $(document).ready(function () {
                                     email: email,
                                     telephone: tel,
                                     ville: ville,
-                                    mdp: password,
                                     photo: baseString
                                 };
 
@@ -647,7 +626,6 @@ $(document).ready(function () {
                                                 $("#email").val("");
                                                 $("#tel").val("");
                                                 $("#ville").val("");
-                                                $("#password").val("");
                                                 $("#photo").val("");
                                                 $("#img").attr("src", "");
                                                 $("#appartement").val("");
@@ -682,7 +660,6 @@ $(document).ready(function () {
                                 email: email,
                                 telephone: tel,
                                 ville: ville,
-                                mdp: password,
                                 photo: p
                             };
 
@@ -708,7 +685,6 @@ $(document).ready(function () {
                                             $("#email").val("");
                                             $("#tel").val("");
                                             $("#ville").val("");
-                                            $("#password").val("");
                                             $("#photo").val("");
                                             $("#img").attr("src", "");
                                             $("#appartement").val("");
