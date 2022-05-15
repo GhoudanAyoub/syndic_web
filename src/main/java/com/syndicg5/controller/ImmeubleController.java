@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api")
@@ -36,7 +38,8 @@ public class ImmeubleController {
     }
 
     @GetMapping("/immeubles/syndic/nom/{syndicId}/{nom}")
-    public List<Immeuble> getAllImmeublesByNom(@PathVariable(value = "syndicId") long syndicId, @PathVariable(value = "nom") String nom) {
+    public List<Immeuble> getAllImmeublesByNom(@PathVariable(value = "syndicId") long syndicId,
+            @PathVariable(value = "nom") String nom) {
         return immeubleService.findAllByNom(syndicId, nom);
     }
 
@@ -49,4 +52,10 @@ public class ImmeubleController {
     public void deleteImmeuble(@PathVariable long id) {
         immeubleService.delete(id);
     }
+
+    @GetMapping("/immeubles/nbr")
+    public Integer nomreImmeuble() {
+        return immeubleService.nomreImmeuble();
+    }
+
 }

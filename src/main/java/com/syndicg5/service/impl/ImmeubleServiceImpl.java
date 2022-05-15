@@ -56,4 +56,10 @@ public class ImmeubleServiceImpl implements ImmeubleService {
     public void delete(Long id) {
         immeubleRepository.deleteById(id);
     }
+
+    @Override
+    public Integer nomreImmeuble() {
+
+        return immeubleRepository.nomreImmeuble();
+    }
 }

@@ -10,11 +10,14 @@ import java.util.List;
 
 @Repository
 public interface ImmeubleRepository extends JpaRepository<Immeuble, Long> {
-    @Query(" select i from Immeuble i " +
-            " where i.syndic.id = ?1")
-    List<Immeuble> findAllBySyndic(long id);
+        @Query(" select i from Immeuble i " +
+                        " where i.syndic.id = ?1")
+        List<Immeuble> findAllBySyndic(long id);
 
-    @Query(" select distinct i from Immeuble i " +
-            " where i.syndic.id = ?1 and i.nom like %?2%")
-    List<Immeuble> findAllByNom(long syndicId, String nom);
+        @Query(" select distinct i from Immeuble i " +
+                        " where i.syndic.id = ?1 and i.nom like %?2%")
+        List<Immeuble> findAllByNom(long syndicId, String nom);
+
+        @Query(" select Count(i.id) from Immeuble i ")
+        Integer nomreImmeuble();
 }

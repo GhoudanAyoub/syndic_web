@@ -55,7 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/logout").permitAll()
                 .antMatchers("/syndic/**").authenticated()
                 .antMatchers("/").hasAnyRole("USER", "ADMIN")
-                //.antMatchers("/api/appartements/**", "/api/categories/**", "/api/depenses/**", "/api/immeubles/**", "/api/residents/**", "/api/revenus/**", "/api/sessions/**").authenticated()
+                // .antMatchers("/api/appartements/**", "/api/categories/**",
+                // "/api/depenses/**", "/api/immeubles/**", "/api/residents/**",
+                // "/api/revenus/**", "/api/sessions/**").authenticated()
                 .antMatchers("/script/**", "/src/**", "/syndic/**", "/vendors/**")
                 .permitAll()
                 .anyRequest().permitAll();
@@ -66,11 +68,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-
     public class DeniedAuthenticationEntryPoint extends Http403ForbiddenEntryPoint {
         @Override
         public void commence(HttpServletRequest request, HttpServletResponse response,
-                             AuthenticationException authException) throws IOException {
+                AuthenticationException authException) throws IOException {
             // TODO Auto-generated method stub
             response.sendRedirect("/index.html");
         }
@@ -80,7 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private class UrlAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
         @Override
         public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-                                            AuthenticationException exception) throws IOException, ServletException {
+                AuthenticationException exception) throws IOException, ServletException {
             // TODO Auto-generated method stub
             super.onAuthenticationFailure(request, response, exception);
             response.sendRedirect("/index.html");
@@ -90,17 +91,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private class AuthentificationLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         @Override
         public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                            Authentication authentication) throws IOException, ServletException {
+                Authentication authentication) throws IOException, ServletException {
             response.setStatus(HttpServletResponse.SC_OK);
 
-            response.sendRedirect("/syndic/home.html");
+            response.sendRedirect("/syndic/dash.html");
         }
     }
 
     private class AuthentificationLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
         @Override
         public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
-                                    Authentication authentication) throws IOException, ServletException {
+                Authentication authentication) throws IOException, ServletException {
             response.setStatus(HttpServletResponse.SC_OK);
             response.sendRedirect("/index.html");
         }
