@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(new AuthentificationLogoutSuccessHandler())
                 .invalidateHttpSession(true)
                 .and()
-                .authorizeRequests().antMatchers("/login").permitAll()
+                .authorizeRequests().antMatchers("/", "/login").permitAll()
                 .antMatchers("/logout").permitAll()
                 .antMatchers("/syndic/**").authenticated()
                 .antMatchers("/").hasAnyRole("USER", "ADMIN")

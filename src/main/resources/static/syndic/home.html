@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $.ajax({
+            url: '/api/sessions',
+            type: 'GET',
+            async: false,
+            success: function (data,
+                               textStatus, jqXHR) {
+
+            },
+            error: function (jqXHR, textStatus,
+                             errorThrown) {
+                location.href = "../index.html";
+            }
+        });
+    </script>
     <!-- Basic Page Info -->
     <meta charset="utf-8">
     <title>Syndic app</title>
@@ -41,14 +57,15 @@
         <div class="user-info-dropdown">
             <div class="dropdown">
                 <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-						<span class="user-icon">
-							<img src="../vendors/images/mugiwara.png.jpg" alt="">
-						</span>
-                    <span class="user-name">Yassine Mestaoui</span>
+							<span class="user-icon">
+								<img style="width:52px;height:52px;" src="" onerror="this.src='images/no-image.png'" alt="" id="headerimg">
+							</span>
+                    <span class="user-name" id="headername">Username</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                     <a class="dropdown-item" href="profil.html"><i class="dw dw-user1"></i> Profil</a>
-                    <a class="dropdown-item" href="index.html"><i class="dw dw-logout"></i> Se déconnecter</a>
+                    <a class="dropdown-item" href="changemdp.html"><i class="dw dw-padlock1"></i> Changement du mot de passe</a>
+                    <a class="dropdown-item" href="/logout"><i class="dw dw-logout"></i> Se déconnecter</a>
                 </div>
             </div>
         </div>

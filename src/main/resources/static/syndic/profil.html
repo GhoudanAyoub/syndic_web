@@ -35,12 +35,8 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="../vendors/styles/core.css">
     <link rel="stylesheet" type="text/css" href="../vendors/styles/icon-font.min.css">
-    <!-- switchery css -->
-    <link rel="stylesheet" type="text/css" href="../src/plugins/switchery/switchery.min.css">
-    <!-- bootstrap-tagsinput css -->
-    <link rel="stylesheet" type="text/css" href="../src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css">
-    <!-- bootstrap-touchspin css -->
-    <link rel="stylesheet" type="text/css" href="../src/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.css">
+    <!--    <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/responsive.bootstrap4.min.css">-->
     <link rel="stylesheet" type="text/css" href="../vendors/styles/style.css">
 
 
@@ -145,96 +141,74 @@
             <div class="pd-20 card-box mb-30">
                 <div class="clearfix mb-3">
                     <div class="pull-left">
-                        <h4 class="text-blue h4">Ajouter un appartement</h4>
+                        <h4 class="text-blue h4">Changement de profil</h4>
                     </div>
                 </div>
                 <form>
                     <div class="row">
+                        <aside class="col-md-12">
+                            <figure class="text-md-center">
+                                <img style="width:150px;height:100px;" src="" id="img"
+                                     onerror="this.src='images/no-image.png'" class="mb-3">
+                                <figcaption>
+                                    <a class="btn btn-outline-primary btn-sm" id="uploadimg" href="javascript:void(0)">
+                                        <i class="icon-copy dw dw-upload1"></i> Télécharger une image
+                                    </a>
+                                    <input class="form-control" type="file" accept=".png, .jpg, .jpeg"
+                                           placeholder="Photo"
+                                           id="photo" style="display:none;">
+                                    <a class="btn btn-outline-danger btn-sm" id="deleteimg" href="javascript:void(0)" hidden>
+                                        <i class="icon-copy dw dw-delete-3"></i> Supprimer une image
+                                    </a>
+                                </figcaption>
+                            </figure>
+                        </aside>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input class="form-control" type="text" id="appartementId" hidden>
                                 <input class="form-control" type="text" id="syndicId" hidden>
-                                <label>Immeuble</label>
-                                <select class="custom-select2 form-control" id="immeuble"
-                                        style="width: 100%; height: 38px;">
-                                </select>
+                                <input class="form-control" type="text" id="password" hidden>
+                                <label>Nom</label>
+                                <input class="form-control" type="text" placeholder="Nom" id="nom">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Numéro</label>
-                                <input class="form-control" type="text" placeholder="Numéro" id="numero">
+                                <label>Prénom</label>
+                                <input class="form-control" type="text" placeholder="Prénom" id="prenom">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Etage</label>
-                                <input class="form-control" type="text" placeholder="Etage" id="etage">
+                                <label>Email</label>
+                                <input class="form-control" type="email" placeholder="Email" id="email">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Surface</label>
-                                <input class="form-control" type="text" placeholder="Surface" id="surface">
+                                <label>Téléphone</label>
+                                <input class="form-control" type="text" placeholder="Téléphone" id="tel">
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-3 col-md-2 mb-3" id="divannuler" hidden>
-                            <input class="btn btn-secondary btn-sm btn-block" type="button" value="Annuler"
-                                   id="annuler">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Ville</label>
+                                <input class="form-control" type="text" placeholder="Ville" id="ville">
+                            </div>
                         </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-3 col-md-2 mb-3">
-                            <input class="btn btn-primary btn-sm btn-block" type="submit" value="Ajouter" id="ajouter">
+                            <input class="btn btn-primary btn-sm btn-block" type="submit" value="Modifier" id="modifier">
                         </div>
                     </div>
                 </form>
                 <!-- Default Basic Forms End -->
-                <!-- Simple Datatable start -->
-                <div class="card-box mb-30">
-                    <div class="pd-20">
-                        <h4 class="text-blue h4">Liste des appartements</h4>
-                    </div>
-                    <div class="p-4">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Recherche par Immeuble</label>
-                                    <select class="form-control" id="immeubleRech">
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <button class="btn btn-primary" type="button" id="search">Rechercher</button>
-                                    <button class="btn btn-danger" type="button" id="annulerRech">Annuler</button>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table-responsive pre-scrollable">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th class="text-center">Immeuble</th>
-                                <th class="text-center">Numéro</th>
-                                <th class="text-center">Etage</th>
-                                <th class="text-center">Surface</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody id="table">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- Simple Datatable End -->
             </div>
         </div>
     </div>
@@ -244,14 +218,7 @@
 <script src="../vendors/scripts/script.min.js"></script>
 <script src="../vendors/scripts/process.js"></script>
 <script src="../vendors/scripts/layout-settings.js"></script>
-<!-- switchery js -->
-<script src="../src/plugins/switchery/switchery.min.js"></script>
-<!-- bootstrap-tagsinput js -->
-<script src="../src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
-<!-- bootstrap-touchspin js -->
-<script src="../src/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
-<script src="../vendors/scripts/advanced-components.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="script/appartements.js"></script>
+<script src="script/profil.js"></script>
 </body>
 </html>

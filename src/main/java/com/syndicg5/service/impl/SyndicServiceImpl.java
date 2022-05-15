@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,7 @@ public class SyndicServiceImpl implements SyndicService, UserDetailsService {
 
     @Override
     public void update(long id, Syndic syndic) {
-        Syndic s = syndicRepository.getById(id);
+        Syndic s = syndicRepository.findById(id).get();
         s.setNom(syndic.getNom());
         s.setPrenom(syndic.getPrenom());
         s.setEmail(syndic.getEmail());
@@ -48,6 +49,14 @@ public class SyndicServiceImpl implements SyndicService, UserDetailsService {
         s.setTelephone(syndic.getTelephone());
         s.setVille(syndic.getVille());
         s.setPhoto(syndic.getPhoto());
+        syndicRepository.save(s);
+    }
+
+    @Override
+    public void updatePassword(long id, Syndic syndic) {
+        Syndic s = syndicRepository.findById(id).get();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        s.setMdp(encoder.encode(syndic.getMdp()));
         syndicRepository.save(s);
     }
 
