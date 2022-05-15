@@ -57,4 +57,22 @@ public class DepenseServiceImpl implements DepenseService {
     public void delete(Long id) {
         depenseRepository.deleteById(id);
     }
+
+    @Override
+    public double finddepenseMax() {
+        return depenseRepository.finddepenseMax();
+    }
+
+    @Override
+    public List<Object[]> depenseParAnnee() {
+
+        return depenseRepository.depenseParAnnee();
+    }
+
+    @Override
+    public List<Object[]> depenseParMontant() {
+
+        return depenseRepository.depenseParMontant();
+    }
+
 }

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api")
@@ -35,14 +37,15 @@ public class ResidentController {
         return residentService.findAllBySyndic(syndicId);
     }
 
-    //Todo : Don't Touch this One
+    // Todo : Don't Touch this One
     @GetMapping("/residentByEmail/{email}")
     public Resident findOneByEmail(@PathVariable String email) {
         return residentService.findOneByEmail(email);
     }
 
     @GetMapping("/residents/syndic/nom/{syndicId}/{nom}")
-    public List<Resident> getAllResidentsByNom(@PathVariable(value = "syndicId") long syndicId, @PathVariable(value = "nom") String nom) {
+    public List<Resident> getAllResidentsByNom(@PathVariable(value = "syndicId") long syndicId,
+            @PathVariable(value = "nom") String nom) {
         return residentService.findAllByNom(syndicId, nom);
     }
 
@@ -55,6 +58,10 @@ public class ResidentController {
     public void deleteResident(@PathVariable long id) {
         residentService.delete(id);
     }
+
+    @GetMapping("/residents/nbr")
+    public Integer nombreResident() {
+        return residentService.nombreResident();
+    }
+
 }
-
-

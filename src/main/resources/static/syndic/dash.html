@@ -23,10 +23,14 @@
     <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="../vendors/styles/style.css">
-
+<!-- Charts test  -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
+
     <script>
+      
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
@@ -36,59 +40,15 @@
 </head>
 
 <body>
-    <div class="pre-loader">
-        <div class="pre-loader-box">
-            <div class="loader-logo"><img src="../vendors/images/deskapp-logo.svg" alt=""></div>
-            <div class='loader-progress' id="progress_div">
-                <div class='bar' id='bar1'></div>
-            </div>
-            <div class='percent' id='percent1'>0%</div>
-            <div class="loading-text">
-                Loading...
-            </div>
-        </div>
-    </div>
+   
+   
+    
 
     <div class="header">
         <div class="header-left">
             <div class="menu-icon dw dw-menu"></div>
-            <div class="search-toggle-icon dw dw-search2" data-toggle="header_search"></div>
-            <div class="header-search">
-                <form>
-                    <div class="form-group mb-0">
-                        <i class="dw dw-search2 search-icon"></i>
-                        <input type="text" class="form-control search-input" placeholder="Search Here">
-                        <div class="dropdown">
-                            <a class="dropdown-toggle no-arrow" href="#" role="button" data-toggle="dropdown">
-                                <i class="ion-arrow-down-c"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <div class="form-group row">
-                                    <label class="col-sm-12 col-md-2 col-form-label">From</label>
-                                    <div class="col-sm-12 col-md-10">
-                                        <input class="form-control form-control-sm form-control-line" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-12 col-md-2 col-form-label">To</label>
-                                    <div class="col-sm-12 col-md-10">
-                                        <input class="form-control form-control-sm form-control-line" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-12 col-md-2 col-form-label">Subject</label>
-                                    <div class="col-sm-12 col-md-10">
-                                        <input class="form-control form-control-sm form-control-line" type="text">
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <button class="btn btn-primary">Search</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+           
+           
         </div>
         <div class="header-right">
             <div class="dashboard-setting user-notification">
@@ -170,10 +130,7 @@
                     </div>
                 </div>
             </div>
-            <div class="github-link">
-                <a href="https://github.com/dropways/deskapp" target="_blank"><img src="../vendors/images/github.svg"
-                        alt=""></a>
-            </div>
+           
         </div>
     </div>
 
@@ -270,7 +227,7 @@
         <div class="brand-logo">
             <a href="index.html">
                 <img src="../vendors/images/deskapp-logo.svg" alt="" class="dark-logo">
-                <img src="../vendors/images/deskapp-logo-white.svg" alt="" class="light-logo">
+                <img src="../vendors/images/SyndicLogo.png" alt="" class="light-logo">
             </a>
             <div class="close-sidebar" data-toggle="left-sidebar-close">
                 <i class="ion-close-round"></i>
@@ -325,238 +282,67 @@
             <div class="card-box pd-20 height-100-p mb-30">
                 <div class="row align-items-center">
                     <div class="col-md-4">
-                        <img src="../vendors/images/banner-img.png" alt="">
+                     
+                        <img src="../vendors/images/OurLogo.png" alt="">
                     </div>
                     <div class="col-md-8">
                         <h4 class="font-20 weight-500 mb-10 text-capitalize">
-                            Welcome back <div class="weight-600 font-30 text-blue">Johnny Brown!</div>
+                       
+                     <div class="weight-600 font-30 text-blue">La Copropriété En Ligne</div>  
                         </h4>
-                        <p class="font-18 max-width-600">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde
-                            hic non repellendus debitis iure, doloremque assumenda. Autem modi, corrupti, nobis ea iure
-                            fugiat, veniam non quaerat mollitia animi error corporis.</p>
+                        <p class="font-18 max-width-600">La gestion de votre syndicat de copropriété devient plus simple avec notre logiciel de gestion de copropriété.
+                        
+                        Grâce à notre logiciel, la comptabilité de votre résidence deviendra un jeu d'enfant pour vous.</p>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-xl-3 mb-30">
+                <div class="col-xl-6 mb-30">
                     <div class="card-box height-100-p widget-style1">
                         <div class="d-flex flex-wrap align-items-center">
                             <div class="progress-data">
-                                <div id="chart"></div>
+                                <img src="../vendors/images/immeubles.png" alt="" class="light-logo">
                             </div>
                             <div class="widget-data">
-                                <div class="h4 mb-0">2020</div>
-                                <div class="weight-600 font-14">Contact</div>
+                           
+                                <div  class="weight-600 font-14">Nombres Des immeubles</div>
+                                    <div id="immeubles" class="h4 mb-0"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 mb-30">
+                <div class="col-xl-6 mb-30">
                     <div class="card-box height-100-p widget-style1">
                         <div class="d-flex flex-wrap align-items-center">
                             <div class="progress-data">
-                                <div id="chart2"></div>
+                            <img src="../vendors/images/residents.png" alt="" class="light-logo">
                             </div>
                             <div class="widget-data">
-                                <div class="h4 mb-0">400</div>
-                                <div class="weight-600 font-14">Deals</div>
+                                
+                                <div class="weight-600 font-14">Nombres Des Residents </div>
+                                <div id="resident" class="h4 mb-0"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 mb-30">
-                    <div class="card-box height-100-p widget-style1">
-                        <div class="d-flex flex-wrap align-items-center">
-                            <div class="progress-data">
-                                <div id="chart3"></div>
-                            </div>
-                            <div class="widget-data">
-                                <div class="h4 mb-0">350</div>
-                                <div class="weight-600 font-14">Campaign</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 mb-30">
-                    <div class="card-box height-100-p widget-style1">
-                        <div class="d-flex flex-wrap align-items-center">
-                            <div class="progress-data">
-                                <div id="chart4"></div>
-                            </div>
-                            <div class="widget-data">
-                                <div class="h4 mb-0">$6060</div>
-                                <div class="weight-600 font-14">Worth</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
             <div class="row">
-                <div class="col-xl-8 mb-30">
+                <div class="col-xl-6 mb-30">
                     <div class="card-box height-100-p pd-20">
-                        <h2 class="h4 mb-20">Activity</h2>
-                        <div id="chart5"></div>
+                        <h2 class="h4 mb-20">Revenus</h2>
+                        <!--<div id="chart5"></div>-->
+                         <canvas id="revenus"></canvas>
                     </div>
                 </div>
-                <div class="col-xl-4 mb-30">
+                <div class="col-xl-6 mb-30">
                     <div class="card-box height-100-p pd-20">
-                        <h2 class="h4 mb-20">Lead Target</h2>
-                        <div id="chart6"></div>
+                        <h2 class="h4 mb-20">Depenses</h2>
+                        <canvas id="depenses"></canvas>
                     </div>
                 </div>
             </div>
-            <div class="card-box mb-30">
-                <h2 class="h4 pd-20">Best Selling Products</h2>
-                <table class="data-table table nowrap">
-                    <thead>
-                        <tr>
-                            <th class="table-plus datatable-nosort">Product</th>
-                            <th>Name</th>
-                            <th>Color</th>
-                            <th>Size</th>
-                            <th>Price</th>
-                            <th>Oty</th>
-                            <th class="datatable-nosort">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="table-plus">
-                                <img src="../vendors/images/product-1.jpg" width="70" height="70" alt="">
-                            </td>
-                            <td>
-                                <h5 class="font-16">Shirt</h5>
-                                by John Doe
-                            </td>
-                            <td>Black</td>
-                            <td>M</td>
-                            <td>$1000</td>
-                            <td>1</td>
-                            <td>
-                                <div class="dropdown">
-                                    <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
-                                        role="button" data-toggle="dropdown">
-                                        <i class="dw dw-more"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                        <a class="dropdown-item" href="#"><i class="dw dw-eye"></i> View</a>
-                                        <a class="dropdown-item" href="#"><i class="dw dw-edit2"></i> Edit</a>
-                                        <a class="dropdown-item" href="#"><i class="dw dw-delete-3"></i> Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-plus">
-                                <img src="../vendors/images/product-2.jpg" width="70" height="70" alt="">
-                            </td>
-                            <td>
-                                <h5 class="font-16">Boots</h5>
-                                by Lea R. Frith
-                            </td>
-                            <td>brown</td>
-                            <td>9UK</td>
-                            <td>$900</td>
-                            <td>1</td>
-                            <td>
-                                <div class="dropdown">
-                                    <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
-                                        role="button" data-toggle="dropdown">
-                                        <i class="dw dw-more"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                        <a class="dropdown-item" href="#"><i class="dw dw-eye"></i> View</a>
-                                        <a class="dropdown-item" href="#"><i class="dw dw-edit2"></i> Edit</a>
-                                        <a class="dropdown-item" href="#"><i class="dw dw-delete-3"></i> Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-plus">
-                                <img src="../vendors/images/product-3.jpg" width="70" height="70" alt="">
-                            </td>
-                            <td>
-                                <h5 class="font-16">Hat</h5>
-                                by Erik L. Richards
-                            </td>
-                            <td>Orange</td>
-                            <td>M</td>
-                            <td>$100</td>
-                            <td>4</td>
-                            <td>
-                                <div class="dropdown">
-                                    <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
-                                        role="button" data-toggle="dropdown">
-                                        <i class="dw dw-more"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                        <a class="dropdown-item" href="#"><i class="dw dw-eye"></i> View</a>
-                                        <a class="dropdown-item" href="#"><i class="dw dw-edit2"></i> Edit</a>
-                                        <a class="dropdown-item" href="#"><i class="dw dw-delete-3"></i> Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-plus">
-                                <img src="../vendors/images/product-4.jpg" width="70" height="70" alt="">
-                            </td>
-                            <td>
-                                <h5 class="font-16">Long Dress</h5>
-                                by Renee I. Hansen
-                            </td>
-                            <td>Gray</td>
-                            <td>L</td>
-                            <td>$1000</td>
-                            <td>1</td>
-                            <td>
-                                <div class="dropdown">
-                                    <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
-                                        role="button" data-toggle="dropdown">
-                                        <i class="dw dw-more"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                        <a class="dropdown-item" href="#"><i class="dw dw-eye"></i> View</a>
-                                        <a class="dropdown-item" href="#"><i class="dw dw-edit2"></i> Edit</a>
-                                        <a class="dropdown-item" href="#"><i class="dw dw-delete-3"></i> Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-plus">
-                                <img src="../vendors/images/product-5.jpg" width="70" height="70" alt="">
-                            </td>
-                            <td>
-                                <h5 class="font-16">Blazer</h5>
-                                by Vicki M. Coleman
-                            </td>
-                            <td>Blue</td>
-                            <td>M</td>
-                            <td>$1000</td>
-                            <td>1</td>
-                            <td>
-                                <div class="dropdown">
-                                    <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
-                                        role="button" data-toggle="dropdown">
-                                        <i class="dw dw-more"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                        <a class="dropdown-item" href="#"><i class="dw dw-eye"></i> View</a>
-                                        <a class="dropdown-item" href="#"><i class="dw dw-edit2"></i> Edit</a>
-                                        <a class="dropdown-item" href="#"><i class="dw dw-delete-3"></i> Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="footer-wrap pd-20 mb-20 card-box">
-                DeskApp - Bootstrap 4 Admin Template By <a href="https://github.com/dropways" target="_blank">Ankit
-                    Hingarajiya</a>
-            </div>
+        
         </div>
     </div>
     <!-- js -->
@@ -570,6 +356,137 @@
     <script src="../src/plugins/datatables/js/dataTables.responsive.min.js"></script>
     <script src="../src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
     <script src="../vendors/scripts/dashboard.js"></script>
+    <script src="../script/dash.js"></script>
+   
+
+
+    <script>
+
+        async function loadRevenus() {
+
+            // fetch years 
+            const response = await fetch('http://localhost:9090/api/revenus/annee');
+            const data = await response.json();
+
+           //fetch montant
+             const response1 = await fetch('http://localhost:9090/api/revenus/montant');
+            const data1 = await response1.json();
+            
+
+        // get my chart
+            const ctx = document.getElementById('revenus').getContext('2d');
+
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                options: {
+                    indexAxis: 'y',
+                     backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',  // Bar 1
+                        'rgba(54, 162, 235, 0.2)',  // Bar 2
+                        'rgba(255, 206, 86, 0.2)',  // Bar 3
+                        'rgba(75, 192, 192, 0.2)',  // Bar 4
+                        'rgba(153, 102, 255, 0.2)', // Bar 5
+                        'rgba(255, 159, 64, 0.2)'   // Bar 6
+                    ],
+                     borderWidth: 2,
+                   
+                },
+                data: {
+                    labels:  Object.values(data),
+                    datasets: [
+                        {
+                            label: 'Montant Des Revenus Par Annee',
+                            data:  Object.values(data1),
+                        },
+                    ],
+                },
+            });
+        }
+
+        loadRevenus();
+
+
+        //Depenses 
+
+        async function loadDepenses() {
+
+                // fetch years 
+                const response = await fetch('http://localhost:9090/api/depenses/annee');
+                const data = await response.json();
+
+                //fetch montant
+                const response1 = await fetch('http://localhost:9090/api/depenses/montant');
+                const data1 = await response1.json();
+
+
+                // get my chart
+                const ctx = document.getElementById('depenses').getContext('2d');
+
+                const myChart = new Chart(ctx, {
+                    type: 'bar',
+                    options: {
+                    
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',  // Bar 4
+                            'rgba(153, 102, 255, 0.2)', // Bar 5
+                            'rgba(255, 159, 64, 0.2)'   // Bar 6
+                        ],
+                        borderWidth: 2,
+
+                    },
+                    data: {
+                        labels: Object.values(data),
+                        datasets: [
+                            {
+                                label: 'Montant Des Revenus Par Annee',
+                                data: Object.values(data1),
+                            },
+                        ],
+                    },
+                });
+            }
+    loadDepenses() ;
+    
+//nombreImmeuble
+    async function nombreImmeuble() {
+
+            // fetch years 
+            const response = await fetch('http://localhost:9090/api/immeubles/nbr');
+            const data = await response.json();
+
+           
+
+
+            // get my chart
+            const ctx = document.getElementById('immeubles').innerHTML= data;
+            
+        
+        }
+
+
+        nombreImmeuble();
+
+        //
+
+
+        async function nombreResident() {
+
+                // fetch years 
+                const response = await fetch('http://localhost:9090/api/residents/nbr');
+                const data = await response.json();
+
+
+
+
+                // get my chart
+                const ctx = document.getElementById('resident').innerHTML = data;
+
+
+            }
+
+
+            nombreResident();
+    </script>
 </body>
 
 </html>

@@ -44,7 +44,6 @@ public class ResidentServiceImpl implements ResidentService {
         return residentRepository.findAllBySyndic(syndicId);
     }
 
-
     @Override
     public Resident findOneByEmail(String email) {
         return residentRepository.findByEmail(email);
@@ -64,5 +63,11 @@ public class ResidentServiceImpl implements ResidentService {
     public void delete(long id) {
         appartementRepository.deleteAllAppartementResident(id);
         residentRepository.deleteById(id);
+    }
+
+    @Override
+    public Integer nombreResident() {
+
+        return residentRepository.nombreResident();
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api")
@@ -50,7 +52,20 @@ public class DepenseController {
     public void deleteDepense(@PathVariable long id) {
         depenseService.delete(id);
     }
+
+    @GetMapping("/depenses/max")
+    public double finddepenseMax() {
+        return depenseService.finddepenseMax();
+    }
+
+    @GetMapping("/depenses/annee")
+    public List<Object[]> depenseParAnnee() {
+        return depenseService.depenseParAnnee();
+    }
+
+    @GetMapping("/depenses/montant")
+    public List<Object[]> depenseParMontant() {
+        return depenseService.depenseParMontant();
+    }
+
 }
-
-
-

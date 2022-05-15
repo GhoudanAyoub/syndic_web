@@ -1,6 +1,5 @@
 package com.syndicg5.service.impl;
 
-import com.syndicg5.model.Resident;
 import com.syndicg5.model.Revenu;
 import com.syndicg5.repository.ImmeubleRepository;
 import com.syndicg5.repository.RevenuRepository;
@@ -62,5 +61,21 @@ public class RevenuServiceImpl implements RevenuService {
     public void delete(Long id) {
         revenuRepository.deleteById(id);
     }
-}
 
+    @Override
+    public double findRevenueMax() {
+        return revenuRepository.findRevenueMax();
+    }
+
+    @Override
+    public List<Object[]> revenuParAnnee() {
+
+        return revenuRepository.revenuParAnnee();
+    }
+
+    @Override
+    public List<Object[]> revenuParMontant() {
+
+        return revenuRepository.revenuParMontant();
+    }
+}

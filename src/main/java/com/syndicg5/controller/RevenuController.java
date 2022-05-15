@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api")
@@ -50,12 +52,24 @@ public class RevenuController {
         return revenuService.findRevenusBySyndic(id);
     }
 
-
     @DeleteMapping("/revenus/{id}")
     public void deleteRevenu(@PathVariable long id) {
         revenuService.delete(id);
     }
+
+    @GetMapping("/revenus/max")
+    public double findRevenueMax() {
+        return revenuService.findRevenueMax();
+    }
+
+    @GetMapping("/revenus/annee")
+    public List<Object[]> revenuParAnnee() {
+        return revenuService.revenuParAnnee();
+    }
+
+    @GetMapping("/revenus/montant")
+    public List<Object[]> revenuParMontant() {
+        return revenuService.revenuParMontant();
+    }
+
 }
-
-
-

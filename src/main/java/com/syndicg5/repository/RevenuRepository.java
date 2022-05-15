@@ -1,6 +1,5 @@
 package com.syndicg5.repository;
 
-import com.syndicg5.model.Immeuble;
 import com.syndicg5.model.Revenu;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +18,14 @@ public interface RevenuRepository extends JpaRepository<Revenu, Long> {
 
     @Query(" select r from Revenu r where r.immeuble.syndic.id = ?1")
     List<Revenu> findRevenusBySyndic(long id);
+
+    @Query(" select max(montant) from Revenu ")
+    double findRevenueMax();
+
+    @Query("select  Year(r.date) from Revenu r group by Year(r.date)  ")
+    List<Object[]> revenuParAnnee();
+
+    @Query("select sum(r.montant) from Revenu r group by Year(r.date)  ")
+    List<Object[]> revenuParMontant();
+
 }
