@@ -98,7 +98,7 @@ $(document).ready(function() {
                                            textStatus, jqXHR) {
                             console.log('syndic done');
                             swal("Succès!", "Inscription avec succès!", "success").then(() => {
-                                location.href = "index.html";
+                                location.href = "login.html";
                             });
                         },
                         error : function(jqXHR, textStatus,
@@ -131,7 +131,7 @@ $(document).ready(function() {
                                        textStatus, jqXHR) {
                         console.log('syndic done');
                         swal("Succès!", "Inscription avec succès!", "success").then(() => {
-                            location.href = "dash.html";
+                            location.href = "login.html";
                         });
                     },
                     error : function(jqXHR, textStatus,
