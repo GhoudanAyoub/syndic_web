@@ -48,6 +48,11 @@ public class ImmeubleServiceImpl implements ImmeubleService {
     }
 
     @Override
+    public List<Immeuble> findAllByResident(long id) {
+        return immeubleRepository.findAllByResident(id);
+    }
+
+    @Override
     public Immeuble findOne(Long id) {
         return immeubleRepository.findById(id).get();
     }

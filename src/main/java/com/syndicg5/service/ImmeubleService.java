@@ -15,6 +15,8 @@ public interface ImmeubleService {
 
     List<Immeuble> findAllByNom(long syndicId, String nom);
 
+    List<Immeuble> findAllByResident(long id);
+
     Immeuble findOne(Long id);
 
     void delete(Long id);

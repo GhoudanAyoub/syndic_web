@@ -20,4 +20,8 @@ public interface ImmeubleRepository extends JpaRepository<Immeuble, Long> {
 
         @Query(" select Count(i.id) from Immeuble i ")
         Integer nomreImmeuble();
+
+        @Query(" select i from Immeuble i, Appartement a " +
+                " where a.immeuble.id = i.id and a.resident.id = ?1")
+        List<Immeuble> findAllByResident(long id);
 }
