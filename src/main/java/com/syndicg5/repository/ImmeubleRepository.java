@@ -22,6 +22,6 @@ public interface ImmeubleRepository extends JpaRepository<Immeuble, Long> {
         Integer nomreImmeuble();
 
         @Query(" select i from Immeuble i, Appartement a " +
-                " where a.immeuble.id = i.id and a.resident.id = ?1")
-        List<Immeuble> findAllByResident(long id);
+                " where a.immeuble.id = i.id and a.resident.email = ?1")
+        List<Immeuble> findAllByResident(String email);
 }

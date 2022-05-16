@@ -15,7 +15,7 @@ public interface ImmeubleService {
 
     List<Immeuble> findAllByNom(long syndicId, String nom);
 
-    List<Immeuble> findAllByResident(long id);
+    List<Immeuble> findAllByResidentEmail(String email);
 
     Immeuble findOne(Long id);
 
