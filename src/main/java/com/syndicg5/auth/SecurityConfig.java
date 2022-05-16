@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // .antMatchers("/api/appartements/**", "/api/categories/**",
                 // "/api/depenses/**", "/api/immeubles/**", "/api/residents/**",
                 // "/api/revenus/**", "/api/sessions/**").authenticated()
-                .antMatchers("/script/**", "/src/**", "/syndic/**", "/vendors/**")
+                .antMatchers("/script/**", "/src/**", "/syndic/**", "/vendors/**","/assets/**")
                 .permitAll()
                 .anyRequest().permitAll();
     }
