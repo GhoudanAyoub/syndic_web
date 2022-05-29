@@ -27,4 +27,9 @@ public interface RevenuService {
 
     List<Object[]> revenuParMontant();
 
+    List<Revenu> findRevenusByresident(long id);
+
+    List<Integer> findRevenusDate(long id);
+
+
 }

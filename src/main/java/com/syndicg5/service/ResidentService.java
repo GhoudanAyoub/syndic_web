@@ -20,6 +20,8 @@ public interface ResidentService {
 
     Resident findOneByEmail(String email);
 
+    Resident checklogin(String email,String mdp);
+
     void delete(long id);
 
     Integer nombreResident();

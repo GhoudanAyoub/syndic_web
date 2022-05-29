@@ -24,4 +24,7 @@ public interface ResidentRepository extends JpaRepository<Resident, Long> {
 
         @Query(" select count(s.id) from Resident s ")
         Integer nombreResident();
+
+        @Query("select s from Resident s where s.email = ?1 and s.mdp = ?2")
+        Resident check(String email,String mdp);
 }
