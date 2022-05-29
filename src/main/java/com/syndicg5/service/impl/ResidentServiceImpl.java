@@ -70,4 +70,8 @@ public class ResidentServiceImpl implements ResidentService {
 
         return residentRepository.nombreResident();
     }
+    @Override
+    public Resident checklogin(String email,String mdp){
+        return residentRepository.check(email,mdp);
+    }
 }

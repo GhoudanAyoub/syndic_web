@@ -4,9 +4,10 @@ import com.syndicg5.model.Revenu;
 import com.syndicg5.repository.ImmeubleRepository;
 import com.syndicg5.repository.RevenuRepository;
 import com.syndicg5.service.RevenuService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RevenuServiceImpl implements RevenuService {
@@ -82,5 +83,15 @@ public class RevenuServiceImpl implements RevenuService {
     @Override
     public List<Revenu> findRevenusByResident(long id) {
         return revenuRepository.findRevenusByResident(id);
+    }
+
+    @Override
+    public List<Revenu> findRevenusByresident(long id) {
+        return revenuRepository.findRevenusByresident(id);
+    }
+
+    @Override
+    public List<Integer> findRevenusDate(long id) {
+        return revenuRepository.findRevenuDates(id);
     }
 }

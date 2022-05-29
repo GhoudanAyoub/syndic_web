@@ -51,7 +51,7 @@
           <div class="login-title mb-2">
             <h2 class="text-center text-primary">Se connecter</h2>
           </div>
-          <form>
+          <form id="myForm">
             <div class="input-group custom mb-2">
               <input type="email" class="form-control form-control-sm" placeholder="Email" id="email" name="email">
               <div class="input-group-append custom">
@@ -62,6 +62,22 @@
               <input type="password" class="form-control form-control-sm" placeholder="Mot de passe" id="password" name="password">
               <div class="input-group-append custom">
                 <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
+              </div>
+            </div>
+            <div class="select-role">
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn active" id="syndicIcon">
+                  <input type="radio" name="options" value="syndic" CHECKED="checked">
+                  <div class="icon"><img src="vendors/images/briefcase.svg" class="svg" alt=""></div>
+                  <span>Je suis un </span>
+                  Syndic
+                </label>
+                <label class="btn" id="residentIcon">
+                  <input type="radio" name="options" value="resident">
+                  <div class="icon"><img src="vendors/images/person.svg" class="svg" alt=""></div>
+                  <span>Je suis un </span>
+                  Résident
+                </label>
               </div>
             </div>
             <div class="row">

@@ -52,6 +52,11 @@ public class RevenuController {
         return revenuService.findRevenusBySyndic(id);
     }
 
+    @GetMapping("/revenus/resident/{id}")
+    public List<Revenu> findRevenusByresident(@PathVariable long id) {
+        return revenuService.findRevenusByresident(id);
+    }
+
     @DeleteMapping("/revenus/{id}")
     public void deleteRevenu(@PathVariable long id) {
         revenuService.delete(id);
@@ -77,5 +82,11 @@ public class RevenuController {
     public List<Revenu> findRevenusByResident(@PathVariable long id) {
         return revenuService.findRevenusByResident(id);
     }
+
+    @GetMapping("/revenus/dates/{id}")
+    public List<Integer> revenuDate(@PathVariable long id) {
+        return revenuService.findRevenusDate(id);
+    }
+
 
 }

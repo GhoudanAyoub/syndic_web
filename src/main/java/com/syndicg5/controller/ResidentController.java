@@ -22,6 +22,13 @@ public class ResidentController {
         return residentService.save(resident);
     }
 
+    @GetMapping("/login")
+    public Resident checklogin(@RequestParam(value = "email") String email ,@RequestParam(value = "password") String mdp) {
+        return residentService.checklogin(email,mdp);
+    }
+
+
+
     @PutMapping("/residents/{id}")
     public Resident updateResident(@PathVariable(value = "id") long id, @Valid @RequestBody Resident resident) {
         return residentService.update(id, resident);

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $.ajax({
+            url: '/api/sessions/resident',
+            type: 'GET',
+            async: false,
+            success: function (data,
+                               textStatus, jqXHR) {
+
+            },
+            error: function (jqXHR, textStatus,
+                             errorThrown) {
+                location.href = "../index.html";
+            }
+        });
+    </script>
+    <!-- Basic Page Info -->
+    <meta charset="utf-8">
+    <title>Changement mot de passe</title>
+
+    <!-- Site favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../vendors/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../vendors/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../vendors/images/favicon-16x16.png">
+
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../vendors/styles/core.css">
+    <link rel="stylesheet" type="text/css" href="../vendors/styles/icon-font.min.css">
+    <!--    <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" type="text/css" href="../src/plugins/datatables/css/responsive.bootstrap4.min.css">-->
+    <link rel="stylesheet" type="text/css" href="../vendors/styles/style.css">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-119386393-1');
+    </script>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-left">
+        <div class="menu-icon dw dw-menu"></div>
+    </div>
+    <div class="header-right">
+        <div class="user-info-dropdown">
+            <div class="dropdown">
+                <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+							<span class="user-icon">
+								<img style="width:52px;height:52px;" src="" onerror="this.src='images/no-image.png'" alt="" id="headerimg">
+							</span>
+                    <span class="user-name" id="headername">Username</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                    <a class="dropdown-item" href="profil.html"><i class="dw dw-user1"></i> Profil</a>
+                    <a class="dropdown-item" href="changemdp.html"><i class="dw dw-padlock1"></i> Changement du mot de passe</a>
+                    <a class="dropdown-item" href="/logout"><i class="dw dw-logout"></i> Se déconnecter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="left-side-bar">
+    <div class="brand-logo">
+        <a href="payement.html">
+            <img src="../vendors/images/deskapp-logo.svg" alt="" class="dark-logo">
+            <img src="../vendors/images/SyndicLogo.png" alt="" class="light-logo">
+        </a>
+        <div class="close-sidebar" data-toggle="left-sidebar-close">
+            <i class="ion-close-round"></i>
+        </div>
+    </div>
+    <div class="menu-block customscroll">
+        <div class="sidebar-menu">
+            <ul id="accordion-menu">
+                <li>
+                    <a href="payement.html" class="dropdown-toggle no-arrow">
+                        <span class="micon dw dw-door"></span><span class="mtext">payement</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="depense.html" class="dropdown-toggle no-arrow">
+                        <span class="micon dw dw-user-3"></span><span class="mtext">Depenses</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="mobile-menu-overlay"></div>
+
+<div class="main-container">
+    <div class="pd-ltr-20 xs-pd-20-10">
+        <div class="min-height-200px">
+            <!-- Default Basic Forms Start -->
+            <div class="pd-20 card-box mb-30">
+                <div class="clearfix mb-3">
+                    <div class="pull-left">
+                        <h4 class="text-blue h4">Changement du mot de passe</h4>
+                    </div>
+                </div>
+                <form>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input class="form-control" type="text" id="residentId" hidden>
+                                <label>Ancien mot de passe</label>
+                                <input class="form-control" type="password" placeholder="Ancien mot de passe" id="passwordold">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Nouveau mot de passe</label>
+                                <input class="form-control" type="password" placeholder="Nouveau mot de passe" id="password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Confirmer nouveau mot de passe</label>
+                                <input class="form-control" type="password" placeholder="Confirmer nouveau mot de passe" id="passwordconf">
+                                <p class="text-danger font-weight-bold mb-3" id="password-error" hidden>Les deux mots de passe ne sont pas identiques!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-2 mb-3">
+                            <input class="btn btn-primary btn-sm btn-block" type="submit" value="Modifier" id="modifier">
+                        </div>
+                    </div>
+                </form>
+                <!-- Default Basic Forms End -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- js -->
+<script src="../vendors/scripts/core.js"></script>
+<script src="../vendors/scripts/script.min.js"></script>
+<script src="../vendors/scripts/process.js"></script>
+<script src="../vendors/scripts/layout-settings.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="script/changemdp.js"></script>
+</body>
+</html>
