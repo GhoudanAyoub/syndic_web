@@ -45,4 +45,10 @@ public interface AppartementRepository extends JpaRepository<Appartement, Long> 
     @Transactional
     @Query("update Appartement a set a.resident.id = null, a.debut = null, a.fin = null where a.resident.id = ?1")
     void deleteAllAppartementResident(long residentId);
+
+    @Query("select distinct Year(r.date) from Revenu r where r.appartement.id = ?1")
+    List<Integer> findRevenuDates(long id);
+
+    @Query("select r.appartement.numero, Month(r.date), sum(r.montant) from Revenu r where r.appartement.id = ?1 and Year(r.date) = ?2 group by r.appartement.numero, Month(r.date)")
+    List<Object[]> findRevenusAppartement(long id, int year);
 }

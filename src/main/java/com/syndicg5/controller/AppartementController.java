@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
 
 @RestController
 @RequestMapping("/api")
@@ -93,6 +95,16 @@ public class AppartementController {
     @DeleteMapping("/appartements/{id}")
     public void deleteAppartement(@PathVariable long id) {
         appartementService.delete(id);
+    }
+
+    @GetMapping("/appartements/dates/{id}")
+    public SortedSet<Integer> findImmeubleDates(@PathVariable long id) {
+        return appartementService.findAppartementDates(id);
+    }
+
+    @GetMapping("/appartements/revenus/{id}/{year}")
+    public Map<Integer, Map<Integer, Double>> findRevenusAppartement(@PathVariable long id, @PathVariable int year) {
+        return appartementService.findRevenusAppartement(id, year);
     }
 }
 
