@@ -25,4 +25,5 @@ public interface ResidentService {
     void delete(long id);
 
     Integer nombreResident();
+    void updatePassword(long id, Resident resident);
 }
