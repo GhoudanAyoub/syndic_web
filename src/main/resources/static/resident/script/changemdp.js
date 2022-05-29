@@ -70,7 +70,7 @@ $(document).ready(function () {
 
         if(verif) {
             $.ajax({
-                url: '/api/syndics/ancientpassword/' + $("#syndicId").val() + '/' + passwordold,
+                url: '/api/residents/ancientpassword/' + $("#residentId").val() + '/' + passwordold,
                 type: 'GET',
                 async: false,
                 success: function (data,
@@ -80,7 +80,7 @@ $(document).ready(function () {
                             mdp: password
                         };
                         $.ajax({
-                            url: '/api/syndics/password/' + $("#syndicId").val(),
+                            url: '/api/residents/password/' + $("#residentId").val(),
                             contentType: 'application/json',
                             data: JSON.stringify(json),
                             type: 'PUT',

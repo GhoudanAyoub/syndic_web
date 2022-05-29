@@ -7,6 +7,7 @@ import com.syndicg5.repository.ResidentRepository;
 import com.syndicg5.service.ResidentService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -74,4 +75,13 @@ public class ResidentServiceImpl implements ResidentService {
     public Resident checklogin(String email,String mdp){
         return residentRepository.check(email,mdp);
     }
+
+
+    @Override
+    public void updatePassword(long id, Resident resident) {
+        Resident r = residentRepository.findById(id).get();
+        r.setMdp(resident.getMdp());
+        residentRepository.save(r);
+    }
+
 }

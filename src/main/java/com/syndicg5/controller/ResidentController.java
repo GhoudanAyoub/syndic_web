@@ -1,8 +1,10 @@
 package com.syndicg5.controller;
 
 import com.syndicg5.model.Resident;
+import com.syndicg5.model.Syndic;
 import com.syndicg5.service.impl.ResidentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -69,6 +71,20 @@ public class ResidentController {
     @GetMapping("/residents/nbr")
     public Integer nombreResident() {
         return residentService.nombreResident();
+    }
+
+    @GetMapping("/residents/ancientpassword/{id}/{password}")
+    public int verifyAncientPassword(@PathVariable Long id, @PathVariable String password) {
+        Resident resident = residentService.findOne(id);
+        if(resident.getMdp().equals(password)) {
+            return 1;
+        }
+        return 0;
+    }
+
+    @PutMapping("/residents/password/{id}")
+    public void updateResidentPassword(@PathVariable(value = "id") long id, @Valid @RequestBody Resident resident) {
+        residentService.updatePassword(id, resident);
     }
 
 }
