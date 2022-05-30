@@ -29,4 +29,6 @@ public interface ImmeubleService {
     Map<Integer, Map<Integer, Double>> findRevenusImmeuble(long id, int year);
 
     Map<String, Map<Integer, Double>> findDepensesImmeuble(long id, int year);
+
+    List<Immeuble> findAllByResident(long id);
 }

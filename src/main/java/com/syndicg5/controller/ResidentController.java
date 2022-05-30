@@ -64,4 +64,23 @@ public class ResidentController {
         return residentService.nombreResident();
     }
 
+    @GetMapping("/residents/ancientpassword/{id}/{password}")
+    public int verifyAncientPassword(@PathVariable Long id, @PathVariable String password) {
+        Resident resident = residentService.findOne(id);
+        if(resident.getMdp().equals(password)) {
+            return 1;
+        }
+        return 0;
+    }
+
+    @PutMapping("/residents/password/{id}")
+    public void updateResidentPassword(@PathVariable(value = "id") long id, @Valid @RequestBody Resident resident) {
+        residentService.updatePassword(id, resident);
+    }
+
+    @GetMapping("/login")
+    public Resident checklogin(@RequestParam(value = "email") String email ,@RequestParam(value = "password") String mdp) {
+        return residentService.checklogin(email,mdp);
+    }
+
 }

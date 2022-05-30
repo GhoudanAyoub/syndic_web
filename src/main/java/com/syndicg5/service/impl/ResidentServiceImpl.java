@@ -70,4 +70,16 @@ public class ResidentServiceImpl implements ResidentService {
 
         return residentRepository.nombreResident();
     }
+
+    @Override
+    public Resident checklogin(String email, String mdp) {
+        return residentRepository.check(email,mdp);
+    }
+
+    @Override
+    public void updatePassword(long id, Resident resident) {
+        Resident r = residentRepository.findById(id).get();
+        r.setMdp(resident.getMdp());
+        residentRepository.save(r);
+    }
 }

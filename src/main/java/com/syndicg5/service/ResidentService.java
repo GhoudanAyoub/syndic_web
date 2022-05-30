@@ -23,4 +23,8 @@ public interface ResidentService {
     void delete(long id);
 
     Integer nombreResident();
+
+    Resident checklogin(String email,String mdp);
+
+    void updatePassword(long id, Resident resident);
 }

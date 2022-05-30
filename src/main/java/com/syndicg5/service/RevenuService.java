@@ -3,6 +3,7 @@ package com.syndicg5.service;
 import com.syndicg5.model.Revenu;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RevenuService {
     void save(Revenu revenu);
@@ -28,5 +29,9 @@ public interface RevenuService {
     List<Object[]> revenuParMontant();
 
     List<Revenu> findRevenusByResident(long id);
+
+    List<Integer> findRevenusDate(long id);
+
+    Map<Integer, Map<Integer, Double>> findRevenusAppartement(long id, int year);
 
 }

@@ -80,4 +80,9 @@ public class ImmeubleController {
         return immeubleService.findDepensesImmeuble(id, year);
     }
 
+    @GetMapping("/immeubles/residentid/{id}")
+    public List<Immeuble> getAllImmeublesByResident(@PathVariable(value = "id") long id) {
+        return immeubleService.findAllByResident(id);
+    }
+
 }

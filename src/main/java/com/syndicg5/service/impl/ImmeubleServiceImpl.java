@@ -171,4 +171,9 @@ public class ImmeubleServiceImpl implements ImmeubleService {
         }
         return map;
     }
+
+    @Override
+    public List<Immeuble> findAllByResident(long id) {
+        return immeubleRepository.findAllResident(id);
+    }
 }
