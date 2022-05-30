@@ -4,7 +4,11 @@ import com.syndicg5.model.Revenu;
 import com.syndicg5.repository.ImmeubleRepository;
 import com.syndicg5.repository.RevenuRepository;
 import com.syndicg5.service.RevenuService;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -86,5 +90,46 @@ public class RevenuServiceImpl implements RevenuService {
     @Override
     public List<Integer> findRevenusDate(long id){
         return revenuRepository.findRevenuDates(id);
+    }
+
+    @Override
+    public Map<Integer, Map<Integer, Double>> findRevenusAppartement(long id, int year) {
+        Map<Integer, Map<Integer, Double>> map = new HashMap<>();
+        for (Object[] o : revenuRepository.findRevenusAppartement(id, year)) {
+            for (int i = 0; i < o.length; i++) {
+                if (!map.containsKey(o[0])) {
+                    Map<Integer, Double> map2 = new HashMap<>();
+                    map2.put((Integer) o[1], (Double) o[2]);
+                    map.put((Integer) o[0], map2);
+                }else {
+                    Map<Integer, Double> map2 = map.get(o[0]);
+                    map2.put((Integer) o[1], (Double) o[2]);
+                    map.replace((Integer) o[0], map2);
+                }
+            }
+        }
+
+        for(Integer key : map.keySet()) {
+            Map<Integer, Double> map2 = map.get(key);
+            System.out.println(key);
+            for(int i = 1; i <= 12; i++) {
+                boolean exists = false;
+                for(Integer month : map2.keySet()) {
+                    if(i == month) {
+                        exists = true;
+                    }
+                }
+                if(!exists) {
+                    map2.put(i, 0.0);
+                }
+            }
+        }
+
+
+        System.out.println("Showing map :");
+        for(Integer key : map.keySet()) {
+            System.out.println(key + " : " + map.get(key));
+        }
+        return map;
     }
 }

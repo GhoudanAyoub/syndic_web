@@ -3,6 +3,8 @@ package com.syndicg5.service;
 import com.syndicg5.model.Immeuble;
 
 import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
 
 public interface ImmeubleService {
     void save(Immeuble immeuble);
@@ -22,4 +24,10 @@ public interface ImmeubleService {
     void delete(Long id);
 
     Integer nomreImmeuble();
+
+    List<Immeuble> findAllByResident(long id);
+
+    SortedSet<Integer> findImmeubleDates(long id);
+
+    Map<String, Map<Integer, Double>> findDepensesImmeuble(long id, int year);
 }
