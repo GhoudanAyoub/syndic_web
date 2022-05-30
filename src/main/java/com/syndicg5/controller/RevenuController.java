@@ -55,8 +55,8 @@ public class RevenuController {
     }
 
     @GetMapping("/revenus/resident/{id}")
-    public List<Revenu> findRevenusByresident(@PathVariable long id) {
-        return revenuService.findRevenusByresident(id);
+    public List<Revenu> findRevenuByresident(@PathVariable long id) {
+        return revenuService.findRevenuByresident(id);
     }
 
     @DeleteMapping("/revenus/{id}")

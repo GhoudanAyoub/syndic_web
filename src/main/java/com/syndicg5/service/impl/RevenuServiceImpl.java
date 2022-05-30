@@ -90,7 +90,9 @@ public class RevenuServiceImpl implements RevenuService {
 
     @Override
     public List<Revenu> findRevenusByresident(long id) {
-        return revenuRepository.findRevenusByresident(id);
+        return revenuRepository.findRevenusByResident(id);}
+    public List<Revenu> findRevenuByresident(long id){
+        return revenuRepository.findRevenuByresident(id);
     }
 
     @Override

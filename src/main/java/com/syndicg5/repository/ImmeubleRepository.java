@@ -33,7 +33,7 @@ public interface ImmeubleRepository extends JpaRepository<Immeuble, Long> {
 
         @Query(" select distinct i.immeuble from Appartement i " +
                 " where i.resident.id = ?1")
-        List<Immeuble> findAllByResident(long id);
+        List<Immeuble> findAllResident(long id);
 
         @Query("select distinct Year(d.date) from Depense d where d.immeuble.id = ?1")
         List<Integer> findDepenseDates(long id);
@@ -44,4 +44,6 @@ public interface ImmeubleRepository extends JpaRepository<Immeuble, Long> {
         @Query("select d.categorie.libelle, Month(d.date), sum(d.montant) from Depense d where d.immeuble.id = ?1 and Year(d.date) = ?2 group by d.categorie.libelle, Month(d.date)")
         List<Object[]> findDepensesImmeuble(long id, int year);
 
+        @Query("select d.categorie.libelle, Month(d.date), sum(d.montant) from Depense d where d.immeuble.id = ?1 and Year(d.date) = ?2 group by d.categorie.libelle, Month(d.date)")
+        List<Object[]> findDepenseImmeuble(long id, int year);
 }

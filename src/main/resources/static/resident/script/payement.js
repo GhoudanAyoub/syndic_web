@@ -46,22 +46,7 @@ $(document).ready(function() {
         }
     });
 
-   /* $("#search").click(function () {
-        $.ajax({
-            url: '/api/revenusByImmeuble/' + $("#immeubleRech").val(),
-            type: 'GET',
-            async: false,
-            success: function (data,
-                               textStatus, jqXHR) {
-                remplir(data);
-            },
-            error: function (jqXHR, textStatus,
-                             errorThrown) {
-                console.log(textStatus, errorThrown);
-            }
-        });
-    });
-*/
+
 
     function remplirDates(data) {
         var ligne = "<option hidden></option>";

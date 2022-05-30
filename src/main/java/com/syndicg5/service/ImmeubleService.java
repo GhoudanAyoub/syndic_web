@@ -31,6 +31,6 @@ public interface ImmeubleService {
     Map<Integer, Map<Integer, Double>> findRevenusImmeuble(long id, int year);
     List<Immeuble> findAllByResident(long id);
 
-
-    Map<String, Map<Integer, Double>> findDepensesImmeuble(long id, int year);
+    SortedSet<Integer> findImmeubleDate(long id);
+    Map<String, Map<Integer, Double>> findDepenseImmeuble(long id, int year);
 }
