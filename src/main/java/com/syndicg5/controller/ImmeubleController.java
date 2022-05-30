@@ -84,8 +84,8 @@ public class ImmeubleController {
 
     @GetMapping("/immeubles/depenses/{id}/{year}")
     public Map<String, Map<Integer, Double>> findDepensesImmeuble(@PathVariable long id, @PathVariable int year) {
-        return immeubleService.findDepensesImmeuble(id, year);
-
+        return immeubleService.findDepenseImmeuble(id, year);
+    }
     @GetMapping("/immeubles/depense/{id}/{year}")
     public Map<String, Map<Integer, Double>> findDepenseImmeuble(@PathVariable long id, @PathVariable int year) {
         return immeubleService.findDepenseImmeuble(id, year);
