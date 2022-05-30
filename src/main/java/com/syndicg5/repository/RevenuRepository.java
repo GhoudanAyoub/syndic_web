@@ -28,4 +28,7 @@ public interface RevenuRepository extends JpaRepository<Revenu, Long> {
     @Query("select sum(r.montant) from Revenu r group by Year(r.date)  ")
     List<Object[]> revenuParMontant();
 
+    @Query(" select r from Revenu r where r.appartement.resident.id = ?1")
+    List<Revenu> findRevenusByResident(long id);
+
 }

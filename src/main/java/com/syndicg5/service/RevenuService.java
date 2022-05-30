@@ -27,4 +27,6 @@ public interface RevenuService {
 
     List<Object[]> revenuParMontant();
 
+    List<Revenu> findRevenusByResident(long id);
+
 }

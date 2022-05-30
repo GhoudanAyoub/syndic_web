@@ -78,4 +78,9 @@ public class RevenuServiceImpl implements RevenuService {
 
         return revenuRepository.revenuParMontant();
     }
+
+    @Override
+    public List<Revenu> findRevenusByResident(long id) {
+        return revenuRepository.findRevenusByResident(id);
+    }
 }

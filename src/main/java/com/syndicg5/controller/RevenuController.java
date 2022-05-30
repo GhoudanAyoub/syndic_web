@@ -72,4 +72,9 @@ public class RevenuController {
         return revenuService.revenuParMontant();
     }
 
+    @GetMapping("/revenusByResident/{id}")
+    public List<Revenu> findRevenusByResident(@PathVariable long id) {
+        return revenuService.findRevenusByResident(id);
+    }
+
 }
