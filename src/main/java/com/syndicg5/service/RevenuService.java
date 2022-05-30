@@ -28,7 +28,7 @@ public interface RevenuService {
 
     List<Object[]> revenuParMontant();
 
-    List<Revenu> findRevenusByresident(long id);
+    List<Revenu> findRevenuByresident(long id);
 
     List<Integer> findRevenusDate(long id);
     Map<Integer, Map<Integer, Double>> findRevenusAppartement(long id, int year);

@@ -27,7 +27,7 @@ public interface ImmeubleService {
 
     List<Immeuble> findAllByResident(long id);
 
-    SortedSet<Integer> findImmeubleDates(long id);
+    SortedSet<Integer> findImmeubleDate(long id);
 
-    Map<String, Map<Integer, Double>> findDepensesImmeuble(long id, int year);
+    Map<String, Map<Integer, Double>> findDepenseImmeuble(long id, int year);
 }

@@ -29,7 +29,7 @@ public interface RevenuRepository extends JpaRepository<Revenu, Long> {
     List<Object[]> revenuParMontant();
 
     @Query("select r from Revenu r where r.appartement.id in (select a from Appartement a where a.resident.id=?1 )")
-    List<Revenu> findRevenusByresident(long id);
+    List<Revenu> findRevenuByresident(long id);
 
     @Query("select distinct Year(r.date) from Revenu r where r.appartement.id in (select a from Appartement a where a.resident.id=?1 )")
     List<Integer> findRevenuDates(long id);

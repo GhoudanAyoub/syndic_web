@@ -49,7 +49,7 @@ $(document).ready(function() {
     $("#immeuble").on('change', function()
     {
         $.ajax({
-            url : '/api/immeubles/dates/' + this.value,
+            url : '/api/immeubles/date/' + this.value,
             type : 'GET',
             async : false,
             success : function(data,
@@ -77,7 +77,7 @@ $(document).ready(function() {
         $("#annee").on('change', function()
         {
             $.ajax({
-                url : '/api/immeubles/depenses/' + $("#immeuble").val() + '/' + this.value,
+                url : '/api/immeubles/depense/' + $("#immeuble").val() + '/' + this.value,
                 type : 'GET',
                 async : false,
                 success : function(data,

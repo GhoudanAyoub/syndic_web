@@ -72,11 +72,11 @@ public class ImmeubleServiceImpl implements ImmeubleService {
 
     @Override
     public List<Immeuble> findAllByResident(long id) {
-        return immeubleRepository.findAllByResident(id);
+        return immeubleRepository.findAllResident(id);
     }
 
     @Override
-    public SortedSet<Integer> findImmeubleDates(long id) {
+    public SortedSet<Integer> findImmeubleDate(long id) {
         List<Integer> years = new ArrayList<>();
         if (!immeubleRepository.findDepenseDates(id).isEmpty()) {
             for (Integer i : immeubleRepository.findDepenseDates(id)) {
@@ -88,9 +88,9 @@ public class ImmeubleServiceImpl implements ImmeubleService {
     }
 
     @Override
-    public Map<String, Map<Integer, Double>> findDepensesImmeuble(long id, int year) {
+    public Map<String, Map<Integer, Double>> findDepenseImmeuble(long id, int year) {
         Map<String, Map<Integer, Double>> map = new HashMap<>();
-        for (Object[] o : immeubleRepository.findDepensesImmeuble(id, year)) {
+        for (Object[] o : immeubleRepository.findDepenseImmeuble(id, year)) {
             for (int i = 0; i < o.length; i++) {
                 if (!map.containsKey(o[0])) {
                     Map<Integer, Double> map2 = new HashMap<>();
