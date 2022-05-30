@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,6 +39,11 @@ public class ImmeubleController {
     @GetMapping("/immeubles/syndic/{id}")
     public List<Immeuble> getAllImmeublesBySyndic(@PathVariable(value = "id") long id) {
         return immeubleService.findAllBySyndic(id);
+    }
+
+    @GetMapping("/immeubles/residentid/{id}")
+    public List<Immeuble> getAllImmeublesByResident(@PathVariable(value = "id") long id) {
+        return immeubleService.findAllByResident(id);
     }
 
     @GetMapping("/immeubles/resident/{email}")
@@ -79,5 +86,4 @@ public class ImmeubleController {
     public Map<String, Map<Integer, Double>> findDepensesImmeuble(@PathVariable long id, @PathVariable int year) {
         return immeubleService.findDepensesImmeuble(id, year);
     }
-
 }

@@ -72,6 +72,11 @@ public class ImmeubleServiceImpl implements ImmeubleService {
     }
 
     @Override
+    public List<Immeuble> findAllByResident(long id) {
+        return immeubleRepository.findAllByResident(id);
+    }
+
+    @Override
     public SortedSet<Integer> findImmeubleDates(long id) {
         List<Integer> years = new ArrayList<>();
         if (!immeubleRepository.findDepenseDates(id).isEmpty()) {
@@ -85,7 +90,6 @@ public class ImmeubleServiceImpl implements ImmeubleService {
                 years.add(i);
             }
         }
-
         SortedSet<Integer> filteredYears = new TreeSet<>(years);
         return filteredYears;
     }

@@ -31,6 +31,10 @@ public interface ImmeubleRepository extends JpaRepository<Immeuble, Long> {
         @Query("select distinct Year(r.date) from Revenu r where r.immeuble.id = ?1")
         List<Integer> findRevenuDates(long id);
 
+        @Query(" select distinct i.immeuble from Appartement i " +
+                " where i.resident.id = ?1")
+        List<Immeuble> findAllByResident(long id);
+
         @Query("select distinct Year(d.date) from Depense d where d.immeuble.id = ?1")
         List<Integer> findDepenseDates(long id);
 

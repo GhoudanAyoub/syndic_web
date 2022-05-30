@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -88,5 +90,8 @@ public class RevenuController {
         return revenuService.findRevenusDate(id);
     }
 
-
+    @GetMapping("/revenus/{id}/{year}")
+    public Map<Integer, Map<Integer, Double>> findRevenusAppartement(@PathVariable long id, @PathVariable int year) {
+        return revenuService.findRevenusAppartement(id, year);
+    }
 }

@@ -22,21 +22,7 @@ $(document).ready(function() {
                     console.log(textStatus, errorThrown);
                 }
             });
-           //
-            $.ajax({
-                url : '/api/revenus/dates/' + $("#residentId").val(),
-                type : 'GET',
-                async : false,
-                success : function(data,
-                                   textStatus, jqXHR) {
-                    remplirDates(data);
-                },
-                error : function(jqXHR, textStatus,
-                                 errorThrown) {
-                    console.log(textStatus, errorThrown);
-                }
-            });
-
+            //
 
         },
         error : function(jqXHR, textStatus,
@@ -46,22 +32,38 @@ $(document).ready(function() {
         }
     });
 
-   /* $("#search").click(function () {
+    $.ajax({
+        url : '/api/immeubles/residentid/' + $("#residentId").val(),
+        type : 'GET',
+        async : false,
+        success : function(data,
+                           textStatus, jqXHR) {
+            remplirImmeuble(data);
+        },
+        error : function(jqXHR, textStatus,
+                         errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+    });
+
+    $("#immeuble").on('change', function()
+    {
         $.ajax({
-            url: '/api/revenusByImmeuble/' + $("#immeubleRech").val(),
-            type: 'GET',
-            async: false,
-            success: function (data,
+            url : '/api/immeubles/dates/' + this.value,
+            type : 'GET',
+            async : false,
+            success : function(data,
                                textStatus, jqXHR) {
-                remplir(data);
+                console.log(data);
+                remplirDates(data);
             },
-            error: function (jqXHR, textStatus,
+            error : function(jqXHR, textStatus,
                              errorThrown) {
                 console.log(textStatus, errorThrown);
             }
         });
     });
-*/
+
 
     function remplirDates(data) {
         var ligne = "<option hidden></option>";
@@ -75,14 +77,12 @@ $(document).ready(function() {
         $("#annee").on('change', function()
         {
             $.ajax({
-                url : '/api/revenus/' + $("#residentId").val() + '/' + this.value,
+                url : '/api/immeubles/depenses/' + $("#immeuble").val() + '/' + this.value,
                 type : 'GET',
                 async : false,
                 success : function(data,
                                    textStatus, jqXHR) {
-                    //console.log(data);
-                    //console.log(Object.values(data)[0]['3']);
-                    remplirPayement(data);
+                    remplirDepense(data);
                 },
                 error : function(jqXHR, textStatus,
                                  errorThrown) {
@@ -93,7 +93,7 @@ $(document).ready(function() {
         });
     }
 
-    function remplirPayement(data) {
+    function remplirDepense(data) {
         var ligne = "";
         if (Object.keys(data).length > 0) {
             for (var i = 0; i < Object.keys(data).length; i++) {
@@ -108,5 +108,17 @@ $(document).ready(function() {
         }
         $("#table-releve").html(ligne);
     }
+
+    function remplirImmeuble(data) {
+        var ligne = "<option hidden></option>";
+        if (data.length > 0) {
+            for (var i = 0; i < data.length; i++) {
+                ligne += '<option value="' + data[i].id + '">' + data[i].nom + '</option>';
+            }
+        }
+        $("#immeuble").html(ligne);
+    }
+
+
 });
 
