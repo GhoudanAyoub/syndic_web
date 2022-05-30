@@ -72,6 +72,7 @@ public class RevenuController {
         return revenuService.revenuParMontant();
     }
 
+    //Todo dial lghoudan
     @GetMapping("/revenusByResident/{id}")
     public List<Revenu> findRevenusByResident(@PathVariable long id) {
         return revenuService.findRevenusByResident(id);
